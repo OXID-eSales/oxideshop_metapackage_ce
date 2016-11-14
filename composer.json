@@ -11,7 +11,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "oxid-esales/oxideshop-ce": "dev-master",
+    "oxid-esales/oxideshop-ce": "v6.0-beta.1",
     "oxid-esales/flow-theme": "v2.0.0",
     "oxid-esales/oxideshop-demodata-ce": "dev-b-6.0",
     "oxid-esales/oxideshop-composer-plugin": "v1.0.0",
