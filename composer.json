@@ -15,7 +15,7 @@
     "oxid-esales/flow-theme": "v2.0.0",
     "oxid-esales/oxideshop-demodata-ce": "v6.0.0-beta.1",
     "oxid-esales/oxideshop-composer-plugin": "v1.0.0",
-    "doctrine/annotations": "v1.2.7",
+    "doctrine/annotations": "v1.3.0",
     "doctrine/cache": "v1.6.1",
     "doctrine/collections": "v1.3.0",
     "doctrine/common": "v2.6.1",
@@ -32,13 +32,13 @@
     "oxid-esales/eshop-demodata-installer": "v1.0.0",
     "phpmailer/phpmailer": "v5.2.16",
     "smarty/smarty": "v2.6.30",
-    "symfony/console": "v3.1.6",
-    "symfony/debug": "v3.1.6",
-    "symfony/polyfill-mbstring": "v1.2.0",
-    "symfony/yaml": "v3.1.6",
+    "symfony/console": "v2.8.14",
+    "symfony/debug": "v3.0.9",
+    "symfony/polyfill-mbstring": "v1.3.0",
+    "symfony/yaml": "v2.8.14",
     "zendframework/zend-code": "2.6.3",
     "zendframework/zend-eventmanager": "3.0.1",
-    "symfony/filesystem": "v3.1.6"
+    "symfony/filesystem": "v3.1.7"
   }
 }
 
