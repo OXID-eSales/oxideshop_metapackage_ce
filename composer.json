@@ -13,7 +13,7 @@
   "require": {
     "oxid-esales/oxideshop-ce": "v6.0-beta.1",
     "oxid-esales/flow-theme": "v2.0.0",
-    "oxid-esales/oxideshop-demodata-ce": "v6.0.0-beta.1",
+    "oxid-esales/oxideshop-demodata-ce": "v6.0-beta.1",
     "oxid-esales/oxideshop-composer-plugin": "v1.0.0",
     "doctrine/annotations": "v1.3.0",
     "doctrine/cache": "v1.6.1",
