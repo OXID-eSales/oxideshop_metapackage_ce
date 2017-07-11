@@ -13,6 +13,7 @@
   "require": {
     "oxid-esales/oxideshop-ce": "v6.0.0-rc.1",
     "oxid-esales/paypal-module": "v5.0.1",
+    "oxid-esales/paymorrow-module": "dev-master",
     "payone-gmbh/oxid-6": "dev-master",
     "oxid-esales/flow-theme": "v2.2.0",
     "oxid-esales/oxideshop-demodata-ce": "v6.0.0-rc.1",
