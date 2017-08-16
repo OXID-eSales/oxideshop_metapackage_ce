@@ -18,6 +18,7 @@
     "oxid-esales/flow-theme": "v2.3.0",
     "oxid-esales/oxideshop-demodata-ce": "v6.0.0-rc.2",
     "oxid-esales/oxideshop-composer-plugin": "v2.0.0",
+    "oxid-esales/oxideshop-db-views-generator": "v1.1.0",
     "doctrine/annotations": "v1.4.0",
     "doctrine/cache": "v1.6.2",
     "doctrine/collections": "v1.4.0",
