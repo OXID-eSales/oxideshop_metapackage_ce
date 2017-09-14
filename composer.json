@@ -30,7 +30,7 @@
     "oxid-esales/eshop-facts": "v1.0.2",
     "oxid-esales/flow-theme": "v2.3.0",
     "oxid-esales/oxideshop-ce": "v6.0.0-rc.2",
-    "oxid-esales/oxideshop-composer-plugin": "v2.0.0",
+    "oxid-esales/oxideshop-composer-plugin": "v2.0.1",
     "oxid-esales/oxideshop-db-views-generator": "v1.1.0",
     "oxid-esales/oxideshop-demodata-ce": "v6.0.0-rc.2",
     "oxid-esales/oxideshop-demodata-installer": "v1.1.1",
