@@ -9,7 +9,6 @@
     "proprietary"
   ],
   "minimum-stability": "stable",
-  "prefer-stable": true,
   "require": {
     "amzn/amazon-pay-sdk-php": "3.1.0",
     "bestit/amazonpay4oxid": "3.0.2",
