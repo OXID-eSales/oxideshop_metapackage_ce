@@ -8,7 +8,7 @@
     "GPL-3.0",
     "proprietary"
   ],
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "prefer-stable": true,
   "require": {
     "amzn/amazon-pay-sdk-php": "3.1.0",
@@ -35,11 +35,11 @@
     "oxid-esales/oxideshop-ce": "v6.0.0",
     "oxid-esales/oxideshop-composer-plugin": "v2.0.1",
     "oxid-esales/oxideshop-db-views-generator": "v1.1.1",
-    "oxid-esales/oxideshop-demodata-ce": "v6.0.0-rc.3",
+    "oxid-esales/oxideshop-demodata-ce": "v6.0.0",
     "oxid-esales/oxideshop-demodata-installer": "v1.1.1",
     "oxid-esales/oxideshop-doctrine-migration-wrapper": "v2.1.0",
     "oxid-esales/oxideshop-facts": "v2.1.0",
-    "oxid-esales/oxideshop-unified-namespace-generator": "v1.0.0-beta.4",
+    "oxid-esales/oxideshop-unified-namespace-generator": "v1.0.0",
     "oxid-esales/paymorrow-module": "v2.0.0",
     "oxid-esales/paypal-module": "v5.1.3",
     "payone-gmbh/oxid-6": "1.0.4",
