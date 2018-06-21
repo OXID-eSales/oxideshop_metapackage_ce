@@ -46,7 +46,7 @@
     "seld/jsonlint": "1.7.1",
     "seld/phar-utils": "1.0.1",
     "smarty/smarty": "v2.6.31",
-    "symfony/console": "v2.8.36",
+    "symfony/console": "v3.4.10",
     "symfony/debug": "v3.0.9",
     "symfony/filesystem": "v3.4.6",
     "symfony/finder": "v2.8.36",
