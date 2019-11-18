@@ -58,7 +58,7 @@
     "symfony/polyfill-mbstring": "v1.12.0",
     "symfony/process": "v2.8.50",
     "symfony/yaml": "v2.8.50",
-    "topconcepts/oxid-klarna-6": "v4.3.0",
+    "topconcepts/oxid-klarna-6": "v5.0.2",
     "webmozart/assert": "1.5.0",
     "webmozart/glob": "4.1.0",
     "webmozart/path-util": "2.3.0",
