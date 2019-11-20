@@ -49,7 +49,7 @@
     "seld/phar-utils": "1.0.1",
     "smarty/smarty": "v2.6.31",
     "symfony/config": "v3.2.14",
-    "symfony/console": "v2.8.50",
+    "symfony/console": "^2.8.50||^3.2||^4.0",
     "symfony/debug": "v3.0.9",
     "symfony/dependency-injection": "v3.1.10",
     "symfony/filesystem": "v3.4.32",
