@@ -27,7 +27,7 @@
     "monolog/monolog": "1.25.5",
     "ocramius/package-versions": "1.4.2|1.5.1|1.9.0",
     "ocramius/proxy-manager": "2.1.1|2.2.3|2.8.1",
-    "oxid-esales/flow-theme": "v3.5.1",
+    "oxid-esales/flow-theme": "v3.6.0",
     "oxid-esales/gdpr-optin-module": "v2.3.1",
     "oxid-esales/oxideshop-ce": "v6.6.0",
     "oxid-esales/oxideshop-composer-plugin": "v5.1.0",
