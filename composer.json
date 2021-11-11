@@ -60,7 +60,7 @@
     "symfony/debug": "v4.4.27",
     "symfony/dependency-injection": "v3.4.47",
     "symfony/event-dispatcher": "v3.4.47",
-    "symfony/expression-language": "v4.4",
+    "symfony/expression-language": "v4.4.30",
     "symfony/filesystem": "v4.4.27",
     "symfony/finder": "v3.4.47",
     "symfony/lock": "v3.4.47",
