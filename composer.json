@@ -1,6 +1,5 @@
 {
   "name": "oxid-esales/oxideshop-metapackage-ce",
-  "version": "v6.4.0",
   "description": "This is OXID eShop compilation metapackage.",
   "type": "project",
   "keywords": [
