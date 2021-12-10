@@ -48,7 +48,7 @@
     "psr/container": "1.0.0",
     "psr/log": "1.1.4",
     "react/promise": "v2.8.0",
-    "rmccue/requests": "v2.0.0",
+    "rmccue/requests": "v1.8.1",
     "seld/jsonlint": "1.8.3",
     "seld/phar-utils": "1.1.2",
     "smarty/smarty": "v2.6.33",
