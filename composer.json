@@ -19,7 +19,7 @@
     "composer/xdebug-handler": "2.0.1",
     "doctrine/cache": "1.11.3",
     "doctrine/collections": "1.6.7",
-    "doctrine/dbal": "2.12.1",
+    "doctrine/dbal": "^2.13",
     "doctrine/event-manager": "1.1.1",
     "doctrine/migrations": "2.3.4",
     "friendsofphp/proxy-manager-lts": "v1.0.5",
@@ -30,10 +30,10 @@
     "oxid-esales/oxideshop-composer-plugin": "v6.0.0",
     "oxid-esales/oxideshop-db-views-generator": "v2.0.0",
     "oxid-esales/oxideshop-demodata-ce": "v7.0.0",
-    "oxid-esales/oxideshop-demodata-installer": "v2.0.0",
-    "oxid-esales/oxideshop-doctrine-migration-wrapper": "v4.0.0",
-    "oxid-esales/oxideshop-facts": "v3.0.0",
-    "oxid-esales/oxideshop-unified-namespace-generator": "v3.0.0",
+    "oxid-esales/oxideshop-demodata-installer": "dev-b-7.0.x",
+    "oxid-esales/oxideshop-doctrine-migration-wrapper": "dev-b-7.0.x",
+    "oxid-esales/oxideshop-facts": "dev-b-7.0.x",
+    "oxid-esales/oxideshop-unified-namespace-generator": "dev-b-7.0.x",
     "oxid-esales/wave-theme": "v2.0.0",
     "phpmailer/phpmailer": "v6.5.0",
     "psr/cache": "1.0.1 || 2.0.0",
@@ -72,6 +72,6 @@
     "webmozart/assert": "1.10.0",
     "webmozart/glob": "4.3.0",
     "webmozart/path-util": "2.3.0",
-    "oxid-esales/oxideshop-ce": "v7.0.0-rc.1"
+    "oxid-esales/oxideshop-ce": "dev-b-7.0.x"
  }
 }
