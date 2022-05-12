@@ -32,7 +32,7 @@
     "monolog/monolog": "1.26.1",
     "oxid-esales/flow-theme": "v3.8.0",
     "oxid-esales/gdpr-optin-module": "v2.3.3",
-    "oxid-esales/oxideshop-composer-plugin": "v5.2.0",
+    "oxid-esales/oxideshop-composer-plugin": "v5.2.1",
     "oxid-esales/oxideshop-db-views-generator": "v1.3.0",
     "oxid-esales/oxideshop-demodata-ce": "v6.0.4",
     "oxid-esales/oxideshop-demodata-installer": "v1.3.0",
