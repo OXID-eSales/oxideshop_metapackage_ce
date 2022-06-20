@@ -80,7 +80,7 @@
     "symfony/string": "v5.4.9 || v6.0.9 || v6.1.0",
     "symfony/var-exporter": "v5.4.9 || v6.0.9 || v6.1.0",
     "symfony/yaml": "v5.4.3",
-    "topconcepts/oxid-klarna-6": "v5.5.2",
+    "fatchip-gmbh/oxid-klarna-6": "v5.5.2",
     "webmozart/assert": "1.10.0",
     "webmozart/glob": "4.6.0",
     "webmozart/path-util": "2.3.0",
