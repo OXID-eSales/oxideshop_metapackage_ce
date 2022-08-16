@@ -7,7 +7,7 @@
     "metapackage"
   ],
   "homepage": "https://www.oxid-esales.com/en/home.html",
-  "license": "GPL-3.0-only",
+  "license": "proprietary",
   "minimum-stability": "stable",
   "require": {
     "amzn/amazon-pay-api-sdk-php": "2.3.2",
