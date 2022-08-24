@@ -1,0 +1,40 @@
+name: Installation
+
+on: [ push, workflow_dispatch ]
+
+jobs:
+
+  test_installation:
+    strategy:
+      matrix:
+        php: [ '7.4', '8.0', '8.1' ]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone testing environment master
+        run: git clone --depth 1 https://github.com/OXID-eSales/docker-eshop-sdk.git --branch master --single-branch .
+
+      - name: Clone the metapackage (${{ github.ref_name }})
+        run: git clone --depth 1 https://github.com/OXID-eSales/oxideshop_metapackage_ce.git --branch ${{ github.ref_name }} --single-branch source
+
+      - name: Prepare container configuration
+        run: |
+          make setup
+          make addbasicservices
+          make file=services/selenium-firefox.yml addservice
+          perl -pi\
+              -e "s#PHP_VERSION=.*#PHP_VERSION='${{ matrix.php }}'#g;"\
+              .env
+
+      - name: Start containers
+        run: |
+          make up
+          sleep 2
+
+      - name: Allow plugins
+        run: |
+          docker-compose exec -T php composer config allow-plugins.oxid-esales/oxideshop-unified-namespace-generator true
+          docker-compose exec -T php composer config allow-plugins.oxid-esales/oxideshop-composer-plugin true
+
+      - name: Install metapackage
+        run: docker-compose exec -T php composer install --no-interaction
