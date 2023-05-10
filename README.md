@@ -5,7 +5,7 @@ This repository contains OXID eShop dependencies.
 
 More information how to setup Shop:
 
-  - https://docs.oxid-esales.com/developer/en/7.0-rc.2/getting_started/installation/eshop_installation.html
+  - https://docs.oxid-esales.com/developer/en/7.0/getting_started/installation/eshop_installation.html
 
 ## Bugs and Issues
 
