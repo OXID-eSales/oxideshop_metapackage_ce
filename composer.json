@@ -82,6 +82,6 @@
     "symfony/yaml": "v6.0.19 || v6.2.10",
     "twig/twig": "v3.6.0",
     "webmozart/glob": "4.6.0",
-    "oxid-esales/oxideshop-ce": "v7.0.0"
+    "oxid-esales/oxideshop-ce": "v7.0.1"
  }
 }
