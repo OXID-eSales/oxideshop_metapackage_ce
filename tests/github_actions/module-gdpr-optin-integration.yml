@@ -1,0 +1,20 @@
+# {{ $ids := "oegdproptin" }}ids: {{ print $ids }}
+# {{ $name := "gdpr-optin" }}name: {{ print $name }}
+phpunit:
+  title: 'integration_tests_{{ print $name }}'
+  container:
+    options: '-e XDEBUG_MODE=coverage'
+  configuration: '/var/www/dev-packages/{{ print $ids }}/tests/phpunit.xml'
+  test: '/var/www/dev-packages/{{ print $ids }}/Tests/Integration'
+  additional_options: '--bootstrap /var/www/source/bootstrap.php --coverage-clover=/var/www/integration_coverage.xml'
+  output:
+    files: |
+      source/integration_coverage_{{ print $name }}.xml
+      source/unit.cov
+      source/source/log/oxideshop.log
+      data/php/logs/error_log.txt
+    prefix: 'integration_artifacts_{{ print $name }}.xml'
+  logfile:
+    prefix: 'phpunit-integration-{{ print $name }}'
+  coverage:
+    path: 'source/integration_coverage_{{ print $ids }}.xml'

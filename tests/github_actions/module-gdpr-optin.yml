@@ -1,0 +1,55 @@
+# {{ $ids := "oegdproptin" }}ids: {{ print $ids }}
+# {{ $name := "gdpr-optin" }}name: {{ print $name }}
+install_module:
+  matrix: &matrix
+    php: &matrix_php '["8.1"]'
+    mysql: &matrix_mysql '["8.0"]'
+  load_shop: 'moduleInstallation-ce-{{ .Github.SHA }}-{{ .Github.RunNumber }}-b2b-basket'
+  cache:
+    prefix: &install_module_prefix 'moduleInstallation-ce-{{ .Github.SHA }}-{{ .Github.RunNumber }}-{{ print $name }}'
+
+  ids: &ids '{{ print $ids }}'
+
+  git:
+    module:
+      url: &git_module_url 'OXID-eSales/{{ print $name }}-module'
+      ref: 'b-7.0.x'
+  package_name: &package_name 'oxid-esales/{{ print $name }}-module'
+  path: *ids
+
+phpunit:
+  title: 'unit_tests_{{ print $name }}'
+  container:
+    options: '-e XDEBUG_MODE=coverage'
+  configuration: '/var/www/dev-packages/{{ print $ids }}/tests/phpunit.xml'
+  test: '/var/www/dev-packages/{{ print $ids }}/Tests/Unit'
+  additional_options: '--bootstrap /var/www/source/bootstrap.php --coverage-clover=/var/www/unit_coverage_{{ print $ids }}.xml'
+  output:
+    files: |
+      source/unit_coverage_{{ print $name }}.xml
+      source/unit.cov
+      source/source/log/oxideshop.log
+      data/php/logs/error_log.txt
+    prefix: 'unit_artifacts_{{ print $name }}.xml'
+  logfile:
+    prefix: 'phpunit-unit-{{ print $name }}'
+  coverage:
+    path: 'source/unit_coverage_{{ print $ids }}.xml'
+
+codeception:
+  title: 'codeception_{{ print $name }}'
+  container:
+    options: '-e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome -e XDEBUG_MODE=coverage -e THEME_ID=apex'
+  configuration: '/var/www/dev-packages/{{ print $ids }}/tests/codeception.yml'
+  suite: 'acceptance'
+  additional_options: '--coverage-xml=/var/www/codeception_coverage_{{ print $ids }}.xml -g {{ .Data.install_module.ids }}'
+  logfile:
+    prefix: 'codeception-{{ print $name }}'
+  output:
+    prefix: 'codeception-artifacts-{{ print $name }}'
+  coverage:
+    path: 'source/codeception_coverage_{{ print $ids }}.xml'
+
+styles:
+  path: *ids
+  module_ids: *ids

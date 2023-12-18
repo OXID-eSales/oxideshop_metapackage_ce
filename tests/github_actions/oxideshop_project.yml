@@ -1,0 +1,98 @@
+prepare_shop:
+  composer:
+    configure:
+      install: ''
+    require:
+      install: ''
+    # Installing ee/pe and the demodata, so the regular defaults/ee.yml is not enough
+    transform: |
+      {
+          "require": {
+              "oxid-esales/apex-theme": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/gdpr-optin-module": "v3.0.1",
+              "oxid-esales/oxideshop-composer-plugin": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/oxideshop-db-views-generator": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/oxideshop-demodata-ce": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/oxideshop-demodata-installer": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/oxideshop-doctrine-migration-wrapper": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/oxideshop-facts": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/oxideshop-unified-namespace-generator": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/twig-admin-theme": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/twig-component": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-professional-services/usercentrics": "v2.0.2",
+              "oxid-esales/oxideshop-ce": "{{ .Data.global.composer.dev_ref }}"
+          },
+          "require-dev": {
+              "oxid-esales/codeception-modules": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/codeception-page-objects": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/developer-tools": "{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/oxideshop-ide-helper": "{{ .Data.global.composer.dev_ref }}",
+              "codeception/codeception": "^5.0",
+              "codeception/module-asserts": "^3.0",
+              "codeception/module-db": "^3.0",
+              "codeception/module-filesystem": "^3.0",
+              "codeception/module-webdriver": "^3.1",
+              "composer/composer": "^2.0",
+              "incenteev/composer-parameter-handler": "^v2.1.4",
+              "mikey179/vfsstream": "~1.6.8",
+              "phpspec/prophecy-phpunit": "^v2.0.1",
+              "phpunit/php-file-iterator": "^3.0.5",
+              "phpunit/phpunit": "^9.1.1",
+              "squizlabs/php_codesniffer": "^3.5.4"
+          }
+          "autoload": {
+              "psr-4": {
+                  "OxidEsales\\EshopCommunity\\": "./source"
+              }
+          },
+          "autoload-dev": {
+              "psr-4": {
+                  "OxidEsales\\EshopCommunity\\Tests\\": "./tests"
+              }
+          },
+          "bin": [
+              "bin/oe-console"
+          ],
+          "config": {
+              "allow-plugins": {
+                  "oxid-esales/oxideshop-composer-plugin": true,
+                  "oxid-esales/oxideshop-unified-namespace-generator": true
+              }
+          },
+      }
+
+install_module:
+  matrix:
+    testplan: &module_testplan '["tests/github_actions/module-gdpr-optin.yml"]'
+  max_parallel: 1
+  activate: ''
+  update: false
+
+phpunit:
+  matrix:
+    testplan: '["tests/github_actions/module-gdpr-optin.yml","tests/github_actions/module-gdpr-optin.integration.yml"]'
+  # We need to load the last cached module installation, it contains all
+  # previous installations
+  load_shop: &install_module_prefix 'moduleInstallation-ce-{{ .Github.SHA }}-{{ .Github.RunNumber }}-gdpr-optin'
+
+codeception:
+  matrix:
+    testplan: *module_testplan
+  load_shop: *install_module_prefix
+
+runtest:
+  matrix:
+    testplan: 'skip'
+  load_shop: *install_module_prefix
+
+styles:
+  matrix:
+    tesptlan: *module_testplan
+  load_shop: *install_module_prefix
+
+sonarcloud:
+  matrix:
+    testplan: 'skip'
+
+finish:
+  slack_title: 'Metapackage CE on {{ .Github.Repository }} by {{ .Github.Actor }}'
