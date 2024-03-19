@@ -32,7 +32,7 @@
         "makaira/oxid-connect-essential": "2.1.2",
         "makaira/shared-libs": "2022.2.4",
         "monolog/monolog": "1.27.1",
-        "oxid-esales/apex-theme": "v1.2.1",
+        "oxid-esales/apex-theme": "v1.2.2",
         "oxid-esales/gdpr-optin-module": "v3.0.1",
         "oxid-esales/oxideshop-composer-plugin": "v7.1.1",
         "oxid-esales/oxideshop-db-views-generator": "v2.1.0",
