@@ -1,0 +1,7 @@
+# {{ $ids := "twigadmintheme" }}ids: {{ print $ids }}
+# {{ $org := "oxid-esales" }}organisation: {{ print $org }}
+# {{ $name := "twig-admin-theme" }}name: {{ print $name }}
+styles:
+  title: '{{ print $name }}'
+  path: '{{ print $ids }}'
+  module_ids: '{{ print $ids }}'

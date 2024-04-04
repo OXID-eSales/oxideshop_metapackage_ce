@@ -1,0 +1,7 @@
+# {{ $ids := "oedbviewsgenerator" }}ids: {{ print $ids }}
+# {{ $org := "oxid-esales" }}organisation: {{ print $org }}
+# {{ $name := "oxideshop-db-views-generator" }}name: {{ print $name }}
+styles:
+  title: '{{ print $name }}'
+  path: '{{ print $ids }}'
+  module_ids: '{{ print $ids }}'

@@ -1,0 +1,54 @@
+# {{ $ids := "ddoewysiwyg" }}ids: {{ print $ids }}
+# {{ $org := "ddoe" }}organisation: {{ print $org }}
+# {{ $name := "wysiwyg-editor-module" }}name: {{ print $name }}
+phpunit:
+  title: '{{ print $name }}-unit'
+  container:
+    options: '-e XDEBUG_MODE=coverage'
+  configuration: '/var/www/vendor/{{ print $org }}/{{ print $name }}/tests/phpunit.xml'
+  test: '/var/www/vendor/{{ print $org }}/{{ print $name }}/tests/Unit'
+  additional_options: '--bootstrap /var/www/source/bootstrap.php --coverage-clover=/var/www/unit_coverage_{{ print $ids }}.xml'
+  output:
+    files: |
+      source/composer.json
+      source/unit_coverage_{{ print $ids }}.xml
+      source/unit.cov
+      source/source/log/oxideshop.log
+      data/php/logs/error_log.txt
+      files.txt
+    prefix: 'phpunit-unit-{{ print $name }}-artifacts'
+  logfile:
+    prefix: 'phpunit-unit-{{ print $name }}'
+  coverage:
+    prefix: 'coverage-reports-phpunit-unit-{{ print $name }}'  
+    path: 'source/unit_coverage_{{ print $ids }}.xml'
+
+codeception:
+  title: '{{ print $name }}'
+  container:
+    options: '-e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome -e XDEBUG_MODE=coverage -e THEME_ID=apex'
+  configuration: '/var/www/vendor/{{ print $org }}/{{ print $name }}/tests/codeception.yml'
+  additional_options: '--coverage-xml=/var/www/codeception_coverage_{{ print $ids }}.xml -g ddoe_wysiwyg'
+  logfile:
+    prefix: 'codeception-{{ print $name }}'
+  output:
+    prefix: 'codeception-acceptance-{{ print $name }}-artifacts'
+    files: |
+      docker-compose.yml
+      source/composer.json
+      source/composer.lock
+      source/source/config.inc.php
+      source/source/log/oxideshop.log
+      data/php/logs/error_log.txt
+      source/tests/Codeception/_output
+      source/dev-packages/{{ print $ids }}/tests/Codeception/_output
+      source/vendor/{{ print $org }}/{{ print $name }}/tests/Codeception/_output
+      job_status*.txt
+  coverage:
+    prefix: 'coverage-reports-codeception-acceptance-{{ print $name }}'
+    path: 'source/codeception_coverage_{{ print $ids }}.xml'
+
+styles:
+  title: '{{ print $name }}'
+  path: '{{ print $ids }}'
+  module_ids: '{{ print $ids }}'

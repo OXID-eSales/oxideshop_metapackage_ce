@@ -1,0 +1,7 @@
+# {{ $ids := "oedemodatace" }}ids: {{ print $ids }}
+# {{ $org := "oxid-esales" }}organisation: {{ print $org }}
+# {{ $name := "oxideshop-demodata-ce" }}name: {{ print $name }}
+styles:
+  title: '{{ print $name }}'
+  path: '{{ print $ids }}'
+  module_ids: '{{ print $ids }}'

@@ -1,0 +1,24 @@
+# {{ $ids := "oxideshop_ce" }}ids: {{ print $ids }}
+# {{ $org := "oxid-esales" }}organisation: {{ print $org }}
+# {{ $name := "oxideshop-ce" }}name: {{ print $name }}
+phpunit:
+  title: '{{ print $name }}-integration'
+  container:
+    options: '-e XDEBUG_MODE=coverage'
+  configuration: '/var/www/vendor/{{ printf "%v/%v" $org $name }}/phpunit.xml'
+  test: '/var/www/vendor/{{ printf "%v/%v" $org $name }}/tests/Integration'
+  additional_options: '--bootstrap /var/www/vendor/{{ printf "%v/%v" $org $name }}/tests/bootstrap.php --coverage-clover=/var/www/integration_coverage.xml'
+  logfile:
+    prefix: 'phpunit_integration'
+  output:
+    prefix: 'phpunit-integration-{{ print $name }}-artifacts'
+    files: |
+      source/composer.json
+      source/integration_coverage.xml
+      generated_testplan.yaml
+      source/source/log/oxideshop.log
+      data/php/logs/error_log.txt
+      files.txt
+  coverage:
+    prefix: 'coverage-reports-phpunit-integration-{{ print $name }}'
+    path: 'source/integration_coverage.xml'

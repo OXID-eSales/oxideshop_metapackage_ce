@@ -1,0 +1,155 @@
+prepare_shop:
+  git:
+    shop_url: 'https://github.com/{{ .Github.Repository }}.git'
+  composer:
+    transform: |
+      {
+          "config": {
+              "github-protocols": ["https"],
+              "allow-plugins":{
+                "oxid-esales/oxideshop-composer-plugin":true,
+                "oxid-esales/oxideshop-unified-namespace-generator":true
+              }
+          },
+          "minimum-stability": "dev",
+          "preferred-install": {
+            "oxid-esales/*": "source",
+            "oxid-professional-services/*": "source",
+            "ddoe/*": "source",
+            "makaira/*": "source"
+          },
+          "require-dev":{
+              "oxid-esales/codeception-modules":"{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/codeception-page-objects":"{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/developer-tools":"{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/oxideshop-ide-helper":"{{ .Data.global.composer.dev_ref }}",
+              "codeception/codeception":"^5.0",
+              "codeception/module-asserts":"^3.0",
+              "codeception/module-db":"3.1.0",
+              "codeception/module-filesystem":"^3.0",
+              "codeception/module-webdriver":"^4.0",
+              "composer/composer":"^2.0",
+              "incenteev/composer-parameter-handler":"^v2.1.4",
+              "mikey179/vfsstream":"~1.6.8",
+              "phpspec/prophecy-phpunit":"^v2.0.1",
+              "phpunit/phpunit":"^10.4",
+              "squizlabs/php_codesniffer":"^3.5.4"
+          },
+          "repositories": {
+            "oxid-esales/oxideshop-ce": {
+              "type": "git",
+              "url": "https://github.com/OXID-eSales/oxideshop_ce.git"
+            },
+            "oxid-esales/gdpr-optin-module": {
+              "type": "git",
+              "url": "https://github.com/OXID-eSales/gdpr-optin-module.git"
+            },
+            "oxid-esales/oxideshop-composer-plugin": {
+              "type": "git",
+              "url": "https://github.com/OXID-eSales/oxideshop_composer_plugin.git"
+            },
+            "oxid-esales/oxideshop-doctrine-migration-wrapper": {
+              "type": "git",
+              "url": "https://github.com/OXID-eSales/oxideshop-doctrine-migration-wrapper.git"
+            },
+            "oxid-esales/oxideshop-facts": {
+              "type": "git",
+              "url": "https://github.com/OXID-eSales/oxideshop-facts.git"
+            },
+            "oxid-esales/oxideshop-unified-namespace-generator": {
+              "type": "git",
+              "url": "https://github.com/OXID-eSales/oxideshop-unified-namespace-generator.git"
+            },
+            "oxid-esales/twig-component": {
+              "type": "git",
+              "url": "https://github.com/OXID-eSales/twig-component.git"
+            },
+            "oxid-professional-services/usercentrics": {
+              "type": "git",
+              "url": "https://github.com/OXID-eSales/usercentrics.git"
+            },
+            "makaira/oxid-connect-essential": {
+              "type": "git",
+              "url": "https://github.com/MakairaIO/oxid-connect-essential.git"
+            }
+          },
+          "autoload-dev":{
+              "psr-4":{
+                "OxidEsales\\EshopCommunity\\Tests\\":"./vendor/oxid-esales/oxideshop-ce/tests",
+                "OxidEsales\\ComposerPlugin\\Tests\\": "vendor/oxid-esales/oxideshop-composer-plugin/tests/",
+                "OxidEsales\\UnifiedNameSpaceGenerator\\Tests\\": "./vendor/oxid-esales/oxideshop-unified-namespace-generator/tests",
+                "OxidEsales\\DemoDataInstaller\\Tests\\": "./vendor/oxid-esales/oxideshop-demodata-installer/tests/",
+                "OxidEsales\\DoctrineMigrationWrapper\\Tests\\": "./vendor/oxid-esales/oxideshop-doctrine-migration-wrapper/tests",
+                "OxidEsales\\Facts\\Tests\\": "./vendor/oxid-esales/oxideshop-facts/tests/",
+                "OxidEsales\\Twig\\Tests\\": "./vendor/oxid-esales/twig-component/tests",
+                "OxidEsales\\GdprOptinModule\\Tests\\": "./vendor/oxid-esales/gdpr-optin-module/tests/",
+                "OxidProfessionalServices\\Usercentrics\\Tests\\": "./vendor/oxid-professional-services/usercentrics/tests"
+              }
+          },
+          "bin":[
+              "bin/oe-console"
+          ],
+          "config":{
+              "allow-plugins":{
+                "oxid-esales/oxideshop-composer-plugin":true,
+                "oxid-esales/oxideshop-unified-namespace-generator":true
+              }
+          }
+      }
+
+install_shop:
+  custom_script_container: |
+    # Activate all modules
+    OE_CONSOLE=$(find . -iname "oe-console" -type f|head -1|sed -e "s|^$(pwd)/||")
+    for MODULE in oegdproptin oxps_usercentrics makaira_oxid-connect-essential ddoemedialibrary ddoewysiwyg; do
+      ${OE_CONSOLE} oe:module:activate "${MODULE}"
+    done
+    ${OE_CONSOLE} oe:setup:demodata
+
+phpunit:
+  matrix:
+    testplan: |
+      [
+        "~/shared/oxideshop-ce.yml",
+        "~/shared/oxideshop-ce_integration.yml",
+        "~/shared/gdpr-optin-module.yml",
+        "~/shared/gdpr-optin-module_integration.yml",
+        "~/shared/usercentrics.yml",
+        "~/shared/usercentrics_integration.yml"
+      ]
+  max_parallel: &max_parallel 20
+
+codeception:
+  matrix:
+    testplan: |
+      [
+        "~/shared/oxideshop-ce.yml",
+        "~/shared/gdpr-optin-module.yml",
+        "~/shared/usercentrics.yml"
+      ]
+  max_parallel: *max_parallel
+  pre_script: |
+    MODULE_OPTIONS="-e MODULE_IDS=oegdproptin,oxps_usercentrics"
+    echo "CODECEPTION_CONTAINER_OPTIONS=-e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests ${MODULE_OPTIONS}" \
+      | tee -a "${GITHUB_ENV}"
+    echo "container_options=-e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests ${MODULE_OPTIONS}" | tee -a "${GITHUB_OUTPUT}"
+
+runtest:
+  matrix:
+    testplan: 'skip'
+  max_parallel: *max_parallel
+
+styles:
+  matrix:
+    tesptlan: |
+      [
+        "~/shared/gdpr-optin-module.yml"
+      ]
+  max_parallel: *max_parallel
+
+sonarcloud:
+  matrix:
+    testplan: 'skip'
+
+finish:
+  slack_title: 'Metapackage CE (8.0 slim) on {{ .Github.Repository }} by {{ .Github.Actor }}'
