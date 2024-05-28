@@ -1,9 +1,7 @@
 install:
   method: 'script'
-  git:
-    shop_url: 'https://github.com/{{ .Github.Repository }}.git'
-    shop_ref: 'b-7.0'
   composer:
+    root_url: 'https://raw.githubusercontent.com/{{ .Github.Repository }}/b-7.0/composer.json'
     transform: |
       {
           "config": {
