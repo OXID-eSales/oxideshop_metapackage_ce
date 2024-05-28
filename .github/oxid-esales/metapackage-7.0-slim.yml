@@ -173,11 +173,11 @@ runslim:
   <<: *runscript
   matrix:
     script: |
-    [
-      "gdpr:phpcs-report",
-      "gdpr:phpstan-report",
-      "gdpr:phpmd-report",
-    ]
+      [
+        "gdpr:phpcs-report",
+        "gdpr:phpstan-report",
+        "gdpr:phpmd-report",
+      ]
 
 sonarcloud:
   matrix:

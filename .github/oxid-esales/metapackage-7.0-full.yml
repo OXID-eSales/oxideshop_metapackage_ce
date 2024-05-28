@@ -195,12 +195,12 @@ runslim:
   <<: *runscript
   matrix:
     script: |
-    [
-      "gdpr:phpcs-report",
-      "gdpr:phpstan-report",
-      "gdpr:phpmd-report",
-      "composer_plugin:~/php-cs-report.sh"
-    ]
+      [
+        "gdpr:phpcs-report",
+        "gdpr:phpstan-report",
+        "gdpr:phpmd-report",
+        "composer_plugin:~/php-cs-report.sh"
+      ]
 
 sonarcloud:
   matrix:
