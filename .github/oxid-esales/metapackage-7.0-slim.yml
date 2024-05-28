@@ -126,7 +126,7 @@ install:
     done
     ${OE_CONSOLE} oe:setup:demodata
 
-runscript:
+runscript: &runscript
   matrix:
     script: |
       [
