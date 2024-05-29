@@ -171,13 +171,14 @@ runscript: &runscript
     composer:
       transform: |
         {
-            "config": {
-                "github-protocols": ["https"],
-                "allow-plugins":{
-                  "oxid-esales/oxideshop-composer-plugin":true,
-                  "oxid-esales/oxideshop-unified-namespace-generator":true
-                }
-            }
+          "config": {
+              "github-protocols": ["https"],
+              "allow-plugins":{
+                "oxid-esales/oxideshop-composer-plugin":true,
+                "oxid-esales/oxideshop-unified-namespace-generator":true
+              }
+          }
+        }
   facts:
     path: 'vendor/oxid-esales/oxideshop-facts'
   ung:
