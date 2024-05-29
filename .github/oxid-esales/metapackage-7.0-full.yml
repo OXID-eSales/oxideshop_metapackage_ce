@@ -101,10 +101,11 @@ install:
                   oxid-esales/oxideshop-unified-namespace-generator oxid-professional-services/usercentrics \
                   makaira/oxid-connect-essential
     do
-      for SCRIPT in $(find tests/scripts); do
+      for SCRIPT in $(find source/tests/scripts); do
         BASE=$(basename "${SCRIPT}")
-        if [ ! -f vendor/${MODULE}/${BASE} ]; then
-          cp "${SCRIPT}" "vendor/${MODULE}/${BASE}"
+        if [ ! -f source/vendor/${MODULE}/${BASE} ]; then
+          echo -e "\033[0;35mcopying generic ${SCRIPT} to 'source/vendor/${MODULE}/${BASE}'\033[0m"
+          cp "${SCRIPT}" "source/vendor/${MODULE}/${BASE}"
         fi
       done
     done
@@ -162,6 +163,19 @@ runscript: &runscript
       options: '-e XDEBUG_MODE=coverage -e GITHUB_EVENT_NAME={{ .Github.EventName }} -e GITHUB_BASE_REF={{ .Github.BaseRef }} -e GITHUB_REF={{ .Github.Ref }} -e GITHUB_REF_NAME={{ .Github.RefName }} -e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg'
   gdpr:
     path: 'vendor/oxid-esales/gdpr-optin-module'
+      transform: |
+        {
+          "require-dev": {
+              "oxid-esales/codeception-modules":"{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/codeception-page-objects":"{{ .Data.global.composer.dev_ref }}",
+              "codeception/codeception": "^5.0",
+              "codeception/module-asserts": "^3.0",
+              "codeception/module-db": "^3.0",
+              "codeception/module-filesystem": "^3.0",
+              "codeception/module-webdriver": "^3.1",
+              "phpunit/phpunit": "^9.1.1"
+          }
+        }
   composer_plugin:
     path: 'vendor/oxid-esales/oxideshop-composer-plugin'
   ddinst:
