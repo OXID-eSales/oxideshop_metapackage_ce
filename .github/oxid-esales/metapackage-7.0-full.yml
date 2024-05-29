@@ -168,6 +168,16 @@ runscript: &runscript
     path: 'vendor/oxid-esales/oxideshop-demodata-ce'
   doctrine:
     path: 'vendor/oxid-esales/oxideshop-doctrine-migration-wrapper'
+    composer:
+      transform: |
+        {
+            "config": {
+                "github-protocols": ["https"],
+                "allow-plugins":{
+                  "oxid-esales/oxideshop-composer-plugin":true,
+                  "oxid-esales/oxideshop-unified-namespace-generator":true
+                }
+            }
   facts:
     path: 'vendor/oxid-esales/oxideshop-facts'
   ung:
