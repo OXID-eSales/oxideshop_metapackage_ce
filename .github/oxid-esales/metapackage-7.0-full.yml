@@ -96,16 +96,16 @@ install:
 
   custom_script: |
     # Copy test scripts for components/modules that are not yet using them
+    URL="https://raw.githubusercontent.com/{{ .Github.Repository }}/{{ .Github.RefName }}/tests/scripts"
     for MODULE in oxid-esales/oxideshop-composer-plugin oxid-esales/oxideshop-demodata-ce \
                   oxid-esales/oxideshop-doctrine-migration-wrapper oxid-esales/oxideshop-facts \
                   oxid-esales/oxideshop-unified-namespace-generator oxid-professional-services/usercentrics \
                   makaira/oxid-connect-essential
     do
-      for SCRIPT in $(find source/tests/scripts); do
-        BASE=$(basename "${SCRIPT}")
-        if [ ! -f source/vendor/${MODULE}/${BASE} ]; then
+      for SCRIPT in codeception.sh integration.sh php-cs-report.sh unit.sh; do
+        if [ ! -f source/vendor/${MODULE}/${SCRIPT} ]; then
           echo -e "\033[0;35mcopying generic ${SCRIPT} to 'source/vendor/${MODULE}/${BASE}'\033[0m"
-          cp "${SCRIPT}" "source/vendor/${MODULE}/${BASE}"
+          curl -o "source/vendor/${MODULE}/${SCRIPT}" "${URL}/${SCRIPT}"
         fi
       done
     done
