@@ -97,6 +97,12 @@ install:
   custom_script: |
     # Copy test scripts for components/modules that are not yet using them
     URL="https://raw.githubusercontent.com/{{ .Github.Repository }}/{{ .Github.RefName }}/tests/scripts"
+    mkdir -p source/tests/scripts
+    for SCRIPT in codeception.sh integration.sh php-cs-report.sh unit.sh; do
+          echo -e "\033[0;35mDownloading ${SCRIPT} to 'source/vendor/${MODULE}/${BASE}'\033[0m"
+          curl -sSjkLo "source/tests/scripts/${SCRIPT}" "${URL}/tests/scripts/${SCRIPT}"
+        fi
+
     for MODULE in oxid-esales/oxideshop-composer-plugin oxid-esales/oxideshop-demodata-ce \
                   oxid-esales/oxideshop-doctrine-migration-wrapper oxid-esales/oxideshop-facts \
                   oxid-esales/oxideshop-unified-namespace-generator oxid-professional-services/usercentrics \
@@ -105,13 +111,15 @@ install:
       for SCRIPT in codeception.sh integration.sh php-cs-report.sh unit.sh; do
         if [ ! -f source/vendor/${MODULE}/${SCRIPT} ]; then
           echo -e "\033[0;35mcopying generic ${SCRIPT} to 'source/vendor/${MODULE}/${BASE}'\033[0m"
-          curl -o "source/vendor/${MODULE}/${SCRIPT}" "${URL}/${SCRIPT}"
+          mkdir -p "source/vendor/${MODULE}/tests/scripts/${SCRIPT}" 
+          cp "source/tests/scripts/${SCRIPT}" "source/vendor/${MODULE}/tests/scripts/${SCRIPT}"
         fi
       done
     done
 
   custom_script_container: |
     # Activate all modules
+    find ./vendor
     if [ -f 'bin/oe-console' ]; then
         OE_CONSOLE='bin/oe-console'
     else
@@ -175,6 +183,19 @@ runscript: &runscript
               "codeception/module-filesystem": "^3.0",
               "codeception/module-webdriver": "^3.1",
               "phpunit/phpunit": "^9.1.1"
+          },
+          "autoload-dev":{
+              "psr-4":{
+                "OxidEsales\\EshopCommunity\\Tests\\":"./vendor/oxid-esales/oxideshop-ce/tests",
+                "OxidEsales\\ComposerPlugin\\Tests\\": "vendor/oxid-esales/oxideshop-composer-plugin/tests/",
+                "OxidEsales\\UnifiedNameSpaceGenerator\\Tests\\": "./vendor/oxid-esales/oxideshop-unified-namespace-generator/tests",
+                "OxidEsales\\DemoDataInstaller\\Tests\\": "./vendor/oxid-esales/oxideshop-demodata-installer/tests/",
+                "OxidEsales\\DoctrineMigrationWrapper\\Tests\\": "./vendor/oxid-esales/oxideshop-doctrine-migration-wrapper/tests",
+                "OxidEsales\\Facts\\Tests\\": "./vendor/oxid-esales/oxideshop-facts/tests/",
+                "OxidEsales\\Twig\\Tests\\": "./vendor/oxid-esales/twig-component/tests",
+                "OxidEsales\\GdprOptinModule\\Tests\\": "./vendor/oxid-esales/gdpr-optin-module/tests/",
+                "OxidProfessionalServices\\Usercentrics\\Tests\\": "./vendor/oxid-professional-services/usercentrics/tests"
+              }
           },
           "scripts": {
             "phpcs-report": "phpcs --standard=tests/phpcs.xml --report=json --report-file=phpcs.report.json",
