@@ -99,9 +99,9 @@ install:
     URL="https://raw.githubusercontent.com/{{ .Github.Repository }}/{{ .Github.RefName }}/tests/scripts"
     mkdir -p source/tests/scripts
     for SCRIPT in codeception.sh integration.sh php-cs-report.sh unit.sh; do
-          echo -e "\033[0;35mDownloading ${SCRIPT} to 'source/vendor/${MODULE}/${BASE}'\033[0m"
-          curl -sSjkLo "source/tests/scripts/${SCRIPT}" "${URL}/tests/scripts/${SCRIPT}"
-        fi
+      echo -e "\033[0;35mDownloading ${SCRIPT} to 'source/vendor/${MODULE}/${BASE}'\033[0m"
+      curl -sSjkLo "source/tests/scripts/${SCRIPT}" "${URL}/tests/scripts/${SCRIPT}"
+    done
 
     for MODULE in oxid-esales/oxideshop-composer-plugin oxid-esales/oxideshop-demodata-ce \
                   oxid-esales/oxideshop-doctrine-migration-wrapper oxid-esales/oxideshop-facts \
