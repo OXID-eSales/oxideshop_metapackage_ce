@@ -123,11 +123,11 @@ jobs:
       runs_on: ${{ inputs.runs_on }}
       defaults: 'v0'
       plan_folder: '.github/oxid-esales'
-      custom_testplan_yaml: |
-        custom:
-          public: 'everyone can see this'
-        secrets:
-          private: "This won't show up in the artifact"
+      # custom_testplan_yaml: |
+      #   custom:
+      #     public: 'everyone can see this'
+      #   secrets:
+      #     private: "This won't show up in the artifact"
     secrets:
       DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
       DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
