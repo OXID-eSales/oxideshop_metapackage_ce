@@ -119,7 +119,7 @@ jobs:
     if: ${{ inputs.use_dev_version == 'v0' }}
     uses: oxid-eSales/github-actions/.github/workflows/universal_workflow_light.yaml@v0
     with:
-      testplan: _custom.yaml,${{ needs.build_testplan.outputs.testplan }}
+      testplan: '~/_custom.yaml,${{ needs.build_testplan.outputs.testplan }}'
       runs_on: ${{ inputs.runs_on }}
       defaults: 'v0'
       plan_folder: '.github/oxid-esales'
