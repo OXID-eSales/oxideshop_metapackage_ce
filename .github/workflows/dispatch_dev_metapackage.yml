@@ -100,10 +100,15 @@ jobs:
     if: ${{ inputs.use_dev_version == 'no' }}
     uses: oxid-eSales/github-actions/.github/workflows/universal_workflow_light.yaml@v4
     with:
-      testplan: ${{ needs.build_testplan.outputs.testplan }}
+      testplan: _custom.yaml,${{ needs.build_testplan.outputs.testplan }}
       runs_on: ${{ inputs.runs_on }}
       defaults: 'v4'
       plan_folder: '.github/oxid-esales'
+      custom_testplan_yaml: |
+        custom:
+          public: 'everyone can see this'
+        secrets:
+          private: 'This won't show up in the artifact'
     secrets:
       DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
       DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}

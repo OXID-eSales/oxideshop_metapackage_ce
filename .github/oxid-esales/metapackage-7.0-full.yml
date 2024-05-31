@@ -95,6 +95,8 @@ install:
       }
 
   custom_script: |
+    echo -e "\033[0;33meveryone can see this in the artifact : ${{ .Data.custom.public }}\033[0m"
+    echo -e "\033[0;31mnobody can see this in the artifact: ${{ .Data.secrets.private}}\033[0m"
     # Copy test scripts for components/modules that are not yet using them
     URL="https://raw.githubusercontent.com/{{ .Github.Repository }}/{{ .Github.RefName }}/tests/scripts"
     mkdir -p source/tests/scripts
