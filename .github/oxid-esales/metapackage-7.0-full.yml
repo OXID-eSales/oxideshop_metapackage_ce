@@ -99,7 +99,7 @@ install:
     URL="https://raw.githubusercontent.com/{{ .Github.Repository }}/{{ .Github.RefName }}/tests/scripts"
     mkdir -p source/tests/scripts
     for SCRIPT in codeception.sh integration.sh php-cs-report.sh unit.sh; do
-      echo -e "\033[0;35mDownloading ${SCRIPT} to 'source/vendor/${MODULE}/${BASE}'\033[0m"
+      echo -e "\033[0;35mDownloading ${SCRIPT} to 'source/tests/scripts/${SCRIPT}'\033[0m"
       curl -sSjkLo "source/tests/scripts/${SCRIPT}" "${URL}/tests/scripts/${SCRIPT}"
     done
 
@@ -116,7 +116,9 @@ install:
         fi
       done
       if [ -f "source/vendor/${MODULE}/source/config.inc.php.dist" ]; then
+        echo -e "\033[0;35mfound 'source/vendor/${MODULE}/source/config.inc.php.dist'"
         if [ ! -f "source/vendor/${MODULE}/source/config.inc.php" ]; then
+          echo -e "\033[0;35mcopying 'source/vendor/${MODULE}/source/config.inc.php.dist' to 'source/vendor/${MODULE}/source/config.inc.php'\033[0m"
           cp "source/vendor/${MODULE}/source/config.inc.php.dist" "source/vendor/${MODULE}/source/config.inc.php"
         fi
       fi
@@ -124,7 +126,6 @@ install:
 
   custom_script_container: |
     # Activate all modules
-    find ./vendor
     if [ -f 'bin/oe-console' ]; then
         OE_CONSOLE='bin/oe-console'
     else
