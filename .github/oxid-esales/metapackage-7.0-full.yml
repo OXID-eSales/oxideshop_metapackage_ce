@@ -203,10 +203,10 @@ runscript: &runscript
             "phpcs-report": "phpcs --standard=tests/phpcs.xml --report=json --report-file=phpcs.report.json",
             "phpstan-report": "phpstan -ctests/PhpStan/phpstan.neon analyse src/ --error-format=json >phpstan.report.json",
             "phpmd-report": "phpmd src json tests/PhpMd/standard.xml --ignore-errors-on-exit --ignore-violations-on-exit --reportfile phpmd.report.json",
-            "phpunit": "vendor/bin/phpunit --bootstrap=/var/www/source/bootstrap.php --config=tests/",
+            "phpunit": "vendor/bin/phpunit --config=tests/ --testsuite=Unit",
             "codeception": [
               "Composer\\Config::disableProcessTimeout",
-              "THEME_ID=apex MODULE_IDS=oegdproptin /var/www/vendor/bin/codecept run Acceptance -c /var/www/vendor/oxid-esales/gdpr-optin-module/tests/codeception.yml --no-redirect"
+              "THEME_ID=apex MODULE_IDS=oegdproptin /var/www/vendor/bin/codecept run Acceptance -c tests/codeception.yml --no-redirect"
             ]
           }
         }
