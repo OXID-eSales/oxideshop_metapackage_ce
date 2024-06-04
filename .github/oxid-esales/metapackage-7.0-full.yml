@@ -135,6 +135,7 @@ install:
             error "Can't find oe-console in bin or vendor/bin!"
         fi
     fi
+    cd /var/www
     for MODULE in oegdproptin oxps_usercentrics makaira_oxid-connect-essential ddoemedialibrary ddoewysiwyg; do
       ${OE_CONSOLE} oe:module:activate "${MODULE}"
     done
