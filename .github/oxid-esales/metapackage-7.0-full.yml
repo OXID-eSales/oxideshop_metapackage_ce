@@ -117,7 +117,9 @@ install:
       done
       if [ -f "source/vendor/${MODULE}/source/config.inc.php.dist" ]; then
         echo -e "\033[0;35mfound 'source/vendor/${MODULE}/source/config.inc.php.dist'"
-        if [ ! -f "source/vendor/${MODULE}/source/config.inc.php" ]; then
+        if [ -f "source/vendor/${MODULE}/source/config.inc.php" ]; then
+          echo -e "\033[0;35mfound 'source/vendor/${MODULE}/source/config.inc.php'"
+        else
           echo -e "\033[0;35mcopying 'source/vendor/${MODULE}/source/config.inc.php.dist' to 'source/vendor/${MODULE}/source/config.inc.php'\033[0m"
           cp "source/vendor/${MODULE}/source/config.inc.php.dist" "source/vendor/${MODULE}/source/config.inc.php"
         fi
