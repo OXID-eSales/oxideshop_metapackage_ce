@@ -105,18 +105,23 @@ install:
       curl -sSjkLo "source/tests/scripts/${SCRIPT}" "${URL}/tests/scripts/${SCRIPT}"
     done
 
-    for MODULE in oxid-esales/oxideshop-composer-plugin oxid-esales/oxideshop-demodata-ce \
+    for MODULE in oxid-esales/gdpr-optin-module oxid-esales/oxideshop-composer-plugin oxid-esales/oxideshop-demodata-ce \
                   oxid-esales/oxideshop-doctrine-migration-wrapper oxid-esales/oxideshop-facts \
                   oxid-esales/oxideshop-unified-namespace-generator oxid-professional-services/usercentrics \
                   makaira/oxid-connect-essential
     do
       for SCRIPT in codeception.sh integration.sh php-cs-report.sh unit.sh; do
-        if [ ! -f source/vendor/${MODULE}/${SCRIPT} ]; then
-          echo -e "\033[0;35mcopying generic ${SCRIPT} to 'source/vendor/${MODULE}/${BASE}'\033[0m"
-          mkdir -p "source/vendor/${MODULE}/tests/scripts/${SCRIPT}" 
+        mkdir -p "source/vendor/${MODULE}/tests/scripts
+        if [ ! -f source/vendor/${MODULE}/tests/scripts/${SCRIPT} ]; then
+          echo -e "\033[0;35mcopying generic ${SCRIPT} to 'source/vendor/${MODULE}/${SCRIPT}'\033[0m"
           cp "source/tests/scripts/${SCRIPT}" "source/vendor/${MODULE}/tests/scripts/${SCRIPT}"
         fi
       done
+      if [ -f 'source/vendor/${MODULE}/source/config.inc.php.dist' ]; then
+        if [ ! -f 'source/vendor/${MODULE}/source/config.inc.php']; then
+          cp 'source/vendor/${MODULE}/source/config.inc.php.dist' 'source/vendor/${MODULE}/source/config.inc.php'
+        fi
+      fi
     done
 
   custom_script_container: |
