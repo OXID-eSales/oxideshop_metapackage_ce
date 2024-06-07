@@ -110,6 +110,7 @@ install:
     for SCRIPT in codeception.sh integration.sh php-cs-report.sh unit.sh; do
       echo -e "\033[0;35mDownloading ${SCRIPT} to 'source/tests/scripts/${SCRIPT}'\033[0m"
       curl -sSjkLo "source/tests/scripts/${SCRIPT}" "${URL}/tests/scripts/${SCRIPT}"
+      chmod a+x "source/tests/scripts/${SCRIPT}"
     done
 
     for MODULE in oxid-esales/gdpr-optin-module oxid-esales/oxideshop-composer-plugin oxid-esales/oxideshop-demodata-ce \
@@ -224,7 +225,7 @@ runscript: &runscript
             "phpunit": "vendor/bin/phpunit --config=tests/ --testsuite=Unit",
             "codeception": [
               "Composer\\Config::disableProcessTimeout",
-              "THEME_ID=apex MODULE_IDS=oegdproptin /var/www/vendor/bin/codecept run Acceptance -c tests/codeception.yml --no-redirect"
+              "THEME_ID=apex MODULE_IDS=oegdproptin /var/www/vendor/bin/codecept run acceptance -c tests/codeception.yml --no-redirect"
             ]
           }
         }
