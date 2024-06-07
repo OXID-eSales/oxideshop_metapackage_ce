@@ -115,7 +115,7 @@ install:
     done
 
     for MODULE in oxid-esales/gdpr-optin-module oxid-esales/oxideshop-composer-plugin oxid-esales/oxideshop-demodata-ce \
-                  oxid-esales/oxideshop-doctrine-migration-wrapper oxid-esales/oxideshop-facts \
+                  oxid-esales/oxideshop-doctrine-migration-wrapper oxid-esales/oxideshop-facts oxid-esales/twig-component \
                   oxid-esales/oxideshop-unified-namespace-generator oxid-professional-services/usercentrics \
                   makaira/oxid-connect-essential
     do
