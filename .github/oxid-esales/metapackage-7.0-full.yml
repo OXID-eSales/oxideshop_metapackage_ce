@@ -110,6 +110,7 @@ install:
     for SCRIPT in codeception.sh integration.sh php-cs-report.sh unit.sh; do
       echo -e "\033[0;35mDownloading ${SCRIPT} to 'source/tests/scripts/${SCRIPT}'\033[0m"
       curl -sSjkLo "source/tests/scripts/${SCRIPT}" "${URL}/tests/scripts/${SCRIPT}"
+      cat "source/tests/scripts/${SCRIPT}"
       chmod a+x "source/tests/scripts/${SCRIPT}"
     done
 
