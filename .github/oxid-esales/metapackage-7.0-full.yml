@@ -293,37 +293,37 @@ runscript: &runscript
     path: 'vendor/ddoe/wysiwyg-editor-module'
   '11_ddoe_wysiwyg_codeception_twig':
     path: 'vendor/ddoe/wysiwyg-editor-module'
-  composer:
-    transform: |
-      {
-        "require":     {
-            "oxid-esales/twig-theme": "dev-b-7.0.x"
-        },
-          "require-dev": {
-              "oxid-esales/oxideshop-facts":"{{ .Data.global.composer.dev_ref }}",
-              "oxid-esales/codeception-modules":"{{ .Data.global.composer.dev_ref }}",
-              "oxid-esales/codeception-page-objects":"{{ .Data.global.composer.dev_ref }}",
-              "codeception/codeception": "^5.0",
-              "codeception/module-asserts": "^3.0",
-              "codeception/module-db": "^3.0",
-              "codeception/module-filesystem": "^3.0",
-              "codeception/module-webdriver": "^3.1",
-              "phpunit/phpunit": "^9.1.1"
+    composer:
+      transform: |
+        {
+          "require":     {
+              "oxid-esales/twig-theme": "dev-b-7.0.x"
           },
-          "autoload-dev":{
-              "psr-4":{
-                "OxidEsales\\EshopCommunity\\Tests\\":"./vendor/oxid-esales/oxideshop-ce/tests",
-                "OxidEsales\\ComposerPlugin\\Tests\\": "vendor/oxid-esales/oxideshop-composer-plugin/tests/",
-                "OxidEsales\\UnifiedNameSpaceGenerator\\Tests\\": "./vendor/oxid-esales/oxideshop-unified-namespace-generator/tests",
-                "OxidEsales\\DemoDataInstaller\\Tests\\": "./vendor/oxid-esales/oxideshop-demodata-installer/tests/",
-                "OxidEsales\\DoctrineMigrationWrapper\\Tests\\": "./vendor/oxid-esales/oxideshop-doctrine-migration-wrapper/tests",
-                "OxidEsales\\Facts\\Tests\\": "./vendor/oxid-esales/oxideshop-facts/tests/",
-                "OxidEsales\\Twig\\Tests\\": "./vendor/oxid-esales/twig-component/tests",
-                "OxidEsales\\GdprOptinModule\\Tests\\": "./vendor/oxid-esales/gdpr-optin-module/tests/",
-                "OxidProfessionalServices\\Usercentrics\\Tests\\": "./vendor/oxid-professional-services/usercentrics/tests"
-              }
-          }
-      }
+            "require-dev": {
+                "oxid-esales/oxideshop-facts":"{{ .Data.global.composer.dev_ref }}",
+                "oxid-esales/codeception-modules":"{{ .Data.global.composer.dev_ref }}",
+                "oxid-esales/codeception-page-objects":"{{ .Data.global.composer.dev_ref }}",
+                "codeception/codeception": "^5.0",
+                "codeception/module-asserts": "^3.0",
+                "codeception/module-db": "^3.0",
+                "codeception/module-filesystem": "^3.0",
+                "codeception/module-webdriver": "^3.1",
+                "phpunit/phpunit": "^9.1.1"
+            },
+            "autoload-dev":{
+                "psr-4":{
+                  "OxidEsales\\EshopCommunity\\Tests\\":"./vendor/oxid-esales/oxideshop-ce/tests",
+                  "OxidEsales\\ComposerPlugin\\Tests\\": "vendor/oxid-esales/oxideshop-composer-plugin/tests/",
+                  "OxidEsales\\UnifiedNameSpaceGenerator\\Tests\\": "./vendor/oxid-esales/oxideshop-unified-namespace-generator/tests",
+                  "OxidEsales\\DemoDataInstaller\\Tests\\": "./vendor/oxid-esales/oxideshop-demodata-installer/tests/",
+                  "OxidEsales\\DoctrineMigrationWrapper\\Tests\\": "./vendor/oxid-esales/oxideshop-doctrine-migration-wrapper/tests",
+                  "OxidEsales\\Facts\\Tests\\": "./vendor/oxid-esales/oxideshop-facts/tests/",
+                  "OxidEsales\\Twig\\Tests\\": "./vendor/oxid-esales/twig-component/tests",
+                  "OxidEsales\\GdprOptinModule\\Tests\\": "./vendor/oxid-esales/gdpr-optin-module/tests/",
+                  "OxidProfessionalServices\\Usercentrics\\Tests\\": "./vendor/oxid-professional-services/usercentrics/tests"
+                }
+            }
+        }
 
 runslim:
   <<: *runscript
