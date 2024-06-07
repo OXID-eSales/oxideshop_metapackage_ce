@@ -117,7 +117,7 @@ install:
     for MODULE in oxid-esales/gdpr-optin-module oxid-esales/oxideshop-composer-plugin oxid-esales/oxideshop-demodata-ce \
                   oxid-esales/oxideshop-doctrine-migration-wrapper oxid-esales/oxideshop-facts oxid-esales/twig-component \
                   oxid-esales/oxideshop-unified-namespace-generator oxid-professional-services/usercentrics \
-                  makaira/oxid-connect-essential
+                  makaira/oxid-connect-essential ddoe/wysiwyg-editor-module
     do
       for SCRIPT in codeception.sh integration.sh php-cs-report.sh unit.sh; do
         mkdir -p "source/vendor/${MODULE}/tests/scripts"
@@ -283,6 +283,9 @@ runscript: &runscript
               }
           }
         }
+    custom_script: |
+      mkdir source/vendor/oxid-professional-services/usercentrics/source
+      ln -s source/vendor/oxid-professional-services/usercentrics/vendor/oxid-esales/oxideshop-ce/config.inc.php source/vendor/oxid-professional-services/usercentrics/source/config.inc.php
   '09_makaira':
     path: 'vendor/makaira/oxid-connect-essential'
   '10_ddoe_wysiwyg':
