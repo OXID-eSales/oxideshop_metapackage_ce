@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -x
 vendor/bin/codecept build \
     -c tests/codeception.yml
 vendor/bin/codecept run acceptanceSetup \

@@ -125,6 +125,7 @@ install:
           cp "source/tests/scripts/${SCRIPT}" "source/vendor/${MODULE}/tests/scripts/${SCRIPT}"
         fi
       done
+      ls -lA "source/vendor/${MODULE}/tests/scripts"
       if [ -f "source/vendor/${MODULE}/source/config.inc.php.dist" ]; then
         echo -e "\033[0;35mfound 'source/vendor/${MODULE}/source/config.inc.php.dist'"
         if [ -f "source/vendor/${MODULE}/source/config.inc.php" ]; then

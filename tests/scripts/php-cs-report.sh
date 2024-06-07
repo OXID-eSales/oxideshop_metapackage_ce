@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 vendor/bin/phpcs \
     --standard=tests/phpcs.xml \
     --report=json \
