@@ -175,9 +175,9 @@ runscript: &runscript
         "08_usercentrics:~/codeception.sh",
         "09_makaira:~/unit.sh",
         "09_makaira:~/integration.sh",
-        "10_ddoe_wysiwyg:tests-integration",
-        "10_ddoe_wysiwyg:tests-unit",
-        "11_ddoe_wysiwyg_codeception_twig:tests-codeception"
+        "10_ddoe_wysiwyg:~/integration.sh",
+        "10_ddoe_wysiwyg:~/unit.sh",
+        "11_ddoe_wysiwyg_codeception_twig:~/codeception.sh"
       ]
   container:
     # yamllint disable-line rule:line-length
@@ -259,6 +259,7 @@ runscript: &runscript
       transform: |
         {
           "require-dev": {
+              "oxid-esales/oxideshop-facts":"{{ .Data.global.composer.dev_ref }}",
               "oxid-esales/codeception-modules":"{{ .Data.global.composer.dev_ref }}",
               "oxid-esales/codeception-page-objects":"{{ .Data.global.composer.dev_ref }}",
               "codeception/codeception": "^5.0",
