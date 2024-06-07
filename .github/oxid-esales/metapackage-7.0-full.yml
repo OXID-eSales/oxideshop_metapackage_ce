@@ -175,8 +175,9 @@ runscript: &runscript
         "08_usercentrics:~/codeception.sh",
         "09_makaira:~/unit.sh",
         "09_makaira:~/integration.sh",
-        "10_ddoe_wysiwyg:~/integration.sh",
-        "11_ddoe_wysiwyg_codeception_twig:~/codeception.sh"
+        "10_ddoe_wysiwyg:tests-integration",
+        "10_ddoe_wysiwyg:tests-unit",
+        "11_ddoe_wysiwyg_codeception_twig:tests-codeception"
       ]
   container:
     # yamllint disable-line rule:line-length
@@ -254,6 +255,33 @@ runscript: &runscript
     path: 'vendor/oxid-esales/twig-component'
   '08_usercentrics':
     path: 'vendor/oxid-professional-services/usercentrics'
+    composer:
+      transform: |
+        {
+          "require-dev": {
+              "oxid-esales/codeception-modules":"{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/codeception-page-objects":"{{ .Data.global.composer.dev_ref }}",
+              "codeception/codeception": "^5.0",
+              "codeception/module-asserts": "^3.0",
+              "codeception/module-db": "^3.0",
+              "codeception/module-filesystem": "^3.0",
+              "codeception/module-webdriver": "^3.1",
+              "phpunit/phpunit": "^9.1.1"
+          },
+          "autoload-dev":{
+              "psr-4":{
+                "OxidEsales\\EshopCommunity\\Tests\\":"./vendor/oxid-esales/oxideshop-ce/tests",
+                "OxidEsales\\ComposerPlugin\\Tests\\": "vendor/oxid-esales/oxideshop-composer-plugin/tests/",
+                "OxidEsales\\UnifiedNameSpaceGenerator\\Tests\\": "./vendor/oxid-esales/oxideshop-unified-namespace-generator/tests",
+                "OxidEsales\\DemoDataInstaller\\Tests\\": "./vendor/oxid-esales/oxideshop-demodata-installer/tests/",
+                "OxidEsales\\DoctrineMigrationWrapper\\Tests\\": "./vendor/oxid-esales/oxideshop-doctrine-migration-wrapper/tests",
+                "OxidEsales\\Facts\\Tests\\": "./vendor/oxid-esales/oxideshop-facts/tests/",
+                "OxidEsales\\Twig\\Tests\\": "./vendor/oxid-esales/twig-component/tests",
+                "OxidEsales\\GdprOptinModule\\Tests\\": "./vendor/oxid-esales/gdpr-optin-module/tests/",
+                "OxidProfessionalServices\\Usercentrics\\Tests\\": "./vendor/oxid-professional-services/usercentrics/tests"
+              }
+          }
+        }
   '09_makaira':
     path: 'vendor/makaira/oxid-connect-essential'
   '10_ddoe_wysiwyg':
@@ -275,8 +303,7 @@ runslim:
       [
         "02_gdpr:phpcs-report",
         "02_gdpr:phpstan-report",
-        "02_gdpr:phpmd-report",
-        "03_composer_plugin:~/php-cs-report.sh"
+        "02_gdpr:phpmd-report"
       ]
 
 sonarcloud:
