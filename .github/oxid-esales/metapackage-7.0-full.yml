@@ -238,9 +238,9 @@ runscript: &runscript
               }
           },
           "scripts": {
-            "phpcs-report": "phpcs --standard=tests/phpcs.xml --report=json --report-file=phpcs.report.json",
-            "phpstan-report": "phpstan -ctests/PhpStan/phpstan.neon analyse src/ --error-format=json >phpstan.report.json",
-            "phpmd-report": "phpmd src json tests/PhpMd/standard.xml --ignore-errors-on-exit --ignore-violations-on-exit --reportfile phpmd.report.json",
+            "phpcs-report": "vendor/bin/phpcs --standard=tests/phpcs.xml --report=json --report-file=phpcs.report.json",
+            "phpstan-report": "vendor/bin/phpstan -ctests/PhpStan/phpstan.neon analyse src/ --error-format=json >phpstan.report.json",
+            "phpmd-report": "vendor/bin/phpmd src json tests/PhpMd/standard.xml --ignore-errors-on-exit --ignore-violations-on-exit --reportfile phpmd.report.json",
             "phpunit": "vendor/bin/phpunit --config=tests/ --testsuite=Unit",
             "codeception": [
               "Composer\\Config::disableProcessTimeout",
