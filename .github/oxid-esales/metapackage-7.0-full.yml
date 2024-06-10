@@ -286,9 +286,8 @@ runscript: &runscript
           }
         }
     custom_script: |
-      mkdir -p source/vendor/oxid-professional-services/usercentrics/source source/source
-      cp source/vendor/oxid-esales/oxideshop-ce/config.inc.php source/vendor/oxid-professional-services/usercentrics/source/config.inc.php
-      cp source/vendor//oxid-esales/oxideshop-ce/config.inc.php source/source/config.inc.php
+      mkdir -p source/vendor/oxid-professional-services/usercentrics/source
+      cp source/source/config.inc.php source/vendor/oxid-professional-services/usercentrics/source/config.inc.php
   '09_makaira':
     path: 'vendor/makaira/oxid-connect-essential'
   '10_ddoe_wysiwyg':
