@@ -105,9 +105,10 @@ install:
     ddoewysiwyg
   custom_script: |
     # Copy test scripts for components/modules that are not yet using them
+    SCRIPTS="codeception.sh integration.sh php-cs-report.sh phpmd-report.sh phpstan-report.sh unit.sh"
     URL="https://raw.githubusercontent.com/{{ .Github.Repository }}/{{ .Github.RefName }}/tests/scripts"
     mkdir -p source/tests/scripts
-    for SCRIPT in codeception.sh integration.sh php-cs-report.sh phpmd-report.sh phpstan-report.sh unit.sh; do
+    for SCRIPT in ${SCRIPTS}; do
       echo -e "\033[0;35mDownloading ${URL}/${SCRIPT} to 'source/tests/scripts/${SCRIPT}'\033[0m"
       curl -sSjkLo "source/tests/scripts/${SCRIPT}" "${URL}/${SCRIPT}"
       cat "source/tests/scripts/${SCRIPT}"
@@ -119,7 +120,7 @@ install:
                   oxid-esales/oxideshop-unified-namespace-generator oxid-professional-services/usercentrics \
                   makaira/oxid-connect-essential ddoe/wysiwyg-editor-module
     do
-      for SCRIPT in codeception.sh integration.sh php-cs-report.sh unit.sh; do
+      for SCRIPT in ${SCRIPTS}; do
         mkdir -p "source/vendor/${MODULE}/tests/scripts"
         if [ ! -f "source/vendor/${MODULE}/tests/scripts/${SCRIPT}" ]; then
           echo -e "\033[0;35mcopying generic ${SCRIPT} to 'source/vendor/${MODULE}/${SCRIPT}'\033[0m"
