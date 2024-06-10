@@ -39,6 +39,7 @@ install:
               "mikey179/vfsstream": "~1.6.8",
               "phpspec/prophecy-phpunit": "^v2.0.1",
               "phpunit/phpunit": "^9.1.1",
+              "phpstan/phpstan": "^1.9.14",
               "squizlabs/php_codesniffer": "^3.5.4"
           },
           "repositories": {
