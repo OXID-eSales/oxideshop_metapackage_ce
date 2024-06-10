@@ -345,8 +345,8 @@ runslim:
   matrix:
     script: |
       [
-        "02_gdpr:phpcs-report",
-        "02_gdpr:phpstan-report"
+        "02_gdpr:~/php-cs-report.sh",
+        "02_gdpr:~/phpstan-report.sh"
       ]
 
 sonarcloud:
