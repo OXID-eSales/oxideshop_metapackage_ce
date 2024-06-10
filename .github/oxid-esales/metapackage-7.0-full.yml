@@ -3,7 +3,7 @@ install:
   container:
     options: '-e ESHOP_BOOTSTRAP_PATH=vendor/oxid-esales/oxideshop-ce/source/bootstrap.php'
   composer:
-    early: false
+    early: &early false
     root_url: 'https://raw.githubusercontent.com/{{ .Github.Repository }}/b-7.0/composer.json'
     transform: |
       {
@@ -182,6 +182,8 @@ runscript: &runscript
   container:
     # yamllint disable-line rule:line-length
     options: '-e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg -e ESHOP_BOOTSTRAP_PATH=vendor/oxid-esales/oxideshop-ce/source/bootstrap.php'
+  composer: 
+    early: *early
   '00_shop': &shop
     path: 'vendor/oxid-esales/oxideshop-ce'
     container:
@@ -285,8 +287,8 @@ runscript: &runscript
         }
     custom_script: |
       mkdir -p source/vendor/oxid-professional-services/usercentrics/source source/source
-      cp source/vendor/oxid-professional-services/usercentrics/vendor/oxid-esales/oxideshop-ce/config.inc.php source/vendor/oxid-professional-services/usercentrics/source/config.inc.php
-      cp source/vendor/oxid-professional-services/usercentrics/vendor/oxid-esales/oxideshop-ce/config.inc.php source/source/config.inc.php
+      cp source/vendor/oxid-esales/oxideshop-ce/config.inc.php source/vendor/oxid-professional-services/usercentrics/source/config.inc.php
+      cp source/vendor//oxid-esales/oxideshop-ce/config.inc.php source/source/config.inc.php
   '09_makaira':
     path: 'vendor/makaira/oxid-connect-essential'
   '10_ddoe_wysiwyg':
