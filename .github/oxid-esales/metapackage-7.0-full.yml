@@ -113,6 +113,7 @@ install:
       cat "source/tests/scripts/${SCRIPT}"
       chmod a+x "source/tests/scripts/${SCRIPT}"
     done
+
     for MODULE in oxid-esales/gdpr-optin-module oxid-esales/oxideshop-composer-plugin oxid-esales/oxideshop-demodata-ce \
                   oxid-esales/oxideshop-doctrine-migration-wrapper oxid-esales/oxideshop-facts oxid-esales/twig-component \
                   oxid-esales/oxideshop-unified-namespace-generator oxid-professional-services/usercentrics \
@@ -126,15 +127,6 @@ install:
         fi
       done
       ls -lA "source/vendor/${MODULE}/tests/scripts"
-      if [ -f "source/vendor/${MODULE}/source/config.inc.php.dist" ]; then
-        echo -e "\033[0;35mfound 'source/vendor/${MODULE}/source/config.inc.php.dist'"
-        if [ -f "source/vendor/${MODULE}/source/config.inc.php" ]; then
-          echo -e "\033[0;35mfound 'source/vendor/${MODULE}/source/config.inc.php'"
-        else
-          echo -e "\033[0;35mcopying 'source/vendor/${MODULE}/source/config.inc.php.dist' to 'source/vendor/${MODULE}/source/config.inc.php'\033[0m"
-          cp "source/vendor/${MODULE}/source/config.inc.php.dist" "source/vendor/${MODULE}/source/config.inc.php"
-        fi
-      fi
     done
   custom_script_container: |
     # Activate all modules
@@ -147,6 +139,9 @@ install:
             error "Can't find oe-console in bin or vendor/bin!"
         fi
     fi
+    mkdir -p /var/www/vendor/oxid-esales/oxideshop-ce/vendor/oxid-esales
+    ln -s /var/www/vendor/oxid-esales/oxideshop-demodata-ce /var/www/vendor/oxid-esales/oxideshop-ce/vendor/oxid-esales/oxideshop-demodata-ce
+    ln -s /var/www/source/config.inc.php /var/www/vendor/oxid-esales/gdpr-optin-module/source/config.inc.php
     ${OE_CONSOLE} oe:setup:demodata
 
 runscript: &runscript
