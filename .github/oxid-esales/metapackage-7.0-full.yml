@@ -140,15 +140,9 @@ install:
         fi
     fi
     mkdir -p /var/www/vendor/oxid-esales/oxideshop-ce/vendor/oxid-esales
-    ln -s /var/www/vendor/oxid-esales/oxideshop-demodata-ce /var/www/vendor/oxid-esales/oxideshop-ce/vendor/oxid-esales/oxideshop-demodata-ce
-    echo -e "\033[0;35m### gdpr:"
-    cat /var/www/vendor/oxid-esales/gdpr-optin-module/source/config.inc.php
-    echo -e "\033[0;35m### source:"
-    cat /var/www/source/config.inc.php
-    echo -e "\033[0;35m### vendor/shop:"
-    cat /var/www/vendor/oxid-esales/oxideshop-ce/source/config.inc.php
-
-    ln -s /var/www/source/config.inc.php /var/www/vendor/oxid-esales/gdpr-optin-module/source/config.inc.php
+    ln -s /var/www/vendor/oxid-esales/oxideshop-demodata-ce /var/www/vendor/oxid-esales/oxideshop-ce/vendor/oxid-esales/oxideshop-demodata-ce^
+    cp /var/www/vendor/oxid-esales/oxideshop-ce/source/config.inc.php /var/www/source/config.inc.php
+    cp /var/www/vendor/oxid-esales/oxideshop-ce/source/config.inc.php /var/www/vendor/oxid-esales/gdpr-optin-module/source/config.inc.php
     ${OE_CONSOLE} oe:setup:demodata
 
 runscript: &runscript
