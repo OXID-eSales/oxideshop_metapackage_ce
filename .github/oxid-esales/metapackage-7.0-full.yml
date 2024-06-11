@@ -145,6 +145,9 @@ install:
     cat /var/www/vendor/oxid-esales/gdpr-optin-module/source/config.inc.php
     echo -e "\033[0;35m### source:"
     cat /var/www/source/config.inc.php
+    echo -e "\033[0;35m### vendor/shop:"
+    cat /var/www/vendor/oxid-esales/oxideshop-ce/source/config.inc.php
+
     ln -s /var/www/source/config.inc.php /var/www/vendor/oxid-esales/gdpr-optin-module/source/config.inc.php
     ${OE_CONSOLE} oe:setup:demodata
 
