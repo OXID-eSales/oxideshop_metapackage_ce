@@ -20,6 +20,7 @@ install:
             "makaira/*": "source"
           },
           "require": {
+            "composer/composer": "^2.0",
             "twig/twig": "v3.8.0"
           },
           "require-dev":{
