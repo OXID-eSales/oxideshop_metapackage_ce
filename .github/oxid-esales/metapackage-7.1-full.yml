@@ -1,8 +1,9 @@
-prepare_shop:
-  git:
-    shop_url: 'https://github.com/{{ .Github.Repository }}.git'
-    shop_ref: 'b-7.1'
+install:
+  method: 'script'
+  container:
+    options: '-e ESHOP_BOOTSTRAP_PATH=vendor/oxid-esales/oxideshop-ce/source/bootstrap.php'
   composer:
+    root_url: 'https://raw.githubusercontent.com/{{ .Github.Repository }}/b-7.1/composer.json'
     transform: |
       {
           "config": {
@@ -36,6 +37,7 @@ prepare_shop:
               "mikey179/vfsstream":"~1.6.8",
               "phpspec/prophecy-phpunit":"^v2.0.1",
               "phpunit/phpunit":"^10.4",
+              "phpstan/phpstan": "^1.9.14",
               "squizlabs/php_codesniffer":"^3.5.4"
           },
           "repositories": {
@@ -91,81 +93,261 @@ prepare_shop:
           },
           "bin":[
               "bin/oe-console"
-          ],
-          "config":{
+          ]
+      }
+  activate_modules: |
+    oegdproptin
+    oxps_usercentrics
+    makaira_oxid-connect-essential
+    ddoemedialibrary
+    ddoewysiwyg
+  custom_script: |
+    # Copy test scripts for components/modules that are not yet using them
+    SCRIPTS="codeception.sh integration.sh php-cs-report.sh phpmd-report.sh phpstan-report.sh unit.sh"
+    URL="https://raw.githubusercontent.com/{{ .Github.Repository }}/{{ .Github.RefName }}/tests/scripts"
+    mkdir -p source/tests/scripts
+    for SCRIPT in ${SCRIPTS}; do
+      echo -e "\033[0;35mDownloading ${URL}/${SCRIPT} to 'source/tests/scripts/${SCRIPT}'\033[0m"
+      curl -sSjkLo "source/tests/scripts/${SCRIPT}" "${URL}/${SCRIPT}"
+      cat "source/tests/scripts/${SCRIPT}"
+      chmod a+x "source/tests/scripts/${SCRIPT}"
+    done
+
+    for MODULE in oxid-esales/gdpr-optin-module oxid-esales/oxideshop-composer-plugin oxid-esales/oxideshop-demodata-ce \
+                  oxid-esales/oxideshop-doctrine-migration-wrapper oxid-esales/oxideshop-facts oxid-esales/twig-component \
+                  oxid-esales/oxideshop-unified-namespace-generator oxid-professional-services/usercentrics \
+                  makaira/oxid-connect-essential ddoe/wysiwyg-editor-module
+    do
+      for SCRIPT in ${SCRIPTS}; do
+        mkdir -p "source/vendor/${MODULE}/tests/scripts"
+        if [ ! -f "source/vendor/${MODULE}/tests/scripts/${SCRIPT}" ]; then
+          echo -e "\033[0;35mcopying generic ${SCRIPT} to 'source/vendor/${MODULE}/${SCRIPT}'\033[0m"
+          cp "source/tests/scripts/${SCRIPT}" "source/vendor/${MODULE}/tests/scripts/${SCRIPT}"
+        fi
+      done
+      ls -lA "source/vendor/${MODULE}/tests/scripts"
+    done
+  custom_script_container: |
+    # Activate all modules
+    if [ -f 'bin/oe-console' ]; then
+        OE_CONSOLE='bin/oe-console'
+    else
+        if [ -f 'vendor/bin/oe-console' ]; then
+        OE_CONSOLE='vendor/bin/oe-console'
+        else
+            error "Can't find oe-console in bin or vendor/bin!"
+        fi
+    fi
+    mkdir -p /var/www/vendor/oxid-esales/oxideshop-ce/vendor/oxid-esales
+    ln -s /var/www/vendor/oxid-esales/oxideshop-demodata-ce /var/www/vendor/oxid-esales/oxideshop-ce/vendor/oxid-esales/oxideshop-demodata-ce^
+    cp /var/www/vendor/oxid-esales/oxideshop-ce/source/config.inc.php /var/www/source/config.inc.php
+    cp /var/www/vendor/oxid-esales/oxideshop-ce/source/config.inc.php /var/www/vendor/oxid-esales/gdpr-optin-module/source/config.inc.php
+    ${OE_CONSOLE} oe:setup:demodata
+
+runscript: &runscript
+  matrix:
+    script: |
+      [
+        "shop:~/unit.sh",
+        "shop:~/integration.sh",
+        "shop:~/codeception.sh",
+        "facts:~/unit.sh",
+        "gdpr:phpunit",
+        "gdpr:codeception",
+        "composer_plugin:~/unit.sh",
+        "composer_plugin:~/integration.sh",
+        "ddinst:~/unit.sh",
+        "ddinst:~/integration.sh",
+        "doctrine:~/unit.sh",
+        "doctrine:~/integration.sh",
+        "ung:~/integration.sh",
+        "twig:~/unit.sh",
+        "twig:~/integration.sh",
+        "usercentrics:~/unit.sh",
+        "usercentrics:~/integration.sh",
+        "usercentrics:~/codeception.sh",
+        "makaira:~/unit.sh",
+        "makaira:~/integration.sh",
+        "ddoe_wysiwyg:~/integration.sh",
+        "ddoe_wysiwyg:~/codeception.sh"
+      ]
+  container:
+    # yamllint disable-line rule:line-length
+    options: '-e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg -e ESHOP_BOOTSTRAP_PATH=vendor/oxid-esales/oxideshop-ce/source/bootstrap.php'
+  shop: &shop
+    path: 'vendor/oxid-esales/oxideshop-ce'
+    container:
+      # yamllint disable-line rule:line-length
+      options: '-e XDEBUG_MODE=coverage -e GITHUB_EVENT_NAME={{ .Github.EventName }} -e GITHUB_BASE_REF={{ .Github.BaseRef }} -e GITHUB_REF={{ .Github.Ref }} -e GITHUB_REF_NAME={{ .Github.RefName }} -e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg'
+    composer:
+      transform: |
+        {
+          "require-dev": {
+              "oxid-esales/codeception-modules":"{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/codeception-page-objects":"{{ .Data.global.composer.dev_ref }}",
+              "codeception/codeception": "^5.0",
+              "codeception/module-asserts": "^3.0",
+              "codeception/module-db": "^3.0",
+              "codeception/module-filesystem": "^3.0",
+              "codeception/module-webdriver": "^3.1"
+          }
+        }
+  facts:
+    path: 'vendor/oxid-esales/oxideshop-facts'
+    composer:
+      early: false
+  gdpr:
+    path: 'vendor/oxid-esales/gdpr-optin-module'
+    composer:
+      transform: |
+        {
+          "require-dev": {
+              "oxid-esales/codeception-modules":"{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/codeception-page-objects":"{{ .Data.global.composer.dev_ref }}",
+              "codeception/codeception": "^5.0",
+              "codeception/module-asserts": "^3.0",
+              "codeception/module-db": "^3.0",
+              "codeception/module-filesystem": "^3.0",
+              "codeception/module-webdriver": "^3.1",
+              "phpunit/phpunit": "^9.1.1",
+              "phpstan/phpstan": "^1.9.14",
+              "squizlabs/php_codesniffer": "3.*",
+              "phpmd/phpmd": "^2.11"
+          },
+          "autoload-dev":{
+              "psr-4":{
+                "OxidEsales\\EshopCommunity\\Tests\\":"./vendor/oxid-esales/oxideshop-ce/tests",
+                "OxidEsales\\ComposerPlugin\\Tests\\": "vendor/oxid-esales/oxideshop-composer-plugin/tests/",
+                "OxidEsales\\UnifiedNameSpaceGenerator\\Tests\\": "./vendor/oxid-esales/oxideshop-unified-namespace-generator/tests",
+                "OxidEsales\\DemoDataInstaller\\Tests\\": "./vendor/oxid-esales/oxideshop-demodata-installer/tests/",
+                "OxidEsales\\DoctrineMigrationWrapper\\Tests\\": "./vendor/oxid-esales/oxideshop-doctrine-migration-wrapper/tests",
+                "OxidEsales\\Facts\\Tests\\": "./vendor/oxid-esales/oxideshop-facts/tests/",
+                "OxidEsales\\Twig\\Tests\\": "./vendor/oxid-esales/twig-component/tests",
+                "OxidEsales\\GdprOptinModule\\Tests\\": "./vendor/oxid-esales/gdpr-optin-module/tests/",
+                "OxidProfessionalServices\\Usercentrics\\Tests\\": "./vendor/oxid-professional-services/usercentrics/tests"
+              }
+          },
+          "scripts": {
+            "phpcs-report": "vendor/bin/phpcs --standard=tests/phpcs.xml --report=json --report-file=phpcs.report.json",
+            "phpstan-report": "vendor/bin/phpstan -ctests/PhpStan/phpstan.neon analyse src/ --error-format=json >phpstan.report.json",
+            "phpmd-report": "vendor/bin/phpmd src json tests/PhpMd/standard.xml --ignore-errors-on-exit --ignore-violations-on-exit --reportfile phpmd.report.json",
+            "unit": "vendor/bin/phpunit --config=tests/ --testsuite=Unit",
+            "integration": "vendor/bin/phpunit --config=tests/ --testsuite=Integration",
+            "codeception": [
+              "Composer\\Config::disableProcessTimeout",
+              "THEME_ID=apex MODULE_IDS=oegdproptin /var/www/vendor/bin/codecept run acceptance -c tests/codeception.yml --no-redirect"
+            ]
+          }
+        }
+  composer_plugin:
+    path: 'vendor/oxid-esales/oxideshop-composer-plugin'
+  dbviews:
+    path: 'vendor/oxid-esales/oxideshop-db-views-generator'
+  ddinst:
+    path: 'vendor/oxid-esales/oxideshop-demodata-ce'
+  doctrine:
+    path: 'vendor/oxid-esales/oxideshop-doctrine-migration-wrapper'
+    composer:
+      transform: |
+        {
+          "config": {
+              "github-protocols": ["https"],
               "allow-plugins":{
                 "oxid-esales/oxideshop-composer-plugin":true,
                 "oxid-esales/oxideshop-unified-namespace-generator":true
               }
           }
-      }
+        }
+  ung:
+    path: 'vendor/oxid-esales/oxideshop-unified-namespace-generator'
+  twig:
+    path: 'vendor/oxid-esales/twig-component'
+  usercentrics:
+    path: 'vendor/oxid-professional-services/usercentrics'
+    composer:
+      transform: |
+        {
+          "require-dev": {
+              "oxid-esales/oxideshop-facts":"{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/codeception-modules":"{{ .Data.global.composer.dev_ref }}",
+              "oxid-esales/codeception-page-objects":"{{ .Data.global.composer.dev_ref }}",
+              "codeception/codeception": "^5.0",
+              "codeception/module-asserts": "^3.0",
+              "codeception/module-db": "^3.0",
+              "codeception/module-filesystem": "^3.0",
+              "codeception/module-webdriver": "^3.1",
+              "phpunit/phpunit": "^9.1.1"
+          },
+          "autoload-dev":{
+              "psr-4":{
+                "OxidEsales\\EshopCommunity\\Tests\\":"./vendor/oxid-esales/oxideshop-ce/tests",
+                "OxidEsales\\ComposerPlugin\\Tests\\": "vendor/oxid-esales/oxideshop-composer-plugin/tests/",
+                "OxidEsales\\UnifiedNameSpaceGenerator\\Tests\\": "./vendor/oxid-esales/oxideshop-unified-namespace-generator/tests",
+                "OxidEsales\\DemoDataInstaller\\Tests\\": "./vendor/oxid-esales/oxideshop-demodata-installer/tests/",
+                "OxidEsales\\DoctrineMigrationWrapper\\Tests\\": "./vendor/oxid-esales/oxideshop-doctrine-migration-wrapper/tests",
+                "OxidEsales\\Facts\\Tests\\": "./vendor/oxid-esales/oxideshop-facts/tests/",
+                "OxidEsales\\Twig\\Tests\\": "./vendor/oxid-esales/twig-component/tests",
+                "OxidEsales\\GdprOptinModule\\Tests\\": "./vendor/oxid-esales/gdpr-optin-module/tests/",
+                "OxidProfessionalServices\\Usercentrics\\Tests\\": "./vendor/oxid-professional-services/usercentrics/tests"
+              }
+          }
+        }
+    custom_script: |
+      mkdir -p source/vendor/oxid-professional-services/usercentrics/source
+      cp source/source/config.inc.php source/vendor/oxid-professional-services/usercentrics/source/config.inc.php
+  makaira:
+    path: 'vendor/makaira/oxid-connect-essential'
+  ddoe_wysiwyg:
+    path: 'vendor/ddoe/wysiwyg-editor-module'
+  ddoe_wysiwyg_codeception_twig:
+    path: 'vendor/ddoe/wysiwyg-editor-module'
+    composer:
+      transform: |
+        {
+          "require":     {
+              "oxid-esales/twig-theme": "dev-b-7.0.x"
+          },
+            "require-dev": {
+                "oxid-esales/oxideshop-facts":"{{ .Data.global.composer.dev_ref }}",
+                "oxid-esales/codeception-modules":"{{ .Data.global.composer.dev_ref }}",
+                "oxid-esales/codeception-page-objects":"{{ .Data.global.composer.dev_ref }}",
+                "codeception/codeception": "^5.0",
+                "codeception/module-asserts": "^3.0",
+                "codeception/module-db": "^3.0",
+                "codeception/module-filesystem": "^3.0",
+                "codeception/module-webdriver": "^3.1",
+                "phpunit/phpunit": "^9.1.1"
+            },
+            "autoload-dev":{
+                "psr-4":{
+                  "OxidEsales\\EshopCommunity\\Tests\\":"./vendor/oxid-esales/oxideshop-ce/tests",
+                  "OxidEsales\\ComposerPlugin\\Tests\\": "vendor/oxid-esales/oxideshop-composer-plugin/tests/",
+                  "OxidEsales\\UnifiedNameSpaceGenerator\\Tests\\": "./vendor/oxid-esales/oxideshop-unified-namespace-generator/tests",
+                  "OxidEsales\\DemoDataInstaller\\Tests\\": "./vendor/oxid-esales/oxideshop-demodata-installer/tests/",
+                  "OxidEsales\\DoctrineMigrationWrapper\\Tests\\": "./vendor/oxid-esales/oxideshop-doctrine-migration-wrapper/tests",
+                  "OxidEsales\\Facts\\Tests\\": "./vendor/oxid-esales/oxideshop-facts/tests/",
+                  "OxidEsales\\Twig\\Tests\\": "./vendor/oxid-esales/twig-component/tests",
+                  "OxidEsales\\GdprOptinModule\\Tests\\": "./vendor/oxid-esales/gdpr-optin-module/tests/",
+                  "OxidProfessionalServices\\Usercentrics\\Tests\\": "./vendor/oxid-professional-services/usercentrics/tests"
+                }
+            }
+        }
 
-install_shop:
-  custom_script_container: |
-    # Activate all modules
-    OE_CONSOLE=$(find . -iname "oe-console" -type f|head -1|sed -e "s|^$(pwd)/||")
-    for MODULE in oegdproptin oxps_usercentrics makaira_oxid-connect-essential ddoemedialibrary ddoewysiwyg; do
-      ${OE_CONSOLE} oe:module:activate "${MODULE}"
-    done
-    ${OE_CONSOLE} oe:setup:demodata
-
-phpunit:
+runslim:
+  <<: *runscript
   matrix:
-    testplan: |
+    script: |
       [
-        "~/shared/oxideshop-ce.yml",
-        "~/shared/oxideshop-ce_integration.yml",
-        "~/shared/gdpr-optin-module.yml",
-        "~/shared/gdpr-optin-module_integration.yml",
-        "~/shared/oxideshop-composer-plugin.yml",
-        "~/shared/oxideshop-composer-plugin_integration.yml",
-        "~/shared/oxideshop-demodata-installer.yml",
-        "~/shared/oxideshop-demodata-installer_integration.yml",
-        "~/shared/oxideshop-doctrine-migration-wrapper.yml",
-        "~/shared/oxideshop-doctrine-migration-wrapper_integration.yml",
-        "~/shared/oxideshop-facts.yml",
-        "~/shared/oxideshop-unified-namespace-generator.yml",
-        "~/shared/twig-component.yml",
-        "~/shared/twig-component_integration.yml",
-        "~/shared/usercentrics.yml",
-        "~/shared/usercentrics_integration.yml",
-        "~/shared/makaira_oxid-connect-essential.yml",
-        "~/shared/makaira_oxid-connect-essential_integration.yml",
-        "~/shared/ddoe_wysiwyg-editor-module.yml",
-        "~/shared/ddoe_wysiwyg-editor-module_integration.yml"
+        "gdpr:phpcs-report",
+        "gdpr:phpmd-report",
+        "gdpr:phpstan-report",
+        "composer_plugin:phpcs-report",
+        "composer_plugin:phpmd-report",
+        "composer_plugin:phpstan-report",
+        "dbviews:phpcs-report",
+        "dbviews:phpmd-report",
+        "dbviews:phpstan-report"
       ]
-  max_parallel: &max_parallel 20
-
-codeception:
-  matrix:
-    testplan: |
-      [
-        "~/shared/oxideshop-ce.yml",
-        "~/shared/gdpr-optin-module.yml",
-        "~/shared/usercentrics.yml",
-        "~/shared/ddoe_wysiwyg-editor-module.yml"
-      ]
-  max_parallel: *max_parallel
-  pre_script: |
-    MODULE_OPTIONS="-e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg"
-    echo "CODECEPTION_CONTAINER_OPTIONS=-e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests ${MODULE_OPTIONS}" \
-      | tee -a "${GITHUB_ENV}"
-    echo "container_options=-e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests ${MODULE_OPTIONS}" | tee -a "${GITHUB_OUTPUT}"
-
-runtest:
-  matrix:
-    testplan: 'skip'
-  max_parallel: *max_parallel
-
-styles:
-  matrix:
-    tesptlan: |
-      [
-        "~/shared/gdpr-optin-module.yml-module",
-        "~/shared/oxideshop-composer-plugin.yml",
-        "~/shared/oxideshop-db-views-generator.yml"
-      ]
-  max_parallel: *max_parallel
 
 sonarcloud:
   matrix:
