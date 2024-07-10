@@ -168,7 +168,7 @@ runscript: &runscript
       ]
   container:
     # yamllint disable-line rule:line-length
-    options: '-e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg'
+    options: '-e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg -e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome'
   shop: &shop
     path: 'vendor/oxid-esales/oxideshop-ce'
     container:
@@ -202,7 +202,7 @@ runscript: &runscript
               "codeception/module-webdriver": "^3.1",
               "phpunit/phpunit": "^9.1.1",
               "phpstan/phpstan": "^1.9.14",
-              "squizlabs/php_codesniffer": "3.*",
+              "squizlabs/php_codesniffer":"^3.5.4",
               "phpmd/phpmd": "^2.11"
           },
           "autoload-dev":{
