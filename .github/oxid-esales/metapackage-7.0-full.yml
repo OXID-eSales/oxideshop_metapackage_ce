@@ -261,13 +261,10 @@ runscript: &runscript
   twig:
     path: 'vendor/oxid-esales/twig-component'
     custom_script_container: |
-      cd /var/www/vendor/oxid-esales/twig-component
-      echo -e "\033[0;31m###  Contents of .. ###\033[0m"
-      ls -lA ..
-      echo -e "\033[0;31m###  Contents of ../oxideshop-ce ###\033[0m"
-      ls -lA ../oxideshop-ce
-      echo -e "\033[0;31m###  Contents of ../oxideshop-ce/tests ###\033[0m"
-      ls -lA ../oxideshop-ce/tests
+      sed -e 's|BOOTSTRAP="../oxideshop-ce/tests"|BOOTSTRAP="../oxideshop-ce/tests/bootstrap,php"|' \
+          -i tests/unit.sh
+      sed -e 's|BOOTSTRAP="../oxideshop-ce/tests"|BOOTSTRAP="../oxideshop-ce/tests/bootstrap,php"|' \
+          -i tests/integration.sh
 
   usercentrics:
     path: 'vendor/oxid-professional-services/usercentrics'
