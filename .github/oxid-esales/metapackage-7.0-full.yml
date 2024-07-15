@@ -264,8 +264,10 @@ runscript: &runscript
       cd vendor/oxid-esales/twig-component
       sed -e 's|BOOTSTRAP="../oxideshop-ce/tests"|BOOTSTRAP="../oxideshop-ce/tests/bootstrap,php"|' \
           -i tests/scripts/unit.sh
+      cat tests/scripts/unit.sh
       sed -e 's|BOOTSTRAP="../oxideshop-ce/tests"|BOOTSTRAP="../oxideshop-ce/tests/bootstrap,php"|' \
           -i tests/scripts/integration.sh
+      cat tests/scripts/integration.sh
 
   usercentrics:
     path: 'vendor/oxid-professional-services/usercentrics'
