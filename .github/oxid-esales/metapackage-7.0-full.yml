@@ -196,7 +196,11 @@ runscript: &runscript
   facts:
     path: 'vendor/oxid-esales/oxideshop-facts'
     composer:
-      early: false
+      early: skip
+    custom_script_container: |
+      cd vendor/oxid-esales/oxideshop-facts
+      sed -e 's|--bootstrap.*\\|\|' -i tests/scripts/unit.sh
+      sed -e 's|tests/Unit|tests|' -i tests/scripts/unit.sh
   gdpr:
     path: 'vendor/oxid-esales/gdpr-optin-module'
     composer:
@@ -241,11 +245,16 @@ runscript: &runscript
         }
   composer_plugin:
     path: 'vendor/oxid-esales/oxideshop-composer-plugin'
+    composer:
+      early: skip
   ddinst:
     path: 'vendor/oxid-esales/oxideshop-demodata-ce'
+    composer:
+      early: skip
   doctrine:
     path: 'vendor/oxid-esales/oxideshop-doctrine-migration-wrapper'
     composer:
+      early: skip
       transform: |
         {
           "config": {
@@ -262,13 +271,10 @@ runscript: &runscript
     path: 'vendor/oxid-esales/twig-component'
     custom_script_container: |
       cd vendor/oxid-esales/twig-component
-      sed -e 's|BOOTSTRAP="../oxideshop-ce/tests"|BOOTSTRAP="../oxideshop-ce/tests/bootstrap,php"|' \
+      sed -e 's|BOOTSTRAP="../oxideshop-ce/tests"|BOOTSTRAP="../oxideshop-ce/tests/bootstrap.php"|' \
           -i tests/scripts/unit.sh
-      cat tests/scripts/unit.sh
-      sed -e 's|BOOTSTRAP="../oxideshop-ce/tests"|BOOTSTRAP="../oxideshop-ce/tests/bootstrap,php"|' \
+      sed -e 's|BOOTSTRAP="../oxideshop-ce/tests"|BOOTSTRAP="../oxideshop-ce/tests/bootstrap.php"|' \
           -i tests/scripts/integration.sh
-      cat tests/scripts/integration.sh
-
   usercentrics:
     path: 'vendor/oxid-professional-services/usercentrics'
     composer:
