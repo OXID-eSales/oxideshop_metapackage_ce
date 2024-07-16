@@ -125,6 +125,10 @@ install:
           echo -e "\033[0;35mcopying generic ${SCRIPT} to 'source/vendor/${MODULE}/${SCRIPT}'\033[0m"
           cp "source/tests/scripts/${SCRIPT}" "source/vendor/${MODULE}/tests/scripts/${SCRIPT}"
         fi
+        if [ ! -f "source/vendor/${MODULE}/tests/phpunit.xml" ]; then
+          echo -e "\033[0;35mcopying generic phpunit9.xml to 'source/vendor/${MODULE}/tests/phpunit.xml'\033[0m"
+          cp "source/tests/phpunit9.xml" "source/vendor/${MODULE}/tests/phpunit.xml"
+        fi
       done
       ls -lA "source/vendor/${MODULE}/tests/scripts"
     done
@@ -199,8 +203,8 @@ runscript: &runscript
       early: skip
     custom_script_container: |
       cd vendor/oxid-esales/oxideshop-facts
-      sed -e 's|--bootstrap.*\\|\|' -i tests/scripts/unit.sh
       sed -e 's|tests/Unit|tests|' -i tests/scripts/unit.sh
+      cat tests/scripts/unit.sh
   gdpr:
     path: 'vendor/oxid-esales/gdpr-optin-module'
     composer:
@@ -251,6 +255,11 @@ runscript: &runscript
     path: 'vendor/oxid-esales/oxideshop-demodata-ce'
     composer:
       early: skip
+    custom_script_container: |
+      cd vendor/oxid-esales/oxideshop-facts
+      sed -e 's|tests/Unit|Unit|' -i tests/scripts/unit.sh
+      sed -e 's|tests/Integration|Integration|' -i tests/scripts/integration.sh
+      cat tests/scripts/unit.sh
   doctrine:
     path: 'vendor/oxid-esales/oxideshop-doctrine-migration-wrapper'
     composer:
