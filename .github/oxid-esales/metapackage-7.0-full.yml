@@ -110,8 +110,14 @@ install:
     for SCRIPT in ${SCRIPTS}; do
       echo -e "\033[0;35mDownloading ${URL}/${SCRIPT} to 'source/tests/scripts/${SCRIPT}'\033[0m"
       curl -sSjkLo "source/tests/scripts/${SCRIPT}" "${URL}/${SCRIPT}"
-      cat "source/tests/scripts/${SCRIPT}"
+      # cat "source/tests/scripts/${SCRIPT}"
       chmod a+x "source/tests/scripts/${SCRIPT}"
+    done
+    URL="https://raw.githubusercontent.com/{{ .Github.Repository }}/{{ .Github.RefName }}/tests"
+    for XML in phpunit9.xml phpunit10.xml; do
+      echo -e "\033[0;35mDownloading ${URL}/${XML} to 'source/tests/${XML}'\033[0m"
+      curl -sSjkLo "source/tests/${XML}" "${URL}/${XML}"
+      # cat "source/tests/${XML}"
     done
 
     for MODULE in oxid-esales/gdpr-optin-module oxid-esales/oxideshop-composer-plugin oxid-esales/oxideshop-demodata-ce \
