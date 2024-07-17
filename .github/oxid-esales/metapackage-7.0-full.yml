@@ -262,7 +262,7 @@ runscript: &runscript
     composer:
       early: skip
     custom_script_container: |
-      cd vendor/oxid-esales/oxideshop-facts
+      cd vendor/oxid-esales/oxideshop-demodata-ce
       sed -e 's|tests/Unit|tests/Unit/Framework/Module/Demodata|' -i tests/scripts/unit.sh
       sed -e 's|tests/Integration|tests/Integration/Framework/Module/Demodata|' -i tests/scripts/integration.sh
       cat tests/scripts/unit.sh
@@ -326,7 +326,7 @@ runscript: &runscript
       mkdir -p source/vendor/oxid-professional-services/usercentrics/source
       cp source/source/config.inc.php source/vendor/oxid-professional-services/usercentrics/source/config.inc.php
     custom_script_container: |
-      cd vendor/oxid-esales/twig-component
+      cd vendor/oxid-professional-services/usercentrics
       sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
           -i tests/scripts/unit.sh
       sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
@@ -334,7 +334,7 @@ runscript: &runscript
   makaira:
     path: 'vendor/makaira/oxid-connect-essential'
     custom_script_container: |
-      cd vendor/oxid-esales/twig-component
+      cd vendor/makaira/oxid-connect-essential
       sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
           -i tests/scripts/unit.sh
       sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
@@ -342,7 +342,7 @@ runscript: &runscript
   ddoe_wysiwyg:
     path: 'vendor/ddoe/wysiwyg-editor-module'
     custom_script_container: |
-      cd vendor/oxid-esales/twig-component
+      cd vendor/ddoe/wysiwyg-editor-module
       sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
           -i tests/scripts/unit.sh
       sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
@@ -382,7 +382,7 @@ runscript: &runscript
             }
         }
     custom_script_container: |
-      cd vendor/oxid-esales/twig-component
+      cd vendor/ddoe/wysiwyg-editor-module
       sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
           -i tests/scripts/unit.sh
       sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
