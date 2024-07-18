@@ -1,12 +1,14 @@
 #!/bin/bash
 set -e
-SUITE="Acceptance"
-if [ ! -d "tests/Codeception/${SUITE}" ]; then
-  SUITE="acceptance"
-  if [ ! -d "tests/Codeception/${SUITE}" ]; then
-    echo -e "\033[0;31mCould not find suite Acceptance or acceptance in tests/Codeception\033[0m"
-    exit 1
-  fi
+if [ -z "${SUITE}" ]; then
+    SUITE="Acceptance"
+    if [ ! -d "tests/Codeception/${SUITE}" ]; then
+        SUITE="acceptance"
+        if [ ! -d "tests/Codeception/${SUITE}" ]; then
+            echo -e "\033[0;31mCould not find suite Acceptance or acceptance in tests/Codeception\033[0m"
+            exit 1
+        fi
+    fi
 fi
 
 CODECEPT="vendor/bin/codecept"
