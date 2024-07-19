@@ -219,6 +219,7 @@ runscript: &runscript
     path: 'vendor/oxid-esales/oxideshop-unified-namespace-generator'
   twig:
     path: 'vendor/oxid-esales/twig-component'
+    workdir: 'vendor/oxid-esales/twig-component'
     # custom_script_container: |
     #   cd vendor/oxid-esales/twig-component
     #   sed -e 's|BOOTSTRAP="../oxideshop-ce/tests"|BOOTSTRAP="../oxideshop-ce/tests/bootstrap.php"|' \
@@ -229,7 +230,7 @@ runscript: &runscript
     path: 'vendor/oxid-professional-services/usercentrics'
     container:
       # yamllint disable-line rule:line-length
-      options: '-e SUITE=acceptance -e XDEBUG_MODE=coverage -e GITHUB_EVENT_NAME={{ .Github.EventName }} -e GITHUB_BASE_REF={{ .Github.BaseRef }} -e GITHUB_REF={{ .Github.Ref }} -e GITHUB_REF_NAME={{ .Github.RefName }} -e THEME_ID=apex -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg -e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome'
+      options: '-e XDEBUG_MODE=coverage -e GITHUB_EVENT_NAME={{ .Github.EventName }} -e GITHUB_BASE_REF={{ .Github.BaseRef }} -e GITHUB_REF={{ .Github.Ref }} -e GITHUB_REF_NAME={{ .Github.RefName }} -e THEME_ID=apex -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg -e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome'
     # custom_script: |
     #   mkdir -p source/vendor/oxid-professional-services/usercentrics/source
     #   cp source/source/config.inc.php source/vendor/oxid-professional-services/usercentrics/source/config.inc.php
@@ -259,7 +260,7 @@ runscript: &runscript
     path: 'vendor/ddoe/wysiwyg-editor-module'
     container:
       # yamllint disable-line rule:line-length
-      options: '-e SUITE=acceptance -e XDEBUG_MODE=coverage -e GITHUB_EVENT_NAME={{ .Github.EventName }} -e GITHUB_BASE_REF={{ .Github.BaseRef }} -e GITHUB_REF={{ .Github.Ref }} -e GITHUB_REF_NAME={{ .Github.RefName }} -e THEME_ID=apex -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg -e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome'
+      options: '-e XDEBUG_MODE=coverage -e GITHUB_EVENT_NAME={{ .Github.EventName }} -e GITHUB_BASE_REF={{ .Github.BaseRef }} -e GITHUB_REF={{ .Github.Ref }} -e GITHUB_REF_NAME={{ .Github.RefName }} -e THEME_ID=apex -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg -e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome'
     composer:
       transform: |
         {
