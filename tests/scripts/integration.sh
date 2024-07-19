@@ -28,6 +28,7 @@ if [ ! -f "${BOOTSTRAP}" ]; then
     if [ ! -f "${BOOTSTRAP}" ]; then
         echo -e "\033[0;31mCould not find bootstrap.php in /var/www/tests or /var/www/oxid-esales/oxideshop-ce/tests\033[0m"
         find /var/www -iname "bootstrap.php"
+        cat "$0"
         exit 1
     fi
 fi
