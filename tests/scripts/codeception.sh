@@ -14,9 +14,9 @@ fi
 
 if [ -z "${SUITE}" ]; then
     SUITE="Acceptance"
-    if [ ! -d "tests/Codeception/${SUITE}" ]; then
+    if [ ! -d "${ABSOLUTE_PATH}/tests/Codeception/${SUITE}" ]; then
         SUITE="acceptance"
-        if [ ! -d "tests/Codeception/${SUITE}" ]; then
+        if [ ! -d "${ABSOLUTE_PATH}/tests/Codeception/${SUITE}" ]; then
             echo -e "\033[0;31mCould not find suite Acceptance or acceptance in tests/Codeception\033[0m"
             exit 1
         fi

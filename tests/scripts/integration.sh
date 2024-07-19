@@ -1,9 +1,7 @@
 #!/bin/bash
 set -e
+set -x
 export XDEBUG_MODE=coverage
-if [ -z "${SUITE}" ]; then
-    SUITE=Integration
-fi
 
 if [ -z "${ABSOLUTE_PATH}" ]; then
     ABSOLUTE_PATH="$(pwd)"
@@ -13,6 +11,10 @@ fi
 
 [[ ! -d "${ABSOLUTE_PATH}/tests/Output" ]] && mkdir "${ABSOLUTE_PATH}/tests/Output"
 [[ ! -d "${ABSOLUTE_PATH}/tests/Reports" ]] && mkdir "${ABSOLUTE_PATH}/tests/Reports"
+
+if [ -z "${SUITE}" ]; then
+    SUITE="${ABSOLUTE_PATH}/tests/Integration"
+fi
 
 PHPUNIT="vendor/bin/phpunit"
 if [ ! -f "${PHPUNIT}" ]; then

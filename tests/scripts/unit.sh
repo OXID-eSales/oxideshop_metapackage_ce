@@ -1,10 +1,7 @@
 #!/bin/bash
 set -e
+set -x
 export XDEBUG_MODE=coverage
-
-if [ -z "${SUITE}" ]; then
-    SUITE=Unit
-fi
 
 if [ -z "${ABSOLUTE_PATH}" ]; then
     ABSOLUTE_PATH="$(pwd)"
@@ -14,6 +11,10 @@ fi
 
 [[ ! -d "${ABSOLUTE_PATH}/tests/Output" ]] && mkdir "${ABSOLUTE_PATH}/tests/Output"
 [[ ! -d "${ABSOLUTE_PATH}/tests/Reports" ]] && mkdir "${ABSOLUTE_PATH}/tests/Reports"
+
+if [ -z "${SUITE}" ]; then
+    SUITE="${ABSOLUTE_PATH}/tests/Unit"
+fi
 
 PHPUNIT="vendor/bin/phpunit"
 if [ ! -f "${PHPUNIT}" ]; then
@@ -34,7 +35,7 @@ if [ ! -f "${BOOTSTRAP}" ]; then
 fi
 "${PHPUNIT}" \
     -c "${ABSOLUTE_PATH}/tests/phpunit.xml" \
-    --bootstrap "${ABSOLUTE_PATH}/${BOOTSTRAP}" \
+    --bootstrap "${BOOTSTRAP}" \
     --coverage-clover="${ABSOLUTE_PATH}/tests/Reports/coverage_phpunit_unit.xml" \
     --log-junit "${ABSOLUTE_PATH}/tests/Reports/phpunit-unit.xml" \
     "${SUITE}" 2>&1 \
