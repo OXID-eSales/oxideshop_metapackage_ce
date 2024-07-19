@@ -1,5 +1,13 @@
 #!/bin/bash
 set -x
+if [ -z "${ABSOLUTE_PATH}" ]; then
+    ABSOLUTE_PATH="$(pwd)"
+else
+    ABSOLUTE_PATH="/var/www/${ABSOLUTE_PATH}"
+fi
+
+[[ ! -d "${ABSOLUTE_PATH}/tests/Reports" ]] && mkdir "${ABSOLUTE_PATH}/tests/Reports"
+
 if [ -x vendor/bin/phpstan ]; then
   PHPSTAN=vendor/bin/phpstan
 else
@@ -10,5 +18,5 @@ else
         exit 1
     fi
 fi
-"${PHPSTAN}" -ctests/PhpStan/phpstan.neon analyse src/ \
-  --error-format=json >phpstan.report.json
+"${PHPSTAN}" -c"${ABSOLUTE_PATH}/tests/PhpStan/phpstan.neon" analyse src/ \
+  --error-format=json >"${ABSOLUTE_PATH}/tests/Reports/phpstan.report.json"

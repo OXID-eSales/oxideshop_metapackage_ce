@@ -1,5 +1,13 @@
 #!/bin/bash
 set -x
+if [ -z "${ABSOLUTE_PATH}" ]; then
+    ABSOLUTE_PATH="$(pwd)"
+else
+    ABSOLUTE_PATH="/var/www/${ABSOLUTE_PATH}"
+fi
+
+[[ ! -d "${ABSOLUTE_PATH}/tests/Reports" ]] && mkdir "${ABSOLUTE_PATH}/tests/Reports"
+
 if [ -x vendor/bin/phpmd ]; then
   PHPMD=vendor/bin/phpmd
 else
@@ -10,7 +18,7 @@ else
         exit 1
     fi
 fi
-"${PHPMD}" src json tests/PhpMd/standard.xml \
+"${PHPMD}" src json "${ABSOLUTE_PATH}/tests/PhpMd/standard.xml" \
   --ignore-errors-on-exit \
   --ignore-violations-on-exit \
-  --reportfile phpmd.report.json
+  --reportfile "${ABSOLUTE_PATH}/testsReports/phpmd.report.json"

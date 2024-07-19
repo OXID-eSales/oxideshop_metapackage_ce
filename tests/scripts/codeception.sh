@@ -1,5 +1,17 @@
 #!/bin/bash
 set -e
+if [ -z "${ABSOLUTE_PATH}" ]; then
+    ABSOLUTE_PATH="$(pwd)"
+else
+    ABSOLUTE_PATH="/var/www/${ABSOLUTE_PATH}"
+fi
+
+[[ ! -d "${ABSOLUTE_PATH}/tests/Output" ]] && mkdir "${ABSOLUTE_PATH}/tests/Output"
+
+if [ -z "${SELENIUM_SERVER_HOST}" ]; then
+    SELENIUM_SERVER_HOST='selenium'
+fi
+
 if [ -z "${SUITE}" ]; then
     SUITE="Acceptance"
     if [ ! -d "tests/Codeception/${SUITE}" ]; then
@@ -31,22 +43,23 @@ set -e
 curl -sSjkL "http://${SELENIUM_SERVER_HOST}:4444/wd/hub/status"
 
 "${CODECEPT}" build \
-    -c tests/codeception.yml
+    -c "${ABSOLUTE_PATH}/tests/codeception.yml"
 RESULT=$?
 echo "Codecept build exited with error code ${RESULT}"
-"${CODECEPT}" run ${SUITE} \
-    -c tests/codeception.yml \
-    --ext DotReporter 2>&1 \
-| tee "tests/Output/codeception_${SUITE}.txt"
+"${CODECEPT}" run "${SUITE}" \
+    -c "${ABSOLUTE_PATH}/tests/codeception.yml" \
+    --ext DotReporter \
+    -o "paths: output: ${ABSOLUTE_PATH}/tests/Output" 2>&1 \
+| tee "${ABSOLUTE_PATH}/tests/Output/codeception_${SUITE}.txt"
 RESULT=$?
 echo "Codecept run exited with error code ${RESULT}"
-[[ ! -d tests/Output ]] && mkdir tests/Output
-find tests/Codeception/_output -type f -exec cp \{\} tests/Output/ \;
-if [ ! -s "tests/Output/codeception_${SUITE}.txt" ]; then
+
+find "${ABSOLUTE_PATH}/tests/Codeception/_output" -type f -exec cp \{\} "${ABSOLUTE_PATH}/tests/Output/" \;
+if [ ! -s "${ABSOLUTE_PATH}/tests/Output/codeception_${SUITE}.txt" ]; then
     echo -e "\033[0;31mLog file is empty! Seems like no tests have been run!\033[0m"
     RESULT=1
 fi
-cat >failure_pattern.tmp <<EOF
+cat >"${ABSOLUTE_PATH}/codeception_failure_pattern.tmp" <<EOF
 fail
 \\.\\=\\=
 Warning
@@ -65,16 +78,16 @@ Failed: [1-9][0-9]*
 Deprecations: [1-9][0-9]*
 Risky: [1-9][0-9]*
 EOF
-sed -e 's|(.*)\r|$1|' -i failure_pattern.tmp
+sed -e 's|(.*)\r|$1|' -i "${ABSOLUTE_PATH}/codeception_failure_pattern.tmp"
 while read -r LINE ; do
     if [ -n "${LINE}" ]; then
-        if grep -q -E "${LINE}" "tests/Output/codeception_${SUITE}.txt"; then
+        if grep -q -E "${LINE}" "${ABSOLUTE_PATH}/tests/Output/codeception_${SUITE}.txt"; then
             echo -e "\033[0;31m codecept ${SUITE} failed matching pattern ${LINE}\033[0m"
-            grep -E "${LINE}" "tests/Output/codeception_${SUITE}.txt"
+            grep -E "${LINE}" "${ABSOLUTE_PATH}/tests/Output/codeception_${SUITE}.txt"
             RESULT=1
         else
             echo -e "\033[0;32m codeception passed matching pattern ${LINE}"
         fi
     fi
-done <failure_pattern.tmp
+done <"${ABSOLUTE_PATH}/codeception_failure_pattern.tmp"
 exit ${RESULT}
