@@ -2,7 +2,7 @@
 set -e
 export XDEBUG_MODE=coverage
 if [ -z "${SUITE}" ]; then
-    SUITE=tests/Integration
+    SUITE=Integration
 fi
 
 if [ -z "${ABSOLUTE_PATH}" ]; then

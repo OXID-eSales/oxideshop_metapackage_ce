@@ -3,7 +3,7 @@ set -e
 export XDEBUG_MODE=coverage
 
 if [ -z "${SUITE}" ]; then
-    SUITE=tests/Unit
+    SUITE=Unit
 fi
 
 if [ -z "${ABSOLUTE_PATH}" ]; then
@@ -33,7 +33,7 @@ if [ ! -f "${BOOTSTRAP}" ]; then
     fi
 fi
 "${PHPUNIT}" \
-    -c tests/phpunit.xml \
+    -c "${ABSOLUTE_PATH}/tests/phpunit.xml" \
     --bootstrap "${ABSOLUTE_PATH}/${BOOTSTRAP}" \
     --coverage-clover="${ABSOLUTE_PATH}/tests/Reports/coverage_phpunit_unit.xml" \
     --log-junit "${ABSOLUTE_PATH}/tests/Reports/phpunit-unit.xml" \
