@@ -164,7 +164,7 @@ runscript: &runscript
         "twig:~/integration.sh",
         "usercentrics:~/unit.sh",
         "usercentrics:~/integration.sh",
-        "usercentrics:~/codeception.sh",
+        "usercentrics:~/codeception.sh acceptance",
         "makaira:~/unit.sh",
         "makaira:~/integration.sh",
         "ddoe_wysiwyg_codeception_twig:~/codeception.sh"
@@ -190,6 +190,10 @@ runscript: &runscript
       options: '-e SUITE=vendor/oxid-esales/oxideshop-facts/tests -e XDEBUG_MODE=coverage -e GITHUB_EVENT_NAME={{ .Github.EventName }} -e GITHUB_BASE_REF={{ .Github.BaseRef }} -e GITHUB_REF={{ .Github.Ref }} -e GITHUB_REF_NAME={{ .Github.RefName }} -e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg -e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome'
   gdpr:
     path: 'vendor/oxid-esales/gdpr-optin-module'
+    custom_script: |
+     perl -pi \
+          -e 's#views/twig#views/apex#g;' \
+          source/vendor/oxid-esales/gdpr-optin-module/tests/Codeception/acceptance.suite.yml
   composer_plugin:
     path: 'vendor/oxid-esales/oxideshop-composer-plugin'
     composer:
