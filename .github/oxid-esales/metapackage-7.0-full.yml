@@ -167,7 +167,7 @@ runscript: &runscript
         "usercentrics:~/codeception.sh acceptance",
         "makaira:~/unit.sh",
         "makaira:~/integration.sh",
-        "ddoe_wysiwyg_codeception_twig:~/codeception.sh"
+        "ddoe_wysiwyg_codeception_twig:~/codeception.sh acceptance"
       ]
   container:
     # yamllint disable-line rule:line-length
@@ -212,12 +212,8 @@ runscript: &runscript
   twig:
     path: 'vendor/oxid-esales/twig-component'
     workdir: 'vendor/oxid-esales/twig-component'
-    # custom_script_container: |
-    #   cd vendor/oxid-esales/twig-component
-    #   sed -e 's|BOOTSTRAP="../oxideshop-ce/tests"|BOOTSTRAP="../oxideshop-ce/tests/bootstrap.php"|' \
-    #       -i tests/scripts/unit.sh
-    #   sed -e 's|BOOTSTRAP="../oxideshop-ce/tests"|BOOTSTRAP="../oxideshop-ce/tests/bootstrap.php"|' \
-    #       -i tests/scripts/integration.sh
+    custom_script: |
+      cp -a .github/oxid-esales/defaults/scripts/*.sh source/vendor/oxid-esales/twig-component/tests/scripts/
   usercentrics:
     path: 'vendor/oxid-professional-services/usercentrics'
     container:
