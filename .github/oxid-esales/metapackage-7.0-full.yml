@@ -110,22 +110,20 @@ install:
                   oxid-esales/oxideshop-unified-namespace-generator oxid-professional-services/usercentrics \
                   makaira/oxid-connect-essential ddoe/wysiwyg-editor-module
     do
-      for SCRIPT in ${SCRIPTS}; do
-        mkdir -p "source/vendor/${MODULE}/tests/scripts"
-        for FILE in $(find .github/oxid-esales/defaults/scripts -iname "*.sh" -o -iname "*.txt"); do
-          BASE=$(basename "${FILE}")
-          if [ -f "source/vendor/${MODULE}/tests/scripts/${BASE}" ]; then
-            echo "File 'source/vendor/${MODULE}/tests/scripts/${BASE}' already exists, skipping copy"
-          else
-            echo "Copying default file '${FILE}' to 'source/vendor/${MODULE}/tests/scripts/'"
-            cp -a "${FILE}" "source/vendor/${MODULE}/tests/scripts/${BASE}"
-          fi
-        done
-        if [ ! -f "source/vendor/${MODULE}/tests/phpunit.xml" ]; then
-          echo -e "\033[0;35mcopying generic phpunit9.xml to 'source/vendor/${MODULE}/tests/phpunit.xml'\033[0m"
-          cp ".github/oxid-esales/defaults/scripts/phpunit9.xml" "source/vendor/${MODULE}/tests/phpunit.xml"
+      mkdir -p "source/vendor/${MODULE}/tests/scripts"
+      for FILE in $(find .github/oxid-esales/defaults/scripts -iname "*.sh" -o -iname "*.txt"); do
+        BASE=$(basename "${FILE}")
+        if [ -f "source/vendor/${MODULE}/tests/scripts/${BASE}" ]; then
+          echo "File 'source/vendor/${MODULE}/tests/scripts/${BASE}' already exists, skipping copy"
+        else
+          echo "Copying default file '${FILE}' to 'source/vendor/${MODULE}/tests/scripts/'"
+          cp -a "${FILE}" "source/vendor/${MODULE}/tests/scripts/${BASE}"
         fi
       done
+      if [ ! -f "source/vendor/${MODULE}/tests/phpunit.xml" ]; then
+        echo -e "\033[0;35mcopying generic phpunit9.xml to 'source/vendor/${MODULE}/tests/phpunit.xml'\033[0m"
+        cp ".github/oxid-esales/defaults/scripts/phpunit9.xml" "source/vendor/${MODULE}/tests/phpunit.xml"
+      fi
     done
   custom_script_container: |
     # Activate all modules
