@@ -105,21 +105,6 @@ install:
     ddoewysiwyg
   custom_script: |
     # Copy test scripts for components/modules that are not yet using them
-    SCRIPTS="codeception.sh integration.sh php-cs-report.sh phpmd-report.sh phpstan-report.sh unit.sh"
-    URL="https://raw.githubusercontent.com/{{ .Github.Repository }}/{{ .Github.RefName }}/tests/scripts"
-    mkdir -p source/tests/scripts
-    for SCRIPT in ${SCRIPTS}; do
-      echo -e "\033[0;35mDownloading ${URL}/${SCRIPT} to 'source/tests/scripts/${SCRIPT}'\033[0m"
-      curl -sSjkLo "source/tests/scripts/${SCRIPT}" "${URL}/${SCRIPT}"
-      # cat "source/tests/scripts/${SCRIPT}"
-      chmod a+x "source/tests/scripts/${SCRIPT}"
-    done
-    URL="https://raw.githubusercontent.com/{{ .Github.Repository }}/{{ .Github.RefName }}/tests"
-    for XML in phpunit9.xml phpunit10.xml; do
-      echo -e "\033[0;35mDownloading ${URL}/${XML} to 'source/tests/${XML}'\033[0m"
-      curl -sSjkLo "source/tests/${XML}" "${URL}/${XML}"
-      # cat "source/tests/${XML}"
-    done
     for MODULE in oxid-esales/gdpr-optin-module oxid-esales/oxideshop-composer-plugin oxid-esales/oxideshop-demodata-installer \
                   oxid-esales/oxideshop-doctrine-migration-wrapper oxid-esales/oxideshop-facts oxid-esales/twig-component \
                   oxid-esales/oxideshop-unified-namespace-generator oxid-professional-services/usercentrics \
@@ -127,13 +112,18 @@ install:
     do
       for SCRIPT in ${SCRIPTS}; do
         mkdir -p "source/vendor/${MODULE}/tests/scripts"
-        if [ ! -f "source/vendor/${MODULE}/tests/scripts/${SCRIPT}" ]; then
-          echo -e "\033[0;35mcopying generic ${SCRIPT} to 'source/vendor/${MODULE}/${SCRIPT}'\033[0m"
-          cp "source/tests/scripts/${SCRIPT}" "source/vendor/${MODULE}/tests/scripts/${SCRIPT}"
-        fi
+        for FILE in $(find .github/oxid-esales/defaults/scripts -iname "*.sh" -o -iname "*.txt"); do
+          BASE=$(basename "${FILE}")
+          if [ -f "source/vendor/${MODULE}/tests/scripts/${BASE}" ]; then
+            echo "File 'source/vendor/${MODULE}/tests/scripts/${BASE}' already exists, skipping copy"
+          else
+            echo "Copying default file '${FILE}' to 'source/vendor/${MODULE}/tests/scripts/'"
+            cp -a "${FILE}" "source/vendor/${MODULE}/tests/scripts/${BASE}"
+          fi
+        done
         if [ ! -f "source/vendor/${MODULE}/tests/phpunit.xml" ]; then
           echo -e "\033[0;35mcopying generic phpunit9.xml to 'source/vendor/${MODULE}/tests/phpunit.xml'\033[0m"
-          cp "source/tests/phpunit9.xml" "source/vendor/${MODULE}/tests/phpunit.xml"
+          cp ".github/oxid-esales/defaults/scripts/phpunit9.xml" "source/vendor/${MODULE}/tests/phpunit.xml"
         fi
       done
     done
