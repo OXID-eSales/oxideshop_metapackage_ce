@@ -20,7 +20,6 @@ install:
             "makaira/*": "source"
           },
           "require": {
-            "oxid-esales/developer-tools": "{{ .Data.global.composer.dev_ref }}",
             "composer/composer": "^2.0",
             "twig/twig": "v3.8.0"
           },
@@ -136,10 +135,6 @@ install:
             error "Can't find oe-console in bin or vendor/bin!"
         fi
     fi
-    # mkdir -p /var/www/vendor/oxid-esales/oxideshop-ce/vendor/oxid-esales
-    # ln -s /var/www/vendor/oxid-esales/oxideshop-demodata-ce /var/www/vendor/oxid-esales/oxideshop-ce/vendor/oxid-esales/oxideshop-demodata-ce^
-    # cp /var/www/vendor/oxid-esales/oxideshop-ce/source/config.inc.php /var/www/source/config.inc.php
-    # cp /var/www/vendor/oxid-esales/oxideshop-ce/source/config.inc.php /var/www/vendor/oxid-esales/gdpr-optin-module/source/config.inc.php
     ${OE_CONSOLE} oe:setup:demodata
 
 runscript: &runscript
@@ -175,7 +170,7 @@ runscript: &runscript
   composer:
     early: skip
   workdir: ''
-  shop: &shop
+  shop:
     path: 'vendor/oxid-esales/oxideshop-ce'
     workdir: 'vendor/oxid-esales/oxideshop-ce'
     container:
@@ -183,8 +178,6 @@ runscript: &runscript
       options: '-e XDEBUG_MODE=coverage -e GITHUB_EVENT_NAME={{ .Github.EventName }} -e GITHUB_BASE_REF={{ .Github.BaseRef }} -e GITHUB_REF={{ .Github.Ref }} -e GITHUB_REF_NAME={{ .Github.RefName }} -e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg -e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome'
   facts:
     path: 'vendor/oxid-esales/oxideshop-facts'
-    composer:
-      early: skip
     container:
       # yamllint disable-line rule:line-length
       options: '-e SUITE=vendor/oxid-esales/oxideshop-facts/tests -e XDEBUG_MODE=coverage -e GITHUB_EVENT_NAME={{ .Github.EventName }} -e GITHUB_BASE_REF={{ .Github.BaseRef }} -e GITHUB_REF={{ .Github.Ref }} -e GITHUB_REF_NAME={{ .Github.RefName }} -e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg -e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome'
@@ -196,15 +189,8 @@ runscript: &runscript
           source/vendor/oxid-esales/gdpr-optin-module/tests/Codeception/acceptance.suite.yml
   composer_plugin:
     path: 'vendor/oxid-esales/oxideshop-composer-plugin'
-    composer:
-      early: skip
   ddinst:
     path: 'vendor/oxid-esales/oxideshop-demodata-installer'
-    # custom_script_container: |
-    #   cd vendor/oxid-esales/oxideshop-demodata-installer
-    #   sed -e 's|tests/Unit|tests/Unit/Framework/Module/Demodata|' -i tests/scripts/unit.sh
-    #   sed -e 's|tests/Integration|tests/Integration/Framework/Module/Demodata|' -i tests/scripts/integration.sh
-    #   cat tests/scripts/unit.sh
   doctrine:
     path: 'vendor/oxid-esales/oxideshop-doctrine-migration-wrapper'
   ung:
@@ -212,48 +198,28 @@ runscript: &runscript
   twig:
     path: 'vendor/oxid-esales/twig-component'
     workdir: '~'
-    #custom_script: |
-    #  cp -a .github/oxid-esales/defaults/scripts/*.sh source/vendor/oxid-esales/twig-component/tests/scripts/
+    custom_script: |
+      cp -a .github/oxid-esales/defaults/scripts/*.sh source/vendor/oxid-esales/twig-component/tests/scripts/
   usercentrics:
     path: 'vendor/oxid-professional-services/usercentrics'
     container:
       # yamllint disable-line rule:line-length
       options: '-e XDEBUG_MODE=coverage -e GITHUB_EVENT_NAME={{ .Github.EventName }} -e GITHUB_BASE_REF={{ .Github.BaseRef }} -e GITHUB_REF={{ .Github.Ref }} -e GITHUB_REF_NAME={{ .Github.RefName }} -e THEME_ID=apex -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg -e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome'
-    # custom_script: |
-    #   mkdir -p source/vendor/oxid-professional-services/usercentrics/source
-    #   cp source/source/config.inc.php source/vendor/oxid-professional-services/usercentrics/source/config.inc.php
-    # custom_script_container: |
-    #   cd vendor/oxid-professional-services/usercentrics
-    #   sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
-    #       -i tests/scripts/unit.sh
-    #   sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
-    #       -i tests/scripts/integration.sh
   makaira:
     path: 'vendor/makaira/oxid-connect-essential'
-    # custom_script_container: |
-    #   cd vendor/makaira/oxid-connect-essential
-    #   sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
-    #       -i tests/scripts/unit.sh
-    #   sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
-    #       -i tests/scripts/integration.sh
   ddoe_wysiwyg:
     path: 'vendor/ddoe/wysiwyg-editor-module'
-    # custom_script_container: |
-    #   cd vendor/ddoe/wysiwyg-editor-module
-    #   sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
-    #       -i tests/scripts/unit.sh
-    #   sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
-    #       -i tests/scripts/integration.sh
   ddoe_wysiwyg_codeception_twig:
     path: 'vendor/ddoe/wysiwyg-editor-module'
     container:
       # yamllint disable-line rule:line-length
       options: '-e XDEBUG_MODE=coverage -e GITHUB_EVENT_NAME={{ .Github.EventName }} -e GITHUB_BASE_REF={{ .Github.BaseRef }} -e GITHUB_REF={{ .Github.Ref }} -e GITHUB_REF_NAME={{ .Github.RefName }} -e THEME_ID=apex -e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg -e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome'
     composer:
+      early: false
       transform: |
         {
             "require":     {
-                "oxid-esales/twig-theme": "dev-b-7.0.x"
+                "oxid-esales/twig-theme": "{{ .Data.global.composer.dev_ref }}"
             },
               "require-dev": {
                   "oxid-esales/oxideshop-facts":"{{ .Data.global.composer.dev_ref }}",
@@ -280,12 +246,6 @@ runscript: &runscript
                   }
               }
           }
-    # custom_script_container: |
-    #   cd vendor/ddoe/wysiwyg-editor-module
-    #   sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
-    #       -i tests/scripts/unit.sh
-    #   sed -e 's|BOOTSTRAP="../oxideshop-ce/tests|BOOTSTRAP="../../oxid-esales/oxideshop-ce/tests|' \
-    #       -i tests/scripts/integration.sh
 
 runslim:
   <<: *runscript
