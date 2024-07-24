@@ -145,8 +145,9 @@ runscript: &runscript
         "shop:~/integration.sh",
         "shop:~/codeception.sh",
         "facts:~/unit.sh",
-        "gdpr:phpunit",
-        "gdpr:codeception",
+        "gdpr:~/unit.sh",
+        "gdpr:~/integration.sh",
+        "gdpr:~/codeception.sh",
         "composer_plugin:~/unit.sh",
         "composer_plugin:~/integration.sh",
         "ddinst:~/unit.sh",
@@ -251,15 +252,15 @@ runslim:
   matrix:
     script: |
       [
-        "gdpr:phpcs-report",
-        "gdpr:phpmd-report",
-        "gdpr:phpstan-report",
-        "composer_plugin:phpcs-report",
-        "composer_plugin:phpmd-report",
-        "composer_plugin:phpstan-report",
-        "dbviews:phpcs-report",
-        "dbviews:phpmd-report",
-        "dbviews:phpstan-report"
+        "gdpr:~/php-cs-report.sh",
+        "gdpr:~/php-cs-report.sh",
+        "gdpr:~/phpstan-report.sh",
+        "composer_plugin:~/php-cs-report.sh",
+        "composer_plugin:~/phpmd-report.sh",
+        "composer_plugin:~/phpstan-report.sh",
+        "dbviews:~/php-cs-report.sh",
+        "dbviews:~/phpmd-report.sh",
+        "dbviews:~/phpstan-report.sh"
       ]
 
 sonarcloud:
