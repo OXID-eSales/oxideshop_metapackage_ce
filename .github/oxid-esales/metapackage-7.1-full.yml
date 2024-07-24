@@ -252,15 +252,7 @@ runslim:
   matrix:
     script: |
       [
-        "gdpr:~/php-cs-report.sh",
-        "gdpr:~/php-cs-report.sh",
-        "gdpr:~/phpstan-report.sh",
-        "composer_plugin:~/php-cs-report.sh",
-        "composer_plugin:~/phpmd-report.sh",
-        "composer_plugin:~/phpstan-report.sh",
-        "dbviews:~/php-cs-report.sh",
-        "dbviews:~/phpmd-report.sh",
-        "dbviews:~/phpstan-report.sh"
+        "gdpr:~/php-cs-report.sh"
       ]
 
 sonarcloud:

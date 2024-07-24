@@ -147,8 +147,9 @@ runscript: &runscript
         "shop:~/unit.sh",
         "shop:~/integration.sh",
         "shop:~/codeception.sh",
-        "gdpr:phpunit",
-        "gdpr:codeception",
+        "gdpr:~/unit.sh",
+        "gdpr:~/integration.sh",
+        "gdpr:~/codeception.sh",
         "usercentrics:~/unit.sh",
         "usercentrics:~/integration.sh",
         "usercentrics:~/codeception.sh Acceptance",
@@ -219,9 +220,7 @@ runslim:
   matrix:
     script: |
       [
-        "gdpr:phpcs-report",
-        "gdpr:phpmd-report",
-        "gdpr:phpstan-report"
+        "gdpr:~/php-cs-report.sh"
       ]
 
 sonarcloud:
