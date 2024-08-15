@@ -127,6 +127,7 @@ install:
     cp /var/www/vendor/oxid-esales/oxideshop-ce/source/config.inc.php /var/www/source/config.inc.php
     cp /var/www/vendor/oxid-esales/oxideshop-ce/source/config.inc.php /var/www/vendor/oxid-esales/gdpr-optin-module/source/config.inc.php
     ${OE_CONSOLE} oe:setup:demodata
+
 runscript: &runscript
   matrix:
     script: |

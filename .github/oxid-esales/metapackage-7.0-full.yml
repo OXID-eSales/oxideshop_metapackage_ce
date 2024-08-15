@@ -163,10 +163,7 @@ runscript: &runscript
         "usercentrics:~/unit.sh",
         "usercentrics:~/integration.sh",
         "usercentrics:~/codeception.sh acceptance",
-        "ddoe_wysiwyg_codeception_twig:~/codeception.sh acceptance",
-        "medialibrary:~/unit.sh",
-        "medialibrary:~/integration.sh",
-        "medialibrary:~/codeception.sh"
+        "ddoe_wysiwyg_codeception_twig:~/codeception.sh acceptance"
       ]
   container:
     # yamllint disable-line rule:line-length
