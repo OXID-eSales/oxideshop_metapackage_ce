@@ -147,8 +147,8 @@ runscript: &runscript
         "medialibrary:~/unit.sh",
         "medialibrary:~/integration.sh",
         "medialibrary:~/codeception.sh",
-        "eyable:tests-integration",
-        "eyable:tests-codeception"
+        "eyable:~/integration.sh",
+        "eyable:~/codeception.sh"
       ]
   container:
     # {{ $module_ids := "oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg,ddoemedialibrary,eyeable_assist" }}
