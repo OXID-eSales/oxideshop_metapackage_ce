@@ -160,9 +160,10 @@ runscript: &runscript
         "usercentrics:~/unit.sh",
         "usercentrics:~/integration.sh",
         "usercentrics:~/codeception.sh acceptance",
-        "makaira:~/unit.sh",
-        "makaira:~/integration.sh",
-        "ddoe_wysiwyg_codeception_twig:~/codeception.sh acceptance"
+        "ddoe_wysiwyg_codeception_twig:~/codeception.sh acceptance",
+        "medialibrary:tests-unit",
+        "medialibrary:tests-integration",
+        "medialibrary:tests-codeception"
       ]
   container:
     # yamllint disable-line rule:line-length
@@ -246,7 +247,8 @@ runscript: &runscript
                   }
               }
           }
-
+  medialibrary:
+    path: 'vendor/oxid-esales/media-library-module'
 runslim:
   <<: *runscript
   matrix:

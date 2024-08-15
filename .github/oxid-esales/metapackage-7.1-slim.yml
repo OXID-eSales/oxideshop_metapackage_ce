@@ -102,6 +102,7 @@ install:
     makaira_oxid-connect-essential
     ddoemedialibrary
     ddoewysiwyg
+    eyeable_assist
   custom_script: |
     # Copy test scripts for components/modules that are not yet using them
     for MODULE in oxid-esales/gdpr-optin-module oxid-esales/oxideshop-composer-plugin oxid-esales/oxideshop-demodata-installer \
@@ -153,10 +154,13 @@ runscript: &runscript
         "usercentrics:~/unit.sh",
         "usercentrics:~/integration.sh",
         "usercentrics:~/codeception.sh Acceptance",
-        "makaira:~/unit.sh",
-        "makaira:~/integration.sh",
         "ddoe_wysiwyg:~/integration.sh",
-        "ddoe_wysiwyg:~/codeception.sh Acceptance"
+        "ddoe_wysiwyg:~/codeception.sh Acceptance",
+        "medialibrary:tests-unit",
+        "medialibrary:tests-integration",
+        "medialibrary:tests-codeception",
+        "eyable:tests-integration",
+        "eyable:tests-codeception"
       ]
   container:
     # yamllint disable-line rule:line-length
@@ -214,6 +218,10 @@ runscript: &runscript
                 }
             }
         }
+  medialibrary:
+    path: 'vendor/oxid-esales/media-library-module'
+  eyable:
+    path: 'vendor/eyeable/eye-able-oxid'
 
 runslim:
   <<: *runscript
