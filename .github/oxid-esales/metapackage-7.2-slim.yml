@@ -146,7 +146,7 @@ runscript: &runscript
         "ddoe_wysiwyg:~/codeception.sh Acceptance",
         "medialibrary:~/unit.sh",
         "medialibrary:~/integration.sh",
-        "medialibrary:~/codeception.sh"
+        "medialibrary:~/codeception.sh",
         "eyable:tests-integration",
         "eyable:tests-codeception"
       ]
