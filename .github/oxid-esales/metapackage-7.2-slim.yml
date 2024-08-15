@@ -1,5 +1,13 @@
 install:
   method: 'script'
+  copy_script_targets: |
+    oxid-esales/oxideshop-ce/tests/scripts
+    oxid-esales/gdpr-optin-module/tests/scripts
+    oxid-professional-services/usercentrics/tests/scripts
+    makaira/oxid-connect-essential/tests/scripts
+    ddoe/wysiwyg-editor-module/tests/scripts
+    oxid-esales/media-library-module/tests/scripts
+    eyeable/eye-able-oxid/tests/scripts
   container:
     options: '-e ESHOP_BOOTSTRAP_PATH=vendor/oxid-esales/oxideshop-ce/source/bootstrap.php'
   composer:
@@ -108,25 +116,6 @@ install:
     ddoemedialibrary
     ddoewysiwyg
     eyeable_assist
-  custom_script: |
-    # Copy test scripts for components/modules that are not yet using them
-    for MODULE in oxid-esales/gdpr-optin-module oxid-professional-services/usercentrics makaira/oxid-connect-essential
-    do
-      mkdir -p "source/vendor/${MODULE}/tests/scripts"
-      for FILE in $(find .github/oxid-esales/defaults/scripts -iname "*.sh" -o -iname "*.txt"); do
-        BASE=$(basename "${FILE}")
-        if [ -f "source/vendor/${MODULE}/tests/scripts/${BASE}" ]; then
-          echo "File 'source/vendor/${MODULE}/tests/scripts/${BASE}' already exists, skipping copy"
-        else
-          echo "Copying default file '${FILE}' to 'source/vendor/${MODULE}/tests/scripts/'"
-          cp -a "${FILE}" "source/vendor/${MODULE}/tests/scripts/${BASE}"
-        fi
-      done
-      if [ ! -f "source/vendor/${MODULE}/tests/phpunit.xml" ]; then
-        echo -e "\033[0;35mcopying generic phpunit10.xml to 'source/vendor/${MODULE}/tests/phpunit.xml'\033[0m"
-        cp ".github/oxid-esales/defaults/scripts/phpunit10.xml" "source/vendor/${MODULE}/tests/phpunit.xml"
-      fi
-    done
   custom_script_container: |
     # Activate all modules
     if [ -f 'bin/oe-console' ]; then
@@ -155,9 +144,9 @@ runscript: &runscript
         "usercentrics:~/codeception.sh Acceptance",
         "ddoe_wysiwyg:~/integration.sh",
         "ddoe_wysiwyg:~/codeception.sh Acceptance",
-        "medialibrary:tests-unit",
-        "medialibrary:tests-integration",
-        "medialibrary:tests-codeception",
+        "medialibrary:~/unit.sh",
+        "medialibrary:~/integration.sh",
+        "medialibrary:~/codeception.sh"
         "eyable:tests-integration",
         "eyable:tests-codeception"
       ]
