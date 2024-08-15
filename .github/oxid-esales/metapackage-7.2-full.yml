@@ -1,19 +1,19 @@
 install:
   method: 'script'
   copy_script_targets: |
-    oxid-esales/oxideshop-ce/tests/scripts
-    oxid-esales/gdpr-optin-module/tests/scripts
-    oxid-professional-services/usercentrics/tests/scripts
-    makaira/oxid-connect-essential/tests/scripts
-    ddoe/wysiwyg-editor-module/tests/scripts
-    oxid-esales/media-library-module/tests/scripts
-    eyeable/eye-able-oxid/tests/scripts/tests/scripts
-    oxid-esales/oxideshop-composer-plugin/tests/scripts
-    oxid-esales/oxideshop-demodata-installer/tests/scripts
-    oxid-esales/oxideshop-doctrine-migration-wrapper/tests/scripts
-    oxid-esales/oxideshop-facts/tests/scripts
-    oxid-esales/twig-component/tests/scripts
-    oxid-esales/oxideshop-unified-namespace-generator/tests/scripts
+    vendor/oxid-esales/oxideshop-ce/tests/scripts
+    vendor/oxid-esales/gdpr-optin-module/tests/scripts
+    vendor/oxid-professional-services/usercentrics/tests/scripts
+    vendor/makaira/oxid-connect-essential/tests/scripts
+    vendor/ddoe/wysiwyg-editor-module/tests/scripts
+    vendor/oxid-esales/media-library-module/tests/scripts
+    vendor/eyeable/eye-able-oxid/tests/scripts/tests/scripts
+    vendor/oxid-esales/oxideshop-composer-plugin/tests/scripts
+    vendor/oxid-esales/oxideshop-demodata-installer/tests/scripts
+    vendor/oxid-esales/oxideshop-doctrine-migration-wrapper/tests/scripts
+    vendor/oxid-esales/oxideshop-facts/tests/scripts
+    vendor/oxid-esales/twig-component/tests/scripts
+    vendor/oxid-esales/oxideshop-unified-namespace-generator/tests/scripts
   container:
     options: '-e ESHOP_BOOTSTRAP_PATH=vendor/oxid-esales/oxideshop-ce/source/bootstrap.php'
   composer:
