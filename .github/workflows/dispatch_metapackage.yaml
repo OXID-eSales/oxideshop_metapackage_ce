@@ -38,7 +38,7 @@ on:
         type: string
         required: true
         description: 'Custom testplan'
-        default: '~/defaults/php8.2_mysql5.7_only.yml,~/metapackage-8.0-full.yml'
+        default: '~/defaults/php8.2_mysql5.7_only.yaml,~/metapackage-8.0-full.yaml'
       runs_on:
         type: string
         description: 'JSON string/array describing the runner'
@@ -63,24 +63,24 @@ jobs:
           # shellcheck disable=SC2088
           case "${{ inputs.limit }}" in
             "no") LIMIT='';;
-            "PHP8.0/MySQL5.7") LIMIT='~/defaults/php8.0_mysql5.7_only.yml,' ;;
-            "PHP8.0/MySQL8.0") LIMIT='~/defaults/php8.0_mysql8.0_only.yml,' ;;
-            "PHP8.1/MySQL5.7") LIMIT='~/defaults/php8.1_mysql5.7_only.yml,' ;;
-            "PHP8.1/MySQL8.0") LIMIT='~/defaults/php8.1_mysql8.0_only.yml,' ;;
-            "PHP8.2/MySQL5.7") LIMIT='~/defaults/php8.2_mysql5.7_only.yml,' ;;
-            "PHP8.2/MySQL8.0") LIMIT='~/defaults/php8.2_mysql8.0_only.yml,' ;;
-            "PHP8.3/MySQL5.7") LIMIT='~/defaults/php8.3_mysql5.7_only.yml,' ;;
-            "PHP8.3/MySQL8.0") LIMIT='~/defaults/php8.3_mysql8.0_only.yml,' ;;
+            "PHP8.0/MySQL5.7") LIMIT='~/defaults/php8.0_mysql5.7_only.yaml,' ;;
+            "PHP8.0/MySQL8.0") LIMIT='~/defaults/php8.0_mysql8.0_only.yaml,' ;;
+            "PHP8.1/MySQL5.7") LIMIT='~/defaults/php8.1_mysql5.7_only.yaml,' ;;
+            "PHP8.1/MySQL8.0") LIMIT='~/defaults/php8.1_mysql8.0_only.yaml,' ;;
+            "PHP8.2/MySQL5.7") LIMIT='~/defaults/php8.2_mysql5.7_only.yaml,' ;;
+            "PHP8.2/MySQL8.0") LIMIT='~/defaults/php8.2_mysql8.0_only.yaml,' ;;
+            "PHP8.3/MySQL5.7") LIMIT='~/defaults/php8.3_mysql5.7_only.yaml,' ;;
+            "PHP8.3/MySQL8.0") LIMIT='~/defaults/php8.3_mysql8.0_only.yaml,' ;;
             *) echo "Illegal choice, fix the workflow"
               exit 1
               ;;
           esac
           # shellcheck disable=SC2088
           case '${{ inputs.version}}' in
-            "7.0") PRE="~/defaults/7.0.x.yml," ;;
-            "7.1") PRE="~/defaults/7.1.x.yml," ;;
-            "7.2") PRE="~/defaults/7.2.x.yml," ;;
-            "8.0") PRE="~/defaults/8.0.x.yml," ;;
+            "7.0") PRE="~/defaults/7.0.x.yaml," ;;
+            "7.1") PRE="~/defaults/7.1.x.yaml," ;;
+            "7.2") PRE="~/defaults/7.2.x.yaml," ;;
+            "8.0") PRE="~/defaults/8.0.x.yaml," ;;
             custom) TESTPLAN="${{ inputs.custom_testplan }}" ;;
             *)
               echo "Illegal choice, fix the workflow"
@@ -88,10 +88,8 @@ jobs:
               ;;
           esac
           if [ -z "${TESTPLAN}" ]; then
-            # BASEURL="https://raw.githubusercontent.com"
-            # TESTPLAN="${PRE}${LIMIT}${BASEURL}/${{github.repository}}/${BRANCH}/composer.json,~/${SCENARIO}/metapackage.yml"
             # shellcheck disable=SC2088
-            TESTPLAN="${PRE}${LIMIT}~/metapackage-${{inputs.version}}-${{inputs.scenario}}.yml"
+            TESTPLAN="${PRE}${LIMIT}~/metapackage-${{inputs.version}}-${{inputs.scenario}}.yaml"
           fi
           echo "testplan=${TESTPLAN}" | tee -a "${GITHUB_OUTPUT}"
 
