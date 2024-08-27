@@ -11,7 +11,7 @@
   "minimum-stability": "dev",
   "require": {
     "oxid-esales/apex-theme": "dev-b-8.0.x",
-    "oxid-esales/gdpr-optin-module": "v3.0.1",
+    "oxid-esales/gdpr-optin-module": "dev-b-8.0.x",
     "oxid-esales/oxideshop-composer-plugin": "dev-b-8.0.x",
     "oxid-esales/oxideshop-db-views-generator": "dev-b-8.0.x",
     "oxid-esales/oxideshop-demodata-ce": "dev-b-8.0.x",
