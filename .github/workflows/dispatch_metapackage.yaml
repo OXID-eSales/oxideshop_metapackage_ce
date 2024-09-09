@@ -133,6 +133,7 @@ jobs:
 
   gather_data:
     needs: ['build_testplan', 'stable', 'dev']
+    if: always()
     runs-on: ${{ fromJson(inputs.runs_on) }}
     outputs:
       mysql: ${{ steps.mysql.outputs.result }}
@@ -220,6 +221,7 @@ jobs:
 
   consolidate:
     needs: 'gather_data'
+    if: always()
     runs-on: ${{ fromJson(inputs.runs_on) }}
     strategy:
       matrix:
@@ -247,6 +249,7 @@ jobs:
 
   process_data:
     needs: ['gather_data', 'consolidate']
+    if: always()
     runs-on: ${{ fromJson(inputs.runs_on) }}
     steps:
       - name: 'Download artifacts'
