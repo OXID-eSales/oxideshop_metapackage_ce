@@ -114,22 +114,16 @@ runscript: &runscript
   container:
     # {{ $selenium_options := "-e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome" }}
     # {{ $module_ids := "-e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg,ddoemedialibrary,eyeable_assist" }}
-    # yamllint disable-line rule:line-length
-    options: '-e THEME_ID=apex -e ESHOP_BOOTSTRAP_PATH=vendor/oxid-esales/oxideshop-ce/source/bootstrap.php {{ $selenium_options }} {{ $module_ids }}'
+    options: '-e XDEBUG_MODE=coverage -e THEME_ID=apex {{ $selenium_options }} {{ $module_ids }}'
   composer:
     early: skip
   workdir: ''
   shop:
     path: 'vendor/oxid-esales/oxideshop-ce'
-    container:
-      # yamllint disable-line rule:line-length
-      options: '-e XDEBUG_MODE=coverage -e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests {{ $selenium_options }} {{ $module_ids }}'
   gdpr:
     path: 'vendor/oxid-esales/gdpr-optin-module'
   usercentrics:
     path: 'vendor/oxid-professional-services/usercentrics'
-    container:
-      options: '-e XDEBUG_MODE=coverage -e THEME_ID=apex {{ $selenium_options }} {{ $module_ids }}'
   makaira:
     path: 'vendor/makaira/oxid-connect-essential'
   ddoe_wysiwyg:
