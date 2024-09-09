@@ -167,8 +167,6 @@ jobs:
             mv workflow/composer.json '.github/oxid-esales/'
           fi
           mv defaults/.github/oxid-esales/* '.github/oxid-esales/defaults/'
-          # ToDo: The next line can be removed in v5 when the transition to yaml is finished
-          cp '.github/oxid-esales/_custom.yaml' '.github/oxid-esales/_custom.yml'
           if [ '${{ github.event_name }}' == 'pull_request' ]; then
             REF=$(echo '${{ github.ref_name }}'|sed -e 's|/refs/heads/||')
             # This is the git ref name
