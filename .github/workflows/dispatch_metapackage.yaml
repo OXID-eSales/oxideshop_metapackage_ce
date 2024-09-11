@@ -200,9 +200,11 @@ jobs:
           script: |
             m = JSON.parse('${{ steps.ltp.outputs.install_matrix_mysql}}');
             if (typeof m === 'string' || m instanceof String)
+              console.log(`only MySQL version ${m}`)
               return m;
             if (m.constructor !== Array)
               core.setFailed('Could not get mysql matrix');
+            console.log(`first MySQL version ${m[0]}`)
             return m[0];
           result-encoding: string
 
@@ -213,9 +215,11 @@ jobs:
           script: |
             p = JSON.parse('${{ steps.ltp.outputs.install_matrix_php}}');
             if (typeof p === 'string' || p instanceof String)
+              console.log(`php string ${p}`);
               return [p];
             if (p.constructor !== Array)
               core.setFailed('Could not get php matrix');
+            console.log(`php array ${p}`);
             return p;
 
   consolidate:
@@ -230,7 +234,7 @@ jobs:
       - name: 'Download artifacts'
         uses: actions/download-artifact@v4
         with:
-          pattern: 'install-*.${{matrix.branch}}.x-PHP${{matrix.php}}-MYSQL${{needs.gather_data.outputs.mysql}}'
+          pattern: 'install-*.${{matrix.branch}}*-PHP${{matrix.php}}-MYSQL${{needs.gather_data.outputs.mysql}}'
           path: data
 
       - name: 'Rename files'
