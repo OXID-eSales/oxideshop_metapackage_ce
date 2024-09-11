@@ -7,7 +7,7 @@ install:
     vendor/makaira/oxid-connect-essential/tests/scripts
     vendor/ddoe/wysiwyg-editor-module/tests/scripts
     vendor/oxid-esales/media-library-module/tests/scripts
-    vendor/eyeable/eye-able-oxid/tests/scripts/tests/scripts
+    vendor/eyeable/eye-able-oxid/tests/scripts
   container:
     options: '-e ESHOP_BOOTSTRAP_PATH=vendor/oxid-esales/oxideshop-ce/source/bootstrap.php'
   composer:
@@ -108,8 +108,8 @@ runscript: &runscript
         "medialibrary:~/unit.sh",
         "medialibrary:~/integration.sh",
         "medialibrary:~/codeception.sh",
-        "eyable:~/integration.sh",
-        "eyable:~/codeception.sh"
+        "eyeable:~/integration.sh",
+        "eyeable:~/codeception.sh"
       ]
   container:
     # {{ $selenium_options := "-e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome" }}
@@ -166,7 +166,7 @@ runscript: &runscript
         }
   medialibrary:
     path: 'vendor/oxid-esales/media-library-module'
-  eyable:
+  eyeable:
     path: 'vendor/eyeable/eye-able-oxid'
 
 sonarcloud:

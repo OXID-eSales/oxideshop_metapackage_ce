@@ -166,7 +166,7 @@ jobs:
           if [ -f workflow/composer.json ]; then
             mv workflow/composer.json '.github/oxid-esales/'
           fi
-          mv defaults/.github/oxid-esales/* '.github/oxid-esales/defaults/'
+          mv defaults/.github/oxid-esales/defaults/* '.github/oxid-esales/defaults/'
           if [ '${{ github.event_name }}' == 'pull_request' ]; then
             REF=$(echo '${{ github.ref_name }}'|sed -e 's|/refs/heads/||')
             # This is the git ref name

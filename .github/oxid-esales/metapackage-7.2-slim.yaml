@@ -77,6 +77,7 @@ install:
     makaira_oxid-connect-essential
     ddoemedialibrary
     ddoewysiwyg
+    eyeable_assist
   custom_script_container: |
     # Activate all modules
     if [ -f 'bin/oe-console' ]; then
@@ -107,7 +108,9 @@ runscript: &runscript
         "ddoe_wysiwyg:~/codeception.sh Acceptance",
         "medialibrary:~/unit.sh",
         "medialibrary:~/integration.sh",
-        "medialibrary:~/codeception.sh"
+        "medialibrary:~/codeception.sh",
+        "eyeable:~/integration.sh",
+        "eyeable:~/codeception.sh"
       ]
   container:
     # {{ $selenium_options := "-e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome" }}
@@ -130,7 +133,7 @@ runscript: &runscript
     path: 'vendor/ddoe/wysiwyg-editor-module'
   medialibrary:
     path: 'vendor/oxid-esales/media-library-module'
-  eyable:
+  eyeable:
     path: 'vendor/eyeable/eye-able-oxid'
 
 sonarcloud:
