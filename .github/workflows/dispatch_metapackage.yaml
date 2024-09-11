@@ -192,19 +192,18 @@ jobs:
           loglevel: info
           logfile: load_testplan_init.log
           yaml: generated_testplan.yaml
-
-      - name: Get First MySQL
-        uses: actions/github-script@v7
+          
+      - uses: actions/github-script@v7
         id: mysql
         with:
           script: |
             m = JSON.parse('${{ steps.ltp.outputs.install_matrix_mysql}}');
             if (typeof m === 'string' || m instanceof String)
-              console.log(`only MySQL version ${m}`)
+              core.info(`only MySQL version ${m}`)
               return m;
             if (m.constructor !== Array)
               core.setFailed('Could not get mysql matrix');
-            console.log(`first MySQL version ${m[0]}`)
+            core.info(`first MySQL version ${m[0]}`)
             return m[0];
           result-encoding: string
 
@@ -215,12 +214,12 @@ jobs:
           script: |
             p = JSON.parse('${{ steps.ltp.outputs.install_matrix_php}}');
             if (typeof p === 'string' || p instanceof String)
-              console.log(`php string ${p}`);
-              return [p];
+              core.info(`php string ${p}`);
+              return JSON.stringify([p]);
             if (p.constructor !== Array)
               core.setFailed('Could not get php matrix');
-            console.log(`php array ${p}`);
-            return p;
+            core.info(`php array ${p}`);
+            return JSON.stringify(p);
 
   consolidate:
     needs: 'gather_data'
@@ -270,63 +269,63 @@ jobs:
             var branches = ['b-7.0', 'b-7.1', 'b-7.2', 'b-8.0'];
             var php_versions = JSON.parse('${{ fromJSON(needs.gather_data.outputs.php) }}');
             if (php_versions.constructor !== Array)
-              console.log(`Could not get PHP matrix from ${php_versions}`);
+              core.info(`Could not get PHP matrix from ${php_versions}`);
               core.setFailed(`Could not get PHP matrix from ${php_versions}`);
             for (var b = 0; b < branches.length; b++) {
               var branch = branches[b];
               composer_file=`./${branch}-${php_versions[0]}-composer.json`;
-              console.log(`Load ${composer_file}`);
+              core.info(`Load ${composer_file}`);
               var composer_json = JSON.parse(fs.readFileSync(composer_file, 'utf8'));
               var all = {};
               var require = {};
               for (r in composer_json["require"]) {
                 require[r]=''
-                console.log(`Add ${r} to mandatory list`);
+                core.info(`Add ${r} to mandatory list`);
               }
 
               for (var p = 0; p < php_versions.length; p++) {
                 lock_file=`./${branch}-${php_versions[p]}-composer.lock`
-                console.log(`Load ${lock_file}`);
+                core.info(`Load ${lock_file}`);
                 var composer_lock = JSON.parse(fs.readFileSync(lock_file, 'utf8'));
                 for (l = 0; l < composer_lock.packages.length; l++) {
                   package=composer_lock.packages[l].name
                   version=composer_lock.packages[l].version
-                  console.log(`Process ${package}:${version} from composer.lock ...`);
+                  core.info(`Process ${package}:${version} from composer.lock ...`);
                   if (! (package in all)) {
                     all[package]=version
-                    console.log("... added to all");
+                    core.info("... added to all");
                   } else {
                     a=all[package];
                     i=a.indexOf(version);
-                    console.log(`... already exists with value ${a} (${i})`);
+                    core.info(`... already exists with value ${a} (${i})`);
                     if (a.indexOf(version) === -1) {
                       all[package] = `${all[package]} || ${version}`;
-                      console.log("... extended previous definition in all");
+                      core.info("... extended previous definition in all");
                     }
                   }
                   if (package in require) {
                     if (require[package] == '') {
-                      console.log("... set value in mandatory list");
+                      core.info("... set value in mandatory list");
                       require[package] = version;
                     } else {
                       if (require[package].indexOf(version) === -1) {
                         require[package] = `${require[package]} || ${version}`;
-                        console.log("... extended previous definition in mandatory list");
+                        core.info("... extended previous definition in mandatory list");
                       }
                     }
                   } else {
-                    console.log("... ignore for mandatory list");
+                    core.info("... ignore for mandatory list");
                   }
                 }
               }
               core.summary.addSeparator()
               core.summary.addHeading(`Pinned versions for ${branch}`, '1')
               core.summary.addCodeBlock(JSON.stringify(all), 'json')
-              console.log(`Mandatory list for ${branch}`);
-              console.log("========================");
-              console.log(require);
-              console.log("========================");
-              console.log(`Full list  for ${branch}`);
-              console.log("========================");
-              console.log(all);
+              core.info(`Mandatory list for ${branch}`);
+              core.info("========================");
+              core.info(require);
+              core.info("========================");
+              core.info(`Full list  for ${branch}`);
+              core.info("========================");
+              core.info(all);
             }
