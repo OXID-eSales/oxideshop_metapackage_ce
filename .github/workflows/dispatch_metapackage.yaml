@@ -151,7 +151,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           sparse-checkout: |
-            '.github/oxid-esales'
+            .github/oxid-esales
             composer.json
           path: workflow
 
