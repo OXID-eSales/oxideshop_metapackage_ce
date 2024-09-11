@@ -160,7 +160,7 @@ jobs:
         run: |
           mkdir -p '.github/oxid-esales/defaults'
           if [ -d workflow/.github/oxid-esales ]; then
-            mv workflow/.github/oxid-esales/* '.github/oxid-esales/'
+            mv -v workflow/.github/oxid-esales/* '.github/oxid-esales/'
             /bin/rm -r 'workflow/.github/oxid-esales'
           fi
           if [ -f workflow/composer.json ]; then
@@ -179,6 +179,7 @@ jobs:
           # ToDo: Remove the ,.github/oxid-esales/defaults/_rename.yaml when releasing v5
           DEFAULTS=".github/oxid-esales/defaults/defaults_light.yaml"
           echo "testplan=${DEFAULTS},${TESTPLAN},.github/oxid-esales/defaults/_rename.yaml" >>"${GITHUB_OUTPUT}"
+          find .
 
       - name: 'Load Testplan'
         id: ltp
