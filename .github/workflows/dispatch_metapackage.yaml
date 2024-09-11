@@ -217,7 +217,7 @@ jobs:
       - name: 'Download artifacts'
         uses: actions/download-artifact@v4
         with:
-          pattern: 'install-*.${{matrix.branch}}*-PHP${{matrix.php}}-MYSQL${{needs.gather_data.outputs.mysql}}'
+          pattern: 'install-*${{matrix.branch}}*-PHP${{matrix.php}}-MYSQL${{needs.gather_data.outputs.mysql}}'
           path: data
 
       - name: 'Rename files'
