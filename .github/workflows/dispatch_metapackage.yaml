@@ -179,7 +179,6 @@ jobs:
           # ToDo: Remove the ,.github/oxid-esales/defaults/_rename.yaml when releasing v5
           DEFAULTS=".github/oxid-esales/defaults/defaults_light.yaml"
           echo "testplan=${DEFAULTS},${TESTPLAN},.github/oxid-esales/defaults/_rename.yaml" >>"${GITHUB_OUTPUT}"
-          find .
 
       - name: 'Load Testplan'
         id: ltp
@@ -212,16 +211,17 @@ jobs:
     strategy:
       matrix:
         php: ${{ fromJSON(needs.gather_data.outputs.php) }}
-        branch: ['b-7.0', 'b-7.1', 'b-7.2', 'b-8.0']
+        branch: ['b-${{inputs.version}}']
     steps:
       - name: 'Download artifacts'
         uses: actions/download-artifact@v4
         with:
-          pattern: 'install-*${{matrix.branch}}*-PHP${{matrix.php}}-MYSQL${{needs.gather_data.outputs.mysql}}'
+          pattern: 'install-*b-*-PHP${{matrix.php}}-MYSQL${{needs.gather_data.outputs.mysql}}'
           path: data
 
       - name: 'Rename files'
         run: |
+          find data
           mv data/source/composer.lock ${{matrix.branch}}-${{matrix.php}}-composer.lock
           mv data/source/composer.json.bak ${{matrix.branch}}-${{matrix.php}}-composer.json
 
