@@ -224,7 +224,7 @@ jobs:
 
   consolidate:
     needs: 'gather_data'
-    # if: always()
+    if: always()
     runs-on: ${{ fromJson(inputs.runs_on) }}
     strategy:
       matrix:
@@ -252,7 +252,7 @@ jobs:
 
   process_data:
     needs: ['gather_data', 'consolidate']
-    # if: always()
+    if: always()
     runs-on: ${{ fromJson(inputs.runs_on) }}
     steps:
       - name: 'Download artifacts'
