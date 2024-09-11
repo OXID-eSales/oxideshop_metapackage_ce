@@ -194,33 +194,16 @@ jobs:
           yaml: generated_testplan.yaml
           
       - name: Get MySQL version
-        uses: actions/github-script@v7
         id: mysql
-        with:
-          script: |
-            m = JSON.parse('${{ steps.ltp.outputs.install_matrix_mysql}}');
-            if (typeof m === 'string' || m instanceof String)
-              core.info(`only MySQL version ${m}`)
-              return m;
-            if (m.constructor !== Array)
-              core.setFailed('Could not get mysql matrix');
-            core.info(`first MySQL version ${m[0]}`)
-            return m[0];
-          result-encoding: string
+        run: |
+          MYSQL=$(echo "${install_matrix_mysql}"|sed -e 's#,.*##' -e 's#["|\s|[]##g')
+          echo "result=${MYSQL}" >>"${GITHUB_OUTPUT}"
 
       - name: Get PHP array
-        uses: actions/github-script@v7
         id: php
-        with:
-          script: |
-            p = JSON.parse('${{ steps.ltp.outputs.install_matrix_php}}');
-            if (typeof p === 'string' || p instanceof String)
-              core.info(`php string ${p}`);
-              return [p];
-            if (p.constructor !== Array)
-              core.setFailed('Could not get php matrix');
-            core.info(`php array ${p}`);
-            return p;
+        run: |
+          # get PHP array
+          echo "result=${install_matrix_php}" >>"${GITHUB_OUTPUT}"
 
   consolidate:
     needs: 'gather_data'
