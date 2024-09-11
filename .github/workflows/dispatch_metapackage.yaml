@@ -193,7 +193,8 @@ jobs:
           logfile: load_testplan_init.log
           yaml: generated_testplan.yaml
           
-      - uses: actions/github-script@v7
+      - name: Get MySQL version
+        uses: actions/github-script@v7
         id: mysql
         with:
           script: |
@@ -215,15 +216,15 @@ jobs:
             p = JSON.parse('${{ steps.ltp.outputs.install_matrix_php}}');
             if (typeof p === 'string' || p instanceof String)
               core.info(`php string ${p}`);
-              return JSON.stringify([p]);
+              return [p];
             if (p.constructor !== Array)
               core.setFailed('Could not get php matrix');
             core.info(`php array ${p}`);
-            return JSON.stringify(p);
+            return p;
 
   consolidate:
     needs: 'gather_data'
-    if: always()
+    # if: always()
     runs-on: ${{ fromJson(inputs.runs_on) }}
     strategy:
       matrix:
@@ -251,7 +252,7 @@ jobs:
 
   process_data:
     needs: ['gather_data', 'consolidate']
-    if: always()
+    # if: always()
     runs-on: ${{ fromJson(inputs.runs_on) }}
     steps:
       - name: 'Download artifacts'
