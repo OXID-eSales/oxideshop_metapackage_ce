@@ -242,7 +242,8 @@ jobs:
       - name: 'Download artifacts'
         uses: actions/download-artifact@v4
         with:
-          pattern: 'composer.*'
+          pattern: 'composer-*'
+          merge-multiple: true
           path: files
 
       - name: Process files
