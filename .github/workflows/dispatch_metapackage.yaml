@@ -253,7 +253,7 @@ jobs:
             var fs = require('fs');
             var branches = ['b-7.0', 'b-7.1', 'b-7.2', 'b-8.0'];
             var php_versions = JSON.parse('${{ needs.gather_data.outputs.php }}');
-            if (php_versions.constructor !== Array)
+            if (Array.isArray(php_versions))
               core.info(`Could not get PHP matrix from ${php_versions} ${php_versions.constructor}`);
               core.setFailed(`Could not get PHP matrix from ${php_versions} ${php_versions.constructor}`);
             for (var b = 0; b < branches.length; b++) {
