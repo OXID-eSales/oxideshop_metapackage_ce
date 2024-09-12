@@ -246,6 +246,9 @@ jobs:
           merge-multiple: true
           path: files
 
+      - name: Show files
+        run: find .
+
       - name: Process files
         uses: actions/github-script@v7
         id: mysql
