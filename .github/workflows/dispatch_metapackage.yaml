@@ -263,7 +263,7 @@ jobs:
             //  core.setFailed(`Could not get PHP matrix from ${php_versions} ${php_versions.constructor}`);
             for (var b = 0; b < branches.length; b++) {
               var branch = branches[b];
-              composer_file=`./${branch}-${php_versions[0]}-composer.json`;
+              composer_file=`./files/${branch}-${php_versions[0]}-composer.json`;
               core.info(`Load ${composer_file}`);
               var composer_json = JSON.parse(fs.readFileSync(composer_file, 'utf8'));
               var all = {};
@@ -274,7 +274,7 @@ jobs:
               }
 
               for (var p = 0; p < php_versions.length; p++) {
-                lock_file=`./${branch}-${php_versions[p]}-composer.lock`
+                lock_file=`./files/${branch}-${php_versions[p]}-composer.lock`
                 core.info(`Load ${lock_file}`);
                 var composer_lock = JSON.parse(fs.readFileSync(lock_file, 'utf8'));
                 for (l = 0; l < composer_lock.packages.length; l++) {
