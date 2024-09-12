@@ -308,14 +308,16 @@ jobs:
                   }
                 }
               }
-              core.summary.addSeparator()
-              core.summary.addHeading(`Pinned versions for ${branch}`, '1')
-              core.summary.addCodeBlock(JSON.stringify(all), 'json')
+              core.summary
+                .addSeparator()
+                .addHeading(`Pinned versions for ${branch}`, '1')
+                .addCodeBlock(JSON.stringify(all), 'json')
+                .write()
               core.info(`Mandatory list for ${branch}`);
               core.info("========================");
-              core.info(require);
+              core.info(JSON.stringify(require));
               core.info("========================");
               core.info(`Full list  for ${branch}`);
               core.info("========================");
-              core.info(all);
+              core.info(JSON.stringify(all));
             }
