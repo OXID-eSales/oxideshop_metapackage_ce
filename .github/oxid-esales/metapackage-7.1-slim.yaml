@@ -7,7 +7,7 @@ install:
     vendor/makaira/oxid-connect-essential/tests/scripts
     vendor/ddoe/wysiwyg-editor-module/tests/scripts
     vendor/oxid-esales/media-library-module/tests/scripts
-    vendor/eyeable/eye-able-oxid/tests/scripts/tests/scripts
+    vendor/eyeable/eye-able-oxid/tests/scripts
   container:
     options: '-e ESHOP_BOOTSTRAP_PATH=vendor/oxid-esales/oxideshop-ce/source/bootstrap.php'
   composer:
@@ -48,44 +48,6 @@ install:
               "phpunit/phpunit":"^10.4",
               "phpstan/phpstan": "^1.9.14",
               "squizlabs/php_codesniffer":"^3.5.4"
-          },
-          "repositories": {
-            "oxid-esales/oxideshop-ce": {
-              "type": "git",
-              "url": "https://github.com/OXID-eSales/oxideshop_ce.git"
-            },
-            "oxid-esales/gdpr-optin-module": {
-              "type": "git",
-              "url": "https://github.com/OXID-eSales/gdpr-optin-module.git"
-            },
-            "oxid-esales/oxideshop-composer-plugin": {
-              "type": "git",
-              "url": "https://github.com/OXID-eSales/oxideshop_composer_plugin.git"
-            },
-            "oxid-esales/oxideshop-doctrine-migration-wrapper": {
-              "type": "git",
-              "url": "https://github.com/OXID-eSales/oxideshop-doctrine-migration-wrapper.git"
-            },
-            "oxid-esales/oxideshop-facts": {
-              "type": "git",
-              "url": "https://github.com/OXID-eSales/oxideshop-facts.git"
-            },
-            "oxid-esales/oxideshop-unified-namespace-generator": {
-              "type": "git",
-              "url": "https://github.com/OXID-eSales/oxideshop-unified-namespace-generator.git"
-            },
-            "oxid-esales/twig-component": {
-              "type": "git",
-              "url": "https://github.com/OXID-eSales/twig-component.git"
-            },
-            "oxid-professional-services/usercentrics": {
-              "type": "git",
-              "url": "https://github.com/OXID-eSales/usercentrics.git"
-            },
-            "makaira/oxid-connect-essential": {
-              "type": "git",
-              "url": "https://github.com/MakairaIO/oxid-connect-essential.git"
-            }
           },
           "autoload-dev":{
               "psr-4":{
@@ -146,34 +108,30 @@ runscript: &runscript
         "medialibrary:~/unit.sh",
         "medialibrary:~/integration.sh",
         "medialibrary:~/codeception.sh",
-        "eyable:~/integration.sh",
-        "eyable:~/codeception.sh"
+        "eyeable:~/integration.sh",
+        "eyeable:~/codeception.sh"
       ]
   container:
-    # {{ $module_ids := "oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg,ddoemedialibrary,eyeable_assist" }}
-    # yamllint disable-line rule:line-length
-    options: '-e THEME_ID=apex -e MODULE_IDS={{ $module_ids }} -e ESHOP_BOOTSTRAP_PATH=vendor/oxid-esales/oxideshop-ce/source/bootstrap.php -e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome'
+    # {{ $selenium_options := "-e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome" }}
+    # {{ $module_ids := "-e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg,ddoemedialibrary,eyeable_assist" }}
+    options: '-e XDEBUG_MODE=coverage -e THEME_ID=apex {{ $selenium_options }} {{ $module_ids }}'
   composer:
     early: skip
   workdir: ''
   shop:
     path: 'vendor/oxid-esales/oxideshop-ce'
-    container:
-      # yamllint disable-line rule:line-length
-      options: '-e XDEBUG_MODE=coverage -e GITHUB_EVENT_NAME={{ .Github.EventName }} -e GITHUB_BASE_REF={{ .Github.BaseRef }} -e GITHUB_REF={{ .Github.Ref }} -e GITHUB_REF_NAME={{ .Github.RefName }} -e THEME_ID=apex -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests -e MODULE_IDS={{ $module_ids }} -e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome'
   gdpr:
     path: 'vendor/oxid-esales/gdpr-optin-module'
   usercentrics:
     path: 'vendor/oxid-professional-services/usercentrics'
-    container:
-      # yamllint disable-line rule:line-length
-      options: '-e XDEBUG_MODE=coverage -e GITHUB_EVENT_NAME={{ .Github.EventName }} -e GITHUB_BASE_REF={{ .Github.BaseRef }} -e GITHUB_REF={{ .Github.Ref }} -e GITHUB_REF_NAME={{ .Github.RefName }} -e THEME_ID=apex -e MODULE_IDS={{ $module_ids }} -e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome'
   makaira:
     path: 'vendor/makaira/oxid-connect-essential'
   ddoe_wysiwyg:
     path: 'vendor/ddoe/wysiwyg-editor-module'
   ddoe_wysiwyg_codeception_twig:
     path: 'vendor/ddoe/wysiwyg-editor-module'
+    container:
+      options: '-e XDEBUG_MODE=coverage -e THEME_ID=twig {{ $selenium_options }} {{ $module_ids }}'
     composer:
       early: false
       transform: |
@@ -208,16 +166,8 @@ runscript: &runscript
         }
   medialibrary:
     path: 'vendor/oxid-esales/media-library-module'
-  eyable:
+  eyeable:
     path: 'vendor/eyeable/eye-able-oxid'
-
-runslim:
-  <<: *runscript
-  matrix:
-    script: |
-      [
-        "gdpr:~/php-cs-report.sh"
-      ]
 
 sonarcloud:
   matrix:
