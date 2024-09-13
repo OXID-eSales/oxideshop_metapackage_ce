@@ -311,7 +311,7 @@ jobs:
               core.summary
                 .addSeparator()
                 .addHeading(`Pinned versions for ${branch}`, '1')
-                .addCodeBlock(JSON.stringify(all), 'json')
+                .addCodeBlock(JSON.stringify(all,null,4), 'json')
                 .write()
               core.info(`Mandatory list for ${branch}`);
               core.info("========================");
