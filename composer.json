@@ -23,6 +23,9 @@
         "oxid-esales/twig-component": "dev-b-7.2.x",
         "oxid-professional-services/usercentrics": "v3.0.0",
         "oxid-esales/oxideshop-ce": "dev-b-7.2.x",
-        "makaira/oxid-connect-essential": "2.1.2"
+        "makaira/oxid-connect-essential": "2.1.2",
+        "eyeable/eye-able-oxid": "v3.0.3",
+        "oxid-esales/media-library-module": "dev-b-7.2.x",
+        "ddoe/wysiwyg-editor-module": "dev-b-7.2.x"
     }
 }
