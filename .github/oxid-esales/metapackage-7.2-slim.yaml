@@ -5,9 +5,9 @@ install:
     vendor/oxid-esales/gdpr-optin-module/tests/scripts
     vendor/oxid-professional-services/usercentrics/tests/scripts
     vendor/makaira/oxid-connect-essential/tests/scripts
+    vendor/eyeable/eye-able-oxid/tests/scripts
     vendor/ddoe/wysiwyg-editor-module/tests/scripts
     vendor/oxid-esales/media-library-module/tests/scripts
-    vendor/eyeable/eye-able-oxid/tests/scripts
   container:
     options: '-e ESHOP_BOOTSTRAP_PATH=vendor/oxid-esales/oxideshop-ce/source/bootstrap.php'
   composer:
@@ -65,6 +65,7 @@ install:
               "bin/oe-console"
           ],
           "config":{
+              "github-protocols": ["https"],
               "allow-plugins":{
                 "oxid-esales/oxideshop-composer-plugin":true,
                 "oxid-esales/oxideshop-unified-namespace-generator":true
@@ -74,30 +75,21 @@ install:
   activate_modules: |
     oegdproptin
     oxps_usercentrics
+    eyeable_assist
     makaira_oxid-connect-essential
     ddoemedialibrary
     ddoewysiwyg
-    eyeable_assist
-  custom_script_container: |
-    # Activate all modules
-    if [ -f 'bin/oe-console' ]; then
-        OE_CONSOLE='bin/oe-console'
-    else
-        if [ -f 'vendor/bin/oe-console' ]; then
-        OE_CONSOLE='vendor/bin/oe-console'
-        else
-            error "Can't find oe-console in bin or vendor/bin!"
-        fi
-    fi
-    ${OE_CONSOLE} oe:setup:demodata
 
 runscript: &runscript
   matrix:
     script: |
       [
         "shop:~/unit.sh",
-        "shop:~/integration.sh",
-        "shop:~/codeception.sh",
+        "shop:~/compilation_integration.sh",
+        "shop:~/compilation_codeception_shard1.sh",
+        "shop:~/compilation_codeception_shard2.sh",
+        "shop:~/compilation_codeception_shard3.sh",
+        "shop:~/compilation_codeception_shard4.sh",
         "gdpr:~/unit.sh",
         "gdpr:~/integration.sh",
         "gdpr:~/codeception.sh",
@@ -110,21 +102,51 @@ runscript: &runscript
         "medialibrary:~/integration.sh",
         "medialibrary:~/codeception.sh",
         "eyeable:~/integration.sh",
-        "eyeable:~/codeception.sh"
+        "eyeable:~/codeception.sh Acceptance"
       ]
   container:
-    # {{ $selenium_options := "-e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome" }}
-    # {{ $module_ids := "-e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg,ddoemedialibrary,eyeable_assist" }}
-    options: '-e XDEBUG_MODE=coverage -e THEME_ID=apex {{ $selenium_options }} {{ $module_ids }}'
+    # {{ $selenium_options := "-e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests" }}
+    # {{ $module_ids := "-e MODULE_IDS=eyeable_assist,makaira_oxid-connect-essential,oxps_usercentrics,oegdproptin,ddoemedialibrary,ddoewysiwyg" }}
+    # {{ $integration_options := "-e INTEGRATION_OPTIONS=--exclude-group=exclude_from_compilation,exclude-from-compilation" }}
+    options: '-e XDEBUG_MODE=coverage -e THEME_ID=apex {{ $module_ids }} {{ $selenium_options }} {{ $integration_options }} '
   composer:
     early: skip
   workdir: ''
   shop:
     path: 'vendor/oxid-esales/oxideshop-ce'
     workdir: 'vendor/oxid-esales/oxideshop-ce'
+    custom_script: |
+      cat >source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception_shard1.sh <<EOF
+      #!/bin/bash
+      /var/www/vendor/bin/codecept build -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml
+      /var/www/vendor/bin/codecept run Acceptance --bootstrap=/var/www/source/bootstrap.php  -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml -x exclude_from_compilation --shard 1/4
+      EOF
+      chmod a+x source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception_shard1.sh
+      cat >source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception_shard2.sh <<EOF
+      #!/bin/bash
+      /var/www/vendor/bin/codecept build -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml
+      /var/www/vendor/bin/codecept run Acceptance --bootstrap=/var/www/source/bootstrap.php  -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml -x exclude_from_compilation --shard 2/4
+      EOF
+      chmod a+x source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception_shard2.sh
+      cat >source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception_shard3.sh <<EOF
+      #!/bin/bash
+      /var/www/vendor/bin/codecept build -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml
+      /var/www/vendor/bin/codecept run Acceptance --bootstrap=/var/www/source/bootstrap.php  -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml -x exclude_from_compilation --shard 3/4
+      EOF
+      chmod a+x source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception_shard3.sh
+      cat >source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception_shard4.sh <<EOF
+      #!/bin/bash
+      /var/www/vendor/bin/codecept build -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml
+      /var/www/vendor/bin/codecept run Acceptance --bootstrap=/var/www/source/bootstrap.php  -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml -x exclude_from_compilation --shard 4/4
+      EOF
+      chmod a+x source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception_shard4.sh
+      cat >source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_integration.sh <<EOF
+      #!/bin/bash
+      /var/www/vendor/bin/phpunit -c /var/www/vendor/oxid-esales/oxideshop-ce/phpunit.xml --testsuite=Integration --exclude-group exclude_from_compilation,exclude-from-compilation
+      EOF
+      chmod a+x source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_integration.sh
   gdpr:
     path: 'vendor/oxid-esales/gdpr-optin-module'
-    workdir: 'vendor/oxid-esales/gdpr-optin-module'
   usercentrics:
     path: 'vendor/oxid-professional-services/usercentrics'
   makaira:
@@ -141,4 +163,4 @@ sonarcloud:
     testplan: 'skip'
 
 finish:
-  slack_title: 'Metapackage CE (7.2 slim) on {{ .Github.Repository }} by {{ .Github.Actor }}'
+  slack_title: 'Metapackage CE (7.2 compilation) on {{ .Github.Repository }} by {{ .Github.Actor }}'

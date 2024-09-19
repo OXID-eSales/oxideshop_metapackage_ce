@@ -6,7 +6,6 @@ install:
     vendor/oxid-professional-services/usercentrics/tests/scripts
     vendor/makaira/oxid-connect-essential/tests/scripts
     vendor/ddoe/wysiwyg-editor-module/tests/scripts
-    vendor/oxid-esales/media-library-module/tests/scripts
   container:
     options: '-e ESHOP_BOOTSTRAP_PATH=vendor/oxid-esales/oxideshop-ce/source/bootstrap.php'
   composer:
@@ -47,7 +46,8 @@ install:
               "phpspec/prophecy-phpunit": "^v2.0.1",
               "phpunit/phpunit": "^9.1.1",
               "phpstan/phpstan": "^1.9.14",
-              "squizlabs/php_codesniffer": "^3.5.4"
+              "squizlabs/php_codesniffer": "^3.5.4",
+              "oxid-esales/twig-theme": "dev-b-7.0.x"
           },
           "autoload-dev":{
               "psr-4":{
@@ -70,51 +70,59 @@ install:
     oegdproptin
     oxps_usercentrics
     makaira_oxid-connect-essential
-    ddoemedialibrary
     ddoewysiwyg
-  custom_script_container: |
-    # Activate all modules
-    if [ -f 'bin/oe-console' ]; then
-        OE_CONSOLE='bin/oe-console'
-    else
-        if [ -f 'vendor/bin/oe-console' ]; then
-        OE_CONSOLE='vendor/bin/oe-console'
-        else
-            error "Can't find oe-console in bin or vendor/bin!"
-        fi
-    fi
-    ${OE_CONSOLE} oe:setup:demodata
 
 runscript: &runscript
   matrix:
     script: |
       [
         "shop:~/unit.sh",
-        "shop:~/integration.sh",
-        "shop:~/codeception.sh",
+        "shop:~/compilation_integration.sh",
+        "shop:~/compilation_codeception.sh",
+        "shop:~/compilation_codeception_admin.sh",
         "gdpr:~/unit.sh",
         "gdpr:~/integration.sh",
         "gdpr:~/codeception.sh",
         "usercentrics:~/unit.sh",
         "usercentrics:~/integration.sh",
         "usercentrics:~/codeception.sh acceptance",
-        "ddoe_wysiwyg_codeception_twig:~/codeception.sh acceptance"      ]
+        "ddoe_wysiwyg:~/compilation_codeception.sh"    
+      ]
   container:
-    # {{ $selenium_options := "-e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome" }}
+    # {{ $selenium_options := "-e SELENIUM_SERVER_HOST=selenium -e BROWSER_NAME=chrome -e TEST_SUITE=/var/www/vendor/oxid-esales/oxideshop-ce/tests" }}
     # {{ $module_ids := "-e MODULE_IDS=oegdproptin,oxps_usercentrics,makaira_oxid-connect-essential,ddoewysiwyg" }}
-    options: '-e XDEBUG_MODE=coverage -e THEME_ID=apex {{ $selenium_options }} {{ $module_ids }}'
+    # {{ $integration_options := "-e INTEGRATION_OPTIONS=--exclude-group=exclude_from_compilation,exclude-from-compilation" }}
+    options: '-e XDEBUG_MODE=coverage -e THEME_ID=apex {{ $module_ids }} {{ $selenium_options }} {{ $integration_options }} '
   composer:
     early: skip
   workdir: ''
   shop:
     path: 'vendor/oxid-esales/oxideshop-ce'
     workdir: 'vendor/oxid-esales/oxideshop-ce'
+    custom_script: |
+      cat >source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception.sh <<EOF
+      #!/bin/bash
+      /var/www/vendor/bin/codecept build -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml
+      /var/www/vendor/bin/codecept run acceptance --bootstrap=/var/www/source/bootstrap.php  -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml -x exclude_from_compilation -x flow_theme -x genericExport
+      EOF
+      chmod a+x source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception.sh
+      cat >source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception_admin.sh <<EOF
+      #!/bin/bash
+      /var/www/vendor/bin/codecept build -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml
+      /var/www/vendor/bin/codecept run acceptanceAdmin --bootstrap=/var/www/source/bootstrap.php  -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml -x exclude_from_compilation -x flow_theme -x genericExport
+      EOF
+      chmod a+x source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception_admin.sh
+      cat >source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_integration.sh <<EOF
+      #!/bin/bash
+      /var/www/vendor/bin/phpunit -c /var/www/vendor/oxid-esales/oxideshop-ce/phpunit.xml --testsuite=Integration --exclude-group exclude_from_compilation,exclude-from-compilation
+      EOF
+      chmod a+x source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_integration.sh
   gdpr:
     path: 'vendor/oxid-esales/gdpr-optin-module'
     custom_script: |
-     perl -pi \
-          -e 's#views/twig#views/apex#g;' \
-          source/vendor/oxid-esales/gdpr-optin-module/tests/Codeception/acceptance.suite.yml
+      perl -pi \
+           -e 's#views/twig#views/apex#g;' \
+           source/vendor/oxid-esales/gdpr-optin-module/tests/Codeception/acceptance.suite.yml
   usercentrics:
     path: 'vendor/oxid-professional-services/usercentrics'
     container:
@@ -122,42 +130,15 @@ runscript: &runscript
     path: 'vendor/makaira/oxid-connect-essential'
   ddoe_wysiwyg:
     path: 'vendor/ddoe/wysiwyg-editor-module'
-  ddoe_wysiwyg_codeception_twig:
-    path: 'vendor/ddoe/wysiwyg-editor-module'
-    container:
-      # yamllint disable-line rule:line-length
-      options: '-e XDEBUG_MODE=coverage -e THEME_ID=twig {{ $selenium_options }} {{ $module_ids }}'
-    composer:
-      transform: |
-        {
-            "require":     {
-                "oxid-esales/twig-theme": "dev-b-7.0.x"
-            },
-              "require-dev": {
-                  "oxid-esales/oxideshop-facts":"{{ .Data.global.composer.dev_ref }}",
-                  "oxid-esales/codeception-modules":"{{ .Data.global.composer.dev_ref }}",
-                  "oxid-esales/codeception-page-objects":"{{ .Data.global.composer.dev_ref }}",
-                  "codeception/codeception": "^5.0",
-                  "codeception/module-asserts": "^3.0",
-                  "codeception/module-db": "^3.0",
-                  "codeception/module-filesystem": "^3.0",
-                  "codeception/module-webdriver": "^3.1",
-                  "phpunit/phpunit": "^9.1.1"
-              },
-              "autoload-dev":{
-                  "psr-4":{
-                    "OxidEsales\\EshopCommunity\\Tests\\":"./vendor/oxid-esales/oxideshop-ce/tests",
-                    "OxidEsales\\ComposerPlugin\\Tests\\": "vendor/oxid-esales/oxideshop-composer-plugin/tests/",
-                    "OxidEsales\\UnifiedNameSpaceGenerator\\Tests\\": "./vendor/oxid-esales/oxideshop-unified-namespace-generator/tests",
-                    "OxidEsales\\DemoDataInstaller\\Tests\\": "./vendor/oxid-esales/oxideshop-demodata-installer/tests/",
-                    "OxidEsales\\DoctrineMigrationWrapper\\Tests\\": "./vendor/oxid-esales/oxideshop-doctrine-migration-wrapper/tests",
-                    "OxidEsales\\Facts\\Tests\\": "./vendor/oxid-esales/oxideshop-facts/tests/",
-                    "OxidEsales\\Twig\\Tests\\": "./vendor/oxid-esales/twig-component/tests",
-                    "OxidEsales\\GdprOptinModule\\Tests\\": "./vendor/oxid-esales/gdpr-optin-module/tests/",
-                    "OxidProfessionalServices\\Usercentrics\\Tests\\": "./vendor/oxid-professional-services/usercentrics/tests"
-                  }
-              }
-          }
+    custom_script: |
+      cat >source/vendor/ddoe/wysiwyg-editor-module/tests/scripts/compilation_codeception.sh <<EOF
+      #!/bin/bash
+      export THEME_ID=twig
+      /var/www/vendor/bin/codecept build -c /var/www/vendor/ddoe/wysiwyg-editor-module/tests/codeception.yml
+      /var/www/vendor/bin/codecept run --bootstrap=/var/www/source/bootstrap.php  -c /var/www/vendor/ddoe/wysiwyg-editor-module/tests/codeception.yml       
+      EOF
+      chmod a+x source/vendor/ddoe/wysiwyg-editor-module/tests/scripts/compilation_codeception.sh
+
   medialibrary:
     path: 'vendor/oxid-esales/media-library-module'
 
