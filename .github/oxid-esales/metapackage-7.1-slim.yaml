@@ -110,7 +110,7 @@ runscript: &runscript
       cat >source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception.sh <<EOF
       #!/bin/bash
       /var/www/vendor/bin/codecept build -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml
-      /var/www/vendor/bin/codecept run Acceptance --bootstrap=/var/www/source/bootstrap.php  -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml -x exclude_from_compilation -x flow_theme
+      /var/www/vendor/bin/codecept run Acceptance --bootstrap=/var/www/source/bootstrap.php  -c /var/www/vendor/oxid-esales/oxideshop-ce/tests/codeception.yml -x exclude_from_compilation -x exclude-from-compilation -x flow_theme
       EOF
       chmod a+x source/vendor/oxid-esales/oxideshop-ce/tests/scripts/compilation_codeception.sh
 
