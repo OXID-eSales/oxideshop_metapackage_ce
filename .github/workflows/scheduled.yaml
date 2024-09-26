@@ -9,7 +9,7 @@ jobs:
     if: always()
     uses: oxid-eSales/github-actions/.github/workflows/universal_workflow_light.yaml@v4
     with:
-      testplan: '~/defaults/7.0.x.yaml,~/defaults/scheduled.yaml,~/metapackage-7.0-slim.yaml'
+      testplan: '~/defaults/7.0.x.yaml,~/defaults/php8.0_8.1_mysql8.0_only.yaml,~/defaults/scheduled.yaml,~/metapackage-7.0-slim.yaml'
       runs_on: '"ubuntu-latest"'
       defaults: 'v4'
       plan_folder: '.github/oxid-esales'
@@ -28,7 +28,7 @@ jobs:
     if: always()
     uses: oxid-eSales/github-actions/.github/workflows/universal_workflow_light.yaml@v4
     with:
-      testplan: '~/defaults/7.1.x.yaml,~/defaults/scheduled.yaml,~/metapackage-7.1-slim.yaml'
+      testplan: '~/defaults/7.1.x.yaml,~/defaults/php8.1_8.2_mysql8.0_only.yaml,~/defaults/scheduled.yaml,~/metapackage-7.1-slim.yaml'
       runs_on: '"ubuntu-latest"'
       defaults: 'v4'
       plan_folder: '.github/oxid-esales'
@@ -47,7 +47,7 @@ jobs:
     if: always()
     uses: oxid-eSales/github-actions/.github/workflows/universal_workflow_light.yaml@v4
     with:
-      testplan: '~/defaults/7.2.x.yaml,~/defaults/scheduled.yaml,~/metapackage-7.2-slim.yaml'
+      testplan: '~/defaults/7.2.x.yaml,~/defaults/php8.2_8.3_mysql8.0_only.yaml,~/defaults/scheduled.yaml,~/metapackage-7.2-slim.yaml'
       runs_on: '"ubuntu-latest"'
       defaults: 'v4'
       plan_folder: '.github/oxid-esales'
@@ -66,7 +66,7 @@ jobs:
     if: always()
     uses: oxid-eSales/github-actions/.github/workflows/universal_workflow_light.yaml@v4
     with:
-      testplan: '~/defaults/8.0.x.yaml,~/defaults/scheduled.yaml,~/metapackage-8.0-slim.yaml'
+      testplan: '~/defaults/8.0.x.yaml,~/defaults/php8.2_8.3_mysql8.0_only.yaml,~/defaults/scheduled.yaml,~/metapackage-8.0-slim.yaml'
       runs_on: '"ubuntu-latest"'
       defaults: 'v4'
       plan_folder: '.github/oxid-esales'
