@@ -18,6 +18,7 @@ on:
         options:
           - 'full'
           - 'slim'
+          - 'release'
         default: 'slim'
         description: 'Scenario'
       limit:
