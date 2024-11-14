@@ -9,6 +9,7 @@
     "homepage": "https://www.oxid-esales.com/en/home.html",
     "license": "proprietary",
     "minimum-stability": "stable",
+    "prefer-stable": true,
     "require": {
         "oxid-esales/apex-theme": "dev-b-7.2.x",
         "oxid-esales/gdpr-optin-module": "dev-b-7.2.x",
