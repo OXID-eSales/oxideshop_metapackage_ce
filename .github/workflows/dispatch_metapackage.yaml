@@ -1,5 +1,5 @@
 name: Manual trigger
-# yamllint disable-line rule:truthy
+
 on:
   workflow_dispatch:
     inputs:
@@ -13,7 +13,6 @@ on:
       scenario:
         type: choice
         options:
-          - 'full'
           - 'slim'
         default: 'slim'
         description: 'Scenario'
@@ -31,7 +30,7 @@ on:
         type: string
         required: true
         description: 'Custom testplan'
-        default: '~/defaults/php8.4_mysql8.0_only.yaml,~/metapackage-7.3-full.yaml'
+        default: '~/defaults/php8.4_mysql8.0_only.yaml,~/metapackage-7.3-slim.yaml'
       runs_on:
         type: string
         description: 'JSON string/array describing the runner'
