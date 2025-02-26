@@ -27,6 +27,6 @@
         "oxid-esales/oxideshop-unified-namespace-generator": "dev-b-7.3.x",
         "oxid-esales/twig-admin-theme": "dev-b-7.3.x",
         "oxid-esales/twig-component": "dev-b-7.3.x",
-        "oxid-professional-services/usercentrics": "v3.0.0"
+        "oxid-professional-services/usercentrics": "dev-b-7.3.x"
     }
 }
