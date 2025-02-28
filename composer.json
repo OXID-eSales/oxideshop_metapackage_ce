@@ -13,7 +13,7 @@
     "require": {
         "ddoe/wysiwyg-editor-module": "dev-b-7.3.x",
         "eyeable/eye-able-oxid": "v3.0.3",
-        "makaira/oxid-connect-essential": "2.1.2",
+        "makaira/oxid-connect-essential": "2.1.3",
         "oxid-esales/apex-theme": "dev-b-7.3.x",
         "oxid-esales/gdpr-optin-module": "dev-b-7.3.x",
         "oxid-esales/media-library-module": "dev-b-7.3.x",
