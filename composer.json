@@ -87,6 +87,6 @@
     "webmozart/assert": "1.11.0",
     "webmozart/glob": "4.6.0",
     "webmozart/path-util": "2.3.0",
-    "oxid-esales/oxideshop-ce": "v6.14.3"
+    "oxid-esales/oxideshop-ce": "v6.14.4"
   }
 }
