@@ -8,7 +8,7 @@
     ],
     "homepage": "https://www.oxid-esales.com/en/home.html",
     "license": "proprietary",
-    "minimum-stability": "stable",
+    "minimum-stability": "alpha",
     "prefer-stable": true,
     "require": {
         "composer/ca-bundle": "1.5.5",
