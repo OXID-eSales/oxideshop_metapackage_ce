@@ -39,7 +39,6 @@ install:
           "codeception/module-db":"^3.0",
           "codeception/module-filesystem":"^3.0",
           "codeception/module-webdriver":"^4.0",
-          "composer/composer":"^2.0",
           "incenteev/composer-parameter-handler":"^v2.1.4",
           "mikey179/vfsstream":"~1.6.8",
           "phpspec/prophecy-phpunit":"^v2.0.1",
