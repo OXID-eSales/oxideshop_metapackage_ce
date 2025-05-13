@@ -6,9 +6,9 @@ on:
       version:
         type: choice
         options:
-          - '7.3'
+          - '7.4'
           - 'custom'
-        default: '7.3'
+        default: '7.4'
         description: 'Version of the metapackage'
       scenario:
         type: choice
@@ -30,7 +30,7 @@ on:
         type: string
         required: true
         description: 'Custom testplan'
-        default: '~/defaults/php8.4_mysql8.0_only.yaml,~/metapackage-7.3-slim.yaml'
+        default: '~/defaults/php8.4_mysql8.0_only.yaml,~/metapackage-7.4-slim.yaml'
       runs_on:
         type: string
         description: 'JSON string/array describing the runner'
@@ -65,7 +65,7 @@ jobs:
           esac
           # shellcheck disable=SC2088
           case '${{ inputs.version}}' in
-            "7.3") PRE="~/defaults/7.3.x.yaml," ;;
+            "7.4") PRE="~/defaults/7.4.x.yaml," ;;
             custom) TESTPLAN="${{ inputs.custom_testplan }}" ;;
             *)
               echo "Illegal choice, fix the workflow"

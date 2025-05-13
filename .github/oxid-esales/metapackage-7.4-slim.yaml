@@ -11,7 +11,7 @@ install:
   container:
     options: '-e ESHOP_BOOTSTRAP_PATH=vendor/oxid-esales/oxideshop-ce/source/bootstrap.php'
   composer:
-    root_url: 'https://raw.githubusercontent.com/{{ .Github.Repository }}/b-7.3/composer.json'
+    root_url: 'https://raw.githubusercontent.com/{{ .Github.Repository }}/b-7.4/composer.json'
     transform: |
       {
         "config": {
@@ -79,17 +79,6 @@ runscript:
         "shop:~/codeception.sh Acceptance 2 4",
         "shop:~/codeception.sh Acceptance 3 4",
         "shop:~/codeception.sh Acceptance 4 4",
-        "gdpr:~/unit.sh",
-        "gdpr:~/integration.sh",
-        "gdpr:~/codeception.sh",
-        "usercentrics:~/unit.sh",
-        "usercentrics:~/integration.sh",
-        "usercentrics:~/codeception.sh Acceptance",
-        "ddoe_wysiwyg:~/integration.sh",
-        "ddoe_wysiwyg:~/codeception.sh Acceptance",
-        "medialibrary:~/unit.sh",
-        "medialibrary:~/integration.sh",
-        "medialibrary:~/codeception.sh",
         "eyeable:~/integration.sh",
         "eyeable:~/codeception.sh Acceptance"
       ]
@@ -149,4 +138,4 @@ sonarcloud:
     testplan: 'skip'
 
 finish:
-  slack_title: 'Metapackage CE (7.3 slim) on {{ .Github.Repository }} by {{ .Github.Actor }}'
+  slack_title: 'Metapackage CE (7.4 slim) on {{ .Github.Repository }} by {{ .Github.Actor }}'
