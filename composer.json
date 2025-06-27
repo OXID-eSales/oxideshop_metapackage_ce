@@ -12,7 +12,7 @@
     "prefer-stable": true,
     "require": {
         "eyeable/eye-able-oxid": "v3.0.3",
-        "makaira/oxid-connect-essential": "2.1.3",
+        "makaira/oxid-connect-essential": "2.1.4",
         "oxid-esales/apex-theme": "dev-b-7.4.x",
         "oxid-esales/oxideshop-ce": "dev-b-7.4.x",
         "oxid-esales/oxideshop-composer-plugin": "dev-b-7.4.x",
