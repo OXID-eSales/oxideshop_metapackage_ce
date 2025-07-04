@@ -12,6 +12,7 @@
     "prefer-stable": true,
     "require": {
         "oxid-esales/media-library-module": "dev-b-7.4.x",
+        "oxid-professional-services/usercentrics": "dev-b-7.4.x",
         "eyeable/eye-able-oxid": "v3.0.3",
         "makaira/oxid-connect-essential": "2.1.4",
         "oxid-esales/apex-theme": "dev-b-7.4.x",
