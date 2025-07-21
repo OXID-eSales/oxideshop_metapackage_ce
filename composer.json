@@ -11,6 +11,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
+        "oxid-esales/gdpr-optin-module": "dev-b-7.4.x",
         "oxid-esales/media-library-module": "dev-b-7.4.x",
         "oxid-professional-services/usercentrics": "dev-b-7.4.x",
         "eyeable/eye-able-oxid": "v3.0.3",
