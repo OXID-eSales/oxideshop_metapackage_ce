@@ -8,8 +8,7 @@
     ],
     "homepage": "https://www.oxid-esales.com/en/home.html",
     "license": "proprietary",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "minimum-stability": "stable",
     "require": {
         "composer/ca-bundle": "1.5.8",
         "composer/class-map-generator": "1.6.2",
