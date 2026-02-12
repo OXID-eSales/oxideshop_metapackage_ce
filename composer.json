@@ -8,18 +8,18 @@
     ],
     "homepage": "https://www.oxid-esales.com/en/home.html",
     "license": "proprietary",
-    "minimum-stability": "dev",
+    "minimum-stability": "alpha",
     "prefer-stable": true,
     "require": {
-        "oxid-esales/apex-theme": "dev-b-8.0.x",
-        "oxid-esales/oxideshop-ce": "dev-b-8.0.x",
-        "oxid-esales/oxideshop-composer-plugin": "dev-b-8.0.x",
-        "oxid-esales/oxideshop-db-views-generator": "dev-b-8.0.x",
-        "oxid-esales/oxideshop-demodata-ce": "dev-b-8.0.x",
-        "oxid-esales/oxideshop-demodata-installer": "dev-b-8.0.x",
-        "oxid-esales/oxideshop-doctrine-migration-wrapper": "dev-b-8.0.x",
-        "oxid-esales/oxideshop-unified-namespace-generator": "dev-b-8.0.x",
-        "oxid-esales/twig-admin-theme": "dev-b-8.0.x",
-        "oxid-esales/twig-component": "dev-b-8.0.x"
+        "oxid-esales/apex-theme": "v8.0.0-alpha.2",
+        "oxid-esales/oxideshop-ce": "v8.0.0-alpha.2",
+        "oxid-esales/oxideshop-composer-plugin": "v8.0.0-alpha.2",
+        "oxid-esales/oxideshop-db-views-generator": "v8.0.0-alpha.2",
+        "oxid-esales/oxideshop-demodata-ce": "v8.0.0-alpha.2",
+        "oxid-esales/oxideshop-demodata-installer": "v8.0.0-alpha.2",
+        "oxid-esales/oxideshop-doctrine-migration-wrapper": "v8.0.0-alpha.2",
+        "oxid-esales/oxideshop-unified-namespace-generator": "v8.0.0-alpha.2",
+        "oxid-esales/twig-admin-theme": "v8.0.0-alpha.2",
+        "oxid-esales/twig-component": "v8.0.0-alpha.2"
     }
 }
