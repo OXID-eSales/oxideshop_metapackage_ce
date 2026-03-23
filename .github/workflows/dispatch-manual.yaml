@@ -30,6 +30,9 @@ on:
           - 'PHP8.4/MySQL8.0'
           - 'PHP8.4/MySQL8.4'
           - 'PHP8.4/MariaDb11'
+          - 'PHP8.5/MySQL8.0'
+          - 'PHP8.5/MySQL8.4'
+          - 'PHP8.5/MariaDb11'
         default: 'PHP8.4/MySQL8.4'
         description: 'Limit to one PHP/MySQL combination'
       custom_testplan:
@@ -41,12 +44,12 @@ on:
         type: string
         description: 'JSON string/array describing the runner'
         required: true
-        default: '["ubuntu-latest"]'
-      use_dev_version:
+        default: '"ubuntu-latest"'
+      gha_version:
         type: choice
-        options: ['no', 'v0']
-        description: 'Use the dev version of github actions'
-        default: 'no'
+        options: ['stable', 'v0']
+        description: 'GitHub Actions version'
+        default: 'stable'
 
 jobs:
   build_testplan:
@@ -71,6 +74,9 @@ jobs:
             "PHP8.4/MySQL8.0") LIMIT='~/defaults/php8.4_mysql8.0_only.yaml,' ;;
             "PHP8.4/MySQL8.4") LIMIT='~/defaults/php8.4_mysql8.4_only.yaml,' ;;
             "PHP8.4/MariaDb11") LIMIT='~/defaults/php8.4_mariadb11_only.yaml,' ;;
+            "PHP8.5/MySQL8.0") LIMIT='~/defaults/php8.5_mysql8.0_only.yaml,' ;;
+            "PHP8.5/MySQL8.4") LIMIT='~/defaults/php8.5_mysql8.4_only.yaml,' ;;
+            "PHP8.5/MariaDb11") LIMIT='~/defaults/php8.5_mariadb11_only.yaml,' ;;
             *) echo "Illegal choice, fix the workflow"
               exit 1
               ;;
@@ -92,7 +98,7 @@ jobs:
 
   stable:
     needs: build_testplan
-    if: ${{ inputs.use_dev_version == 'no' }}
+    if: ${{ inputs.gha_version == 'stable' }}
     uses: oxid-eSales/github-actions/.github/workflows/universal_workflow_light.yaml@v5
     with:
       testplan: ${{ needs.build_testplan.outputs.testplan }}
@@ -111,7 +117,7 @@ jobs:
 
   dev:
     needs: build_testplan
-    if: ${{ inputs.use_dev_version == 'v0' }}
+    if: ${{ inputs.gha_version == 'v0' }}
     uses: oxid-eSales/github-actions/.github/workflows/universal_workflow_light.yaml@v0
     with:
       testplan: ${{ needs.build_testplan.outputs.testplan }}
