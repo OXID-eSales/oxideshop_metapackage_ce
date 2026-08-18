@@ -12,7 +12,7 @@
     "require": {
         "composer/ca-bundle": "1.5.8",
         "composer/class-map-generator": "1.6.2",
-        "composer/composer": "2.9.8",
+        "composer/composer": "2.10.2",
         "composer/metadata-minifier": "1.0.0",
         "composer/pcre": "3.3.2",
         "composer/semver": "3.4.4",
@@ -39,7 +39,7 @@
         "oxid-esales/apex-theme": "v3.0.2",
         "oxid-esales/gdpr-optin-module": "v4.3.0",
         "oxid-esales/media-library-module": "v3.0.0 | v4.2.0",
-        "oxid-esales/oxideshop-ce": "v7.4.2",
+        "oxid-esales/oxideshop-ce": "v7.4.4",
         "oxid-esales/oxideshop-composer-plugin": "v7.3.0",
         "oxid-esales/oxideshop-db-views-generator": "v2.2.0",
         "oxid-esales/oxideshop-demodata-ce": "v8.1.0",
