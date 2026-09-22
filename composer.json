@@ -16,7 +16,7 @@
         "oxid-professional-services/usercentrics": "dev-b-7.6.x",
         "ddoe/wysiwyg-editor-module": "dev-b-7.6.x",
         "eyeable/eye-able-oxid": "v3.0.3",
-        "makaira/oxid-connect-essential": "2.1.4",
+        "makaira/oxid-connect-essential": "2.2.1",
         "oxid-esales/apex-theme": "dev-b-7.6.x",
         "oxid-esales/oxideshop-ce": "dev-b-7.6.x",
         "oxid-esales/oxideshop-composer-plugin": "dev-b-7.6.x",
