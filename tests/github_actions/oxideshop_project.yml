@@ -14,7 +14,6 @@ prepare_shop:
               "oxid-esales/oxideshop-db-views-generator": "{{ .Data.global.composer.dev_ref }}",
               "oxid-esales/oxideshop-demodata-ce": "{{ .Data.global.composer.dev_ref }}",
               "oxid-esales/oxideshop-demodata-installer": "{{ .Data.global.composer.dev_ref }}",
-              "oxid-esales/oxideshop-doctrine-migration-wrapper": "{{ .Data.global.composer.dev_ref }}",
               "oxid-esales/oxideshop-facts": "{{ .Data.global.composer.dev_ref }}",
               "oxid-esales/oxideshop-unified-namespace-generator": "{{ .Data.global.composer.dev_ref }}",
               "oxid-esales/twig-admin-theme": "{{ .Data.global.composer.dev_ref }}",
