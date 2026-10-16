@@ -68,7 +68,7 @@
         "symfony/dotenv": "v6.4.24",
         "symfony/event-dispatcher": "v6.4.25",
         "symfony/event-dispatcher-contracts": "v3.6.0",
-        "symfony/expression-language": "v6.4.24",
+        "symfony/expression-language": "v6.4.48",
         "symfony/filesystem": "v6.4.24",
         "symfony/finder": "v6.4.24",
         "symfony/http-foundation": "v6.4.41",
