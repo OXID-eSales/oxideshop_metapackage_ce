@@ -63,7 +63,7 @@
         "symfony/error-handler": "v6.4.47",
         "symfony/event-dispatcher": "v6.4.44",
         "symfony/event-dispatcher-contracts": "v3.7.1",
-        "symfony/expression-language": "v6.4.45",
+        "symfony/expression-language": "v6.4.48",
         "symfony/filesystem": "v6.4.45",
         "symfony/finder": "v6.4.47",
         "symfony/html-sanitizer": "v6.4.46",
