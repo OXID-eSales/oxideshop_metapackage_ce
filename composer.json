@@ -43,7 +43,7 @@
         "oxid-esales/oxideshop-doctrine-migration-wrapper": "v6.0.0",
         "oxid-esales/oxideshop-facts": "v4.4.0",
         "oxid-esales/oxideshop-unified-namespace-generator": "v5.4.0",
-        "oxid-esales/twig-admin-theme": "v3.2.0",
+        "oxid-esales/twig-admin-theme": "v3.2.1",
         "oxid-esales/twig-component": "v2.8.1",
         "oxid-professional-services/usercentrics": "v3.4.0",
         "phpmailer/phpmailer": "v6.12.0",
