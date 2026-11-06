@@ -89,5 +89,11 @@
         "symfony/yaml": "v6.4.50",
         "twig/twig": "v3.30.0",
         "webmozart/glob": "4.7.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "oxid-esales/oxideshop-unified-namespace-generator": true,
+            "oxid-esales/oxideshop-composer-plugin": true
+        }
     }
 }
