@@ -11,7 +11,6 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "eyeable/eye-able-oxid": "v3.0.3",
         "makaira/oxid-connect-essential": "2.2.1",
         "oxid-esales/apex-theme": "dev-b-7.7.x",
         "oxid-esales/oxideshop-ce": "dev-b-7.7.x",
